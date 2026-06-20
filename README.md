@@ -32,8 +32,8 @@ You only need **Java 17 or higher** installed.
 
 ### Step 1: Clone the repository
 ```bash
-git clone https://github.com/Arpi-tect/CodeAlpha_HotelReservationSystem.git
-cd CodeAlpha_HotelReservationSystem
+git clone https://github.com/Arpi-tect/Luxura.git
+cd Luxura
 ```
 
 ### Step 2: Start the Application
