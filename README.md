@@ -1,20 +1,27 @@
-# CodeAlpha_HotelReservationSystem
+# Luxura - Premium Hotel Reservation Dashboard
 
-An advanced, full-stack enterprise hospitality booking management application built with a **Java Spring Boot** REST API backend and a responsive **React.js & Tailwind CSS** web client dashboard.
+An enterprise-grade, full-stack hospitality booking management application built with a **Java Spring Boot** REST API backend and a responsive, interactive **React.js & Tailwind CSS** web client dashboard.
+
+---
 
 ## 🚀 Features
-*   **Dynamic Room Catalog Grid**: Browse and filter available hotel rooms categorized into **Standard** ($100/night), **Deluxe** ($180/night), and **Suite** ($350/night) with color-coded availability badges.
-*   **Checkout & Booking Form**: Form to book rooms containing inputs for guest name, contact details, stay duration, and immediate calculation of the total cost.
-*   **Simulated Payment Gateway**: Presents a mock payment prompt, details the stay invoice, authorizes payment, and issues a confirmation receipt.
-*   **Reservation Directory Table**: Tracks all active bookings containing check-in reference numbers, guest details, room details, and overall invoicing details.
-*   **Cancellation & Refund processing**: Allow reservations to be deleted, freeing up the room immediately and initiating a simulated refund transaction.
-*   **Database Persistence**: Automatically saves check-in entries using local file-based H2 database persistence.
+
+*   **Dynamic Room Status Grid**: Browse and filter available hotel rooms categorized into **Standard** ($100/night), **Deluxe** ($180/night), and **Suite** ($350/night) with color-coded availability badges.
+*   **Stay Enhancements (Add-ons)**: Support for check-in toggles including:
+    - Breakfast Buffet (+$15/day)
+    - Airport Shuttle Pickup (+$30 flat fee)
+    - VIP Lounge & Spa Access (+$50 flat fee)
+*   **Verification ID Management**: Store guest identification records (Passport, National ID, Driver's License) with document numbers.
+*   **Printable Invoice POS Receipts**: Generates clean guest bill itemization. Uses CSS `@media print` rules to isolate the POS receipt layout for printing, automatically hiding website buttons and layout headers.
+*   **Manager Analytics Dashboard**: High-level manager cockpit reporting hotel occupancy rate (%), gross revenue, RevPAR, and a vertical SVG popularity bar chart mapping standard vs deluxe vs suite booking distributions.
+*   **Google OAuth & Guest Login**: Premium access portal supporting Google Identity Services sign-in or one-click Guest Session bypass.
 
 ---
 
 ## 🛠️ Technology Stack
-*   **Backend**: Java 17+, Spring Boot 3.x, Spring Data JPA, H2 Database.
-*   **Frontend**: React (ES6+), Tailwind CSS, Babel, HTML5.
+
+*   **Backend**: Java 17, Spring Boot 3.x, Spring Data JPA, Hibernate, H2 Database.
+*   **Frontend**: React (ES6+), Tailwind CSS, Babel, HTML5, Print CSS, Custom Responsive SVG Bar Charts.
 *   **Build Tool**: Maven Wrapper (included).
 
 ---
@@ -25,13 +32,12 @@ You only need **Java 17 or higher** installed.
 
 ### Step 1: Clone the repository
 ```bash
-git clone https://github.com/<your-username>/CodeAlpha_HotelReservationSystem.git
+git clone https://github.com/Arpi-tect/CodeAlpha_HotelReservationSystem.git
 cd CodeAlpha_HotelReservationSystem
 ```
 
-### Step 2: Boot up the Spring Boot Application
+### Step 2: Start the Application
 Run the Maven wrapper command in your terminal:
-
 *   **On Windows**:
     ```cmd
     mvnw.cmd spring-boot:run
@@ -42,10 +48,9 @@ Run the Maven wrapper command in your terminal:
     ./mvnw spring-boot:run
     ```
 
-The server will build and initialize the database, starting the Tomcat server on port `8082`.
+The Tomcat server will start on port `8082`.
 
 ### Step 3: Open in Browser
-Open your browser and navigate to:
 👉 **[http://localhost:8082](http://localhost:8082)**
 
 ---
@@ -55,10 +60,10 @@ Open your browser and navigate to:
 HotelReservationSystem/
 ├── pom.xml                     # Maven configurations
 ├── mvnw & mvnw.cmd             # Maven Wrapper scripts
-├── data/                       # Local database file storage
+├── data/                       # H2 Local database file storage
 └── src/
     └── main/
-        ├── java/com/codealpha/hotelreservation/
+        ├── java/com/apex/hotelreservation/
         │   ├── HotelReservationSystemApplication.java  # Main Boot class
         │   ├── model/                  # JPA Database Entities
         │   │   ├── Room.java           # Room details
@@ -67,16 +72,18 @@ HotelReservationSystem/
         │   └── controller/             # REST controllers
         │       └── HotelController.java  # Core business API endpoints
         └── resources/
-            ├── application.properties               # Database properties (Port 8082)
+            ├── application.properties               # Config file (Port 8082)
             └── static/
-                └── index.html                       # React & Tailwind Web Client
+                └── index.html                       # React Web Client
 ```
 
 ---
 
 ## 📡 REST API Documentation
 
-*   **Get All Rooms catalog**: `GET /api/hotel/rooms`
+*   **Get Room Catalog**: `GET /api/hotel/rooms`
 *   **Get All Guest Reservations**: `GET /api/hotel/bookings`
-*   **Process Booking**: `POST /api/hotel/book?guestName=John&contact=+91...&roomNumber=201&nights=3`
+*   **Process Booking**: `POST /api/hotel/book`
+    *   Parameters: `guestName`, `contact`, `roomNumber`, `nights`, `idType`, `idNumber`, `breakfast`, `shuttle`, `spa`
 *   **Cancel Reservation**: `DELETE /api/hotel/cancel/{bookingId}`
+*   **Operations Analytics**: `GET /api/hotel/analytics` (Returns occupancy metrics, RevPAR, gross revenues, and category allocations)
