@@ -1,27 +1,34 @@
-# Luxura - Premium Hotel Reservation Dashboard
+# 🏨 LUXURY — Premium Hotel Reservation System
 
-An enterprise-grade, full-stack hospitality booking management application built with a **Java Spring Boot** REST API backend and a responsive, interactive **React.js & Tailwind CSS** web client dashboard.
+> **Where Every Stay is a Reign.**
+
+Luxury is a commercial-grade, high-end hotel reservation platform designed to feel like booking a 7-star palace experience. Built with a robust **Java Spring Boot** REST API backend and a cinematic, responsive **React.js & Tailwind CSS** web application frontend.
 
 ---
 
-## 🚀 Features
+## 🎨 Visual Identity & Theme
 
-*   **Dynamic Room Status Grid**: Browse and filter available hotel rooms categorized into **Standard** ($100/night), **Deluxe** ($180/night), and **Suite** ($350/night) with color-coded availability badges.
-*   **Stay Enhancements (Add-ons)**: Support for check-in toggles including:
-    - Breakfast Buffet (+$15/day)
-    - Airport Shuttle Pickup (+$30 flat fee)
-    - VIP Lounge & Spa Access (+$50 flat fee)
-*   **Verification ID Management**: Store guest identification records (Passport, National ID, Driver's License) with document numbers.
-*   **Printable Invoice POS Receipts**: Generates clean guest bill itemization. Uses CSS `@media print` rules to isolate the POS receipt layout for printing, automatically hiding website buttons and layout headers.
-*   **Manager Analytics Dashboard**: High-level manager cockpit reporting hotel occupancy rate (%), gross revenue, RevPAR, and a vertical SVG popularity bar chart mapping standard vs deluxe vs suite booking distributions.
-*   **Google OAuth & Guest Login**: Premium access portal supporting Google Identity Services sign-in or one-click Guest Session bypass.
+*   **Ivory-White Dominance (`#FDFBF6`)**: The primary canvas, evoking an airy palace suite at golden hour.
+*   **Royal Blue Accents (`#2C4875` / `#5B7FB5`)**: Used as soft slate-blue washes, borders, and high-emphasis heading typography.
+*   **Gold Primary Highlights (`#D4AF37` / `#E8C97A`)**: Used as elegant buttons, interactive highlights, and golden hover glows.
+*   **Signature Backdrop — Ambient Flowing Silk Curtains**: A slow, wind-blown drape of light golden silk rendered as overlapping animated SVG paths that sway gently in the background, creating a living hotel lobby experience.
+
+---
+
+## 🚀 Key Features
+
+*   **Palace Room Catalog Status Grid**: Browse and filter premium hotel room tiers (Standard, Deluxe, and Suite) with dynamic availability checks.
+*   **Step-by-Step Checkout & Booking**: Guest registration with Passport/ID verification and direct selection of stay enhancements (Breakfast Buffet, Airport Shuttle pick-up, VIP Spa Lounge access).
+*   **Contactless QR Check-in Receipt**: Generates a POS-style guest invoice with an isolated print layout that hides browser frames.
+*   **Manager Analytics Dashboard**: Interactive operations metrics tracking hotel occupancy rate (%), gross revenues, RevPAR, and booking popularity graphs.
+*   **Interactive Royal Concierge**: A gold-accented, RAG-inspired concierge assistant widget to answer booking queries and guide guests.
 
 ---
 
 ## 🛠️ Technology Stack
 
 *   **Backend**: Java 17, Spring Boot 3.x, Spring Data JPA, Hibernate, H2 Database.
-*   **Frontend**: React (ES6+), Tailwind CSS, Babel, HTML5, Print CSS, Custom Responsive SVG Bar Charts.
+*   **Frontend**: React (ES6+), Tailwind CSS, Babel, HTML5, Custom SVG animations, Print CSS.
 *   **Build Tool**: Maven Wrapper (included).
 
 ---
@@ -32,8 +39,8 @@ You only need **Java 17 or higher** installed.
 
 ### Step 1: Clone the repository
 ```bash
-git clone https://github.com/Arpi-tect/Luxura.git
-cd Luxura
+git clone https://github.com/Arpi-tect/Luxury.git
+cd Luxury
 ```
 
 ### Step 2: Start the Application
@@ -57,7 +64,7 @@ The Tomcat server will start on port `8082`.
 
 ## 📁 Repository Structure
 ```text
-HotelReservationSystem/
+Luxury/
 ├── pom.xml                     # Maven configurations
 ├── mvnw & mvnw.cmd             # Maven Wrapper scripts
 ├── data/                       # H2 Local database file storage
@@ -76,14 +83,3 @@ HotelReservationSystem/
             └── static/
                 └── index.html                       # React Web Client
 ```
-
----
-
-## 📡 REST API Documentation
-
-*   **Get Room Catalog**: `GET /api/hotel/rooms`
-*   **Get All Guest Reservations**: `GET /api/hotel/bookings`
-*   **Process Booking**: `POST /api/hotel/book`
-    *   Parameters: `guestName`, `contact`, `roomNumber`, `nights`, `idType`, `idNumber`, `breakfast`, `shuttle`, `spa`
-*   **Cancel Reservation**: `DELETE /api/hotel/cancel/{bookingId}`
-*   **Operations Analytics**: `GET /api/hotel/analytics` (Returns occupancy metrics, RevPAR, gross revenues, and category allocations)

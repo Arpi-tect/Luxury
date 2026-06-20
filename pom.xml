@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.apex</groupId>
-	<artifactId>hotel-reservation-system</artifactId>
+	<artifactId>luxury</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>HotelReservationSystem</name>
-	<description>Hotel Reservation System - Spring Boot and React Web App</description>
+	<name>Luxury</name>
+	<description>Luxury - Premium Hotel Reservation System</description>
 	<url/>
 	<licenses>
 		<license/>
