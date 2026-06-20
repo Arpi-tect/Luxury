@@ -22,38 +22,42 @@
     
     <style>
         :root {
-            --royal-blue-deep: #2C4875;
-            --royal-blue: #5B7FB5;
-            --royal-blue-light: #A9C0E0;
-            --royal-blue-mist: #DCE6F4;
-            --gold-primary: #D4AF37;
-            --gold-soft: #E8C97A;
-            --gold-light: #F6EBC8;
-            --gold-shine: #FFE9A8;
-            --ivory-white: #FDFBF6;
+            --royal-blue-deep: #1A325A;
+            --royal-blue: #4A6FA5;
+            --royal-blue-light: #9BB7E2;
+            --royal-blue-mist: #E5EEF9;
+            --gold-primary: #C5A030;
+            --gold-soft: #D9B855;
+            --gold-light: #F4E4B5;
+            --gold-shine: #FFF1C5;
+            --ivory-white: #FCFAF2;
             --pearl-white: #FFFFFF;
-            --text-dark: #2A2E3A;
-            --text-muted: #6E7791;
+            --text-dark: #1F2430;
+            --text-muted: #5E6982;
             
-            --bg-canvas: var(--ivory-white);
-            --bg-card: rgba(255, 255, 255, 0.88);
-            --border-panel: rgba(212, 175, 55, 0.22);
-            --shadow-panel: rgba(44, 72, 117, 0.06);
+            --bg-canvas: transparent;
+            --bg-card: rgba(252, 250, 242, 0.12);
+            --border-panel: rgba(197, 160, 48, 0.3);
+            --shadow-panel: rgba(26, 50, 90, 0.08);
             --text-main: var(--text-dark);
         }
 
         .dark-theme {
-            --bg-canvas: #131722;
-            --bg-card: rgba(28, 35, 51, 0.9);
-            --border-panel: rgba(232, 201, 122, 0.25);
-            --shadow-panel: rgba(0, 0, 0, 0.3);
-            --text-main: #E2E8F0;
+            --royal-blue-deep: #F4E4B5;
+            --royal-blue: #9BB7E2;
+            --royal-blue-light: #4A6FA5;
+            --royal-blue-mist: #1A325A;
+            --bg-canvas: transparent;
+            --bg-card: rgba(15, 20, 32, 0.28);
+            --border-panel: rgba(217, 184, 85, 0.35);
+            --shadow-panel: rgba(0, 0, 0, 0.4);
+            --text-main: #F1F5F9;
             --text-muted: #94A3B8;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-canvas);
+            background-color: #0F131E; /* Master backdrop frame */
             color: var(--text-main);
             overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
@@ -67,90 +71,187 @@
             font-family: 'Pinyon Script', cursive;
         }
 
-        /* Hand-crafted asymmetric panels - avoids looking blocky or AI generated */
+        /* Royal Glassmorphic Panel - zero boxy feel, highly transparent and glowing */
         .royal-panel {
             background: var(--bg-card);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-panel);
-            box-shadow: 0 15px 40px -15px var(--shadow-panel);
-            border-radius: 2.5rem 1rem 2.5rem 1rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .royal-panel-alt {
-            border-radius: 1rem 2.5rem 1rem 2.5rem;
+            box-shadow: 0 30px 60px -25px var(--shadow-panel), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            border-radius: 2.5rem 0.5rem 2.5rem 0.5rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Ornate Double-Page Parchment Guestbook Style for Wizard Checkout & forms */
+        .parchment-book {
+            background: linear-gradient(135deg, rgba(252, 250, 242, 0.3) 0%, rgba(246, 241, 226, 0.2) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 2px double var(--border-panel);
+            box-shadow: 0 35px 80px -30px rgba(11, 21, 38, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            border-radius: 3rem;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        /* Glass navbar banner shape */
         .glass-navbar {
-            background: rgba(253, 251, 246, 0.88);
+            background: rgba(252, 250, 242, 0.25);
             backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-panel);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1.5px solid var(--border-panel);
+            box-shadow: 0 10px 30px -10px rgba(26, 50, 90, 0.05);
         }
 
         .dark-theme .glass-navbar {
-            background: rgba(19, 23, 34, 0.88);
+            background: rgba(15, 20, 32, 0.35);
         }
 
-        /* Curtains & Beach Scene Animation keyframes */
-        @keyframes sway-fold-1 {
-            0%, 100% { transform: translateX(0px) skewX(0deg) scaleX(1); }
-            50% { transform: translateX(6px) skewX(0.6deg) scaleX(1.02); }
+        /* Custom filigree corner brackets */
+        .filigree-corner::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 16px;
+            height: 16px;
+            border-top: 1.5px solid var(--gold-primary);
+            border-left: 1.5px solid var(--gold-primary);
+            opacity: 0.8;
         }
-        @keyframes sway-fold-2 {
-            0%, 100% { transform: translateX(0px) skewX(0deg) scaleX(1); }
-            50% { transform: translateX(-5px) skewX(-0.5deg) scaleX(0.98); }
+        .filigree-corner::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+            border-top: 1.5px solid var(--gold-primary);
+            border-right: 1.5px solid var(--gold-primary);
+            opacity: 0.8;
         }
-        @keyframes sway-fold-3 {
-            0%, 100% { transform: translateX(0px) skewX(0deg) scaleX(1); }
-            50% { transform: translateX(7px) skewX(0.8deg) scaleX(1.03); }
+        .filigree-bottom::before {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            width: 16px;
+            height: 16px;
+            border-bottom: 1.5px solid var(--gold-primary);
+            border-left: 1.5px solid var(--gold-primary);
+            opacity: 0.8;
         }
-        @keyframes wave-sway-1 {
-            0%, 100% { transform: translateY(0) scaleY(1); }
-            50% { transform: translateY(8px) scaleY(1.04); }
-        }
-        @keyframes wave-sway-2 {
-            0%, 100% { transform: translateY(0) scaleY(1); }
-            50% { transform: translateY(-6px) scaleY(0.96); }
-        }
-        @keyframes blue-swag-flutter-left {
-            0%, 100% { transform: skewY(0deg) scaleY(1); }
-            50% { transform: skewY(0.4deg) scaleY(1.02); }
-        }
-        @keyframes blue-swag-flutter-right {
-            0%, 100% { transform: skewY(0deg) scaleY(1); }
-            50% { transform: skewY(-0.4deg) scaleY(1.02); }
+        .filigree-bottom::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+            border-bottom: 1.5px solid var(--gold-primary);
+            border-right: 1.5px solid var(--gold-primary);
+            opacity: 0.8;
         }
 
-        .wave-animation-1 {
-            animation: wave-sway-1 7s ease-in-out infinite;
+        /* Arched images mirroring palace lobby windows */
+        .arched-frame {
+            border-radius: 8rem 8rem 1rem 1rem;
+            border: 2px solid rgba(197, 160, 48, 0.35);
+            box-shadow: 0 12px 30px -10px rgba(26, 50, 90, 0.15);
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        .wave-animation-2 {
-            animation: wave-sway-2 10s ease-in-out infinite;
+
+        /* Ocean Sky Sunset & Waves Parallax animations */
+        @keyframes skyGlowGrad {
+            0%, 100% { background-position: 50% 0%; }
+            50% { background-position: 50% 100%; }
         }
-        .swag-left {
-            animation: blue-swag-flutter-left 8s ease-in-out infinite;
+        @keyframes waveMove1 {
+            0%, 100% { transform: translate(0, 0) scaleY(1); }
+            50% { transform: translate(-60px, 6px) scaleY(1.04); }
+        }
+        @keyframes waveMove2 {
+            0%, 100% { transform: translate(0, 0) scaleY(1); }
+            50% { transform: translate(45px, -5px) scaleY(0.96); }
+        }
+        @keyframes waveMove3 {
+            0%, 100% { transform: translate(0, 0) scaleY(1); }
+            50% { transform: translate(-30px, 3px) scaleY(1.02); }
+        }
+        @keyframes cloudDriftSlow {
+            0% { transform: translateX(-150px); }
+            100% { transform: translateX(1150px); }
+        }
+        @keyframes cloudDriftFast {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(1150px); }
+        }
+
+        .sunset-sky-back {
+            background: linear-gradient(180deg, #1E2942 0%, #3B5888 35%, #F0A55D 65%, #F7CFA0 85%, #FCFAF2 100%);
+            background-size: 100% 200%;
+            animation: skyGlowGrad 24s ease infinite;
+        }
+        .wave-layer-1 { animation: waveMove1 14s ease-in-out infinite; }
+        .wave-layer-2 { animation: waveMove2 18s ease-in-out infinite; }
+        .wave-layer-3 { animation: waveMove3 11s ease-in-out infinite; }
+        .cloud-slow { animation: cloudDriftSlow 80s linear infinite; }
+        .cloud-fast { animation: cloudDriftFast 50s linear infinite; }
+
+        /* Curtain Sway Animations */
+        @keyframes swayLeftCurtain {
+            0%, 100% { transform: rotate(0deg) skewX(0deg) scaleX(1); }
+            50% { transform: rotate(1deg) skewX(1.5deg) scaleX(1.03); }
+        }
+        @keyframes swayRightCurtain {
+            0%, 100% { transform: rotate(0deg) skewX(0deg) scaleX(1); }
+            50% { transform: rotate(-1deg) skewX(-1.5deg) scaleX(1.03); }
+        }
+        @keyframes flutterValance {
+            0%, 100% { transform: skewY(0deg) scaleY(1); }
+            50% { transform: skewY(0.5deg) scaleY(1.02); }
+        }
+
+        .curtain-sway-left {
+            animation: swayLeftCurtain 12s ease-in-out infinite;
             transform-origin: top left;
         }
-        .swag-right {
-            animation: blue-swag-flutter-right 9s ease-in-out infinite;
+        .curtain-sway-right {
+            animation: swayRightCurtain 14s ease-in-out infinite;
             transform-origin: top right;
         }
-
-        .fold-1 {
-            animation: sway-fold-1 11s ease-in-out infinite;
-            transform-origin: top left;
-        }
-        .fold-2 {
-            animation: sway-fold-2 14s ease-in-out infinite;
-            transform-origin: top right;
-        }
-        .fold-3 {
-            animation: sway-fold-3 9s ease-in-out infinite;
-            transform-origin: top left;
+        .valance-flutter {
+            animation: flutterValance 9s ease-in-out infinite;
+            transform-origin: top center;
         }
 
-        /* credit card flip */
+        /* Gold underline input style */
+        .gold-input {
+            background: transparent !important;
+            border-bottom: 1.5px solid rgba(197, 160, 48, 0.45);
+            color: var(--text-dark) !important;
+            border-radius: 0px !important;
+            padding-left: 4px;
+            padding-right: 4px;
+            transition: all 0.3s ease;
+        }
+        .gold-input:focus {
+            outline: none;
+            border-bottom-color: var(--gold-primary);
+            box-shadow: 0 4px 12px -4px rgba(197, 160, 48, 0.15);
+        }
+
+        .dark-theme .gold-input {
+            color: #F1F5F9 !important;
+            border-bottom-color: rgba(217, 184, 85, 0.45);
+        }
+        .dark-theme .gold-input:focus {
+            border-bottom-color: var(--gold-soft);
+        }
+
+        /* Credit card flip */
         .flip-card {
             background-color: transparent;
             perspective: 1000px;
@@ -180,12 +281,15 @@
 
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-thumb {
             background: var(--gold-primary);
             border-radius: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(252, 250, 242, 0.15);
         }
 
         @media print {
@@ -210,75 +314,130 @@
     <svg class="hidden">
         <defs>
             <linearGradient id="goldSilkGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#D4AF37" />
-                <stop offset="50%" stop-color="#FFE9A8" />
-                <stop offset="100%" stop-color="#AA7C11" />
+                <stop offset="0%" stop-color="#C5A030" />
+                <stop offset="50%" stop-color="#FFF1C5" />
+                <stop offset="100%" stop-color="#917316" />
             </linearGradient>
             <linearGradient id="goldSilkGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#AA7C11" />
-                <stop offset="30%" stop-color="#E8C97A" />
-                <stop offset="70%" stop-color="#FFE9A8" />
-                <stop offset="100%" stop-color="#8A6605" />
+                <stop offset="0%" stop-color="#917316" />
+                <stop offset="30%" stop-color="#D9B855" />
+                <stop offset="70%" stop-color="#FFF1C5" />
+                <stop offset="100%" stop-color="#6E5503" />
             </linearGradient>
             <linearGradient id="goldSilkGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#8A6605" />
-                <stop offset="40%" stop-color="#D4AF37" />
-                <stop offset="80%" stop-color="#FFE9A8" />
-                <stop offset="100%" stop-color="#B8860B" />
+                <stop offset="0%" stop-color="#6E5503" />
+                <stop offset="40%" stop-color="#C5A030" />
+                <stop offset="80%" stop-color="#FFF1C5" />
+                <stop offset="100%" stop-color="#9E7805" />
             </linearGradient>
         </defs>
     </svg>
 
-    <!-- Scenic Background: Window looking over Ocean Sunset and moving Waves with draping Blue & Gold curtains -->
+    <!-- Scenic Background: Window looking over Ocean Sunset and moving Waves (z-0 layer) -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none print-hide">
-        <!-- Golden sunset beach sky gradient -->
-        <div class="absolute inset-0 bg-gradient-to-b from-[#FFEBCD]/50 via-[#FFD1B3]/40 to-[#DCE6F4]/50"></div>
-        
-        <!-- Moving Ocean Waves -->
-        <div class="absolute bottom-0 left-0 right-0 h-44 opacity-25">
-            <svg class="w-full h-full" viewBox="0 0 1440 320" preserveAspectRatio="none">
-                <path class="wave-animation-1" d="M0,190 C320,230 640,150 960,190 T1440,210 L1440,320 L0,320 Z" fill="#A9C0E0" />
-                <path class="wave-animation-2" d="M0,230 C320,270 640,200 960,230 T1440,240 L1440,320 L0,320 Z" fill="#5B7FB5" />
-            </svg>
+        <!-- 1. The Seaside Sunset view (placed behind the wall) -->
+        <div class="absolute inset-0 z-0 flex items-center justify-center">
+            <!-- Ocean sky sunset gradient -->
+            <div class="absolute inset-0 sunset-sky-back"></div>
+            
+            <!-- Shimmering Sunset Sun -->
+            <div class="absolute bottom-44 w-44 h-44 rounded-full bg-gradient-to-t from-[#FFE9A8] to-[#FFF] filter blur-[6px] opacity-75 animate-pulse"></div>
+            
+            <!-- Drifting Clouds -->
+            <div class="absolute inset-0 opacity-25">
+                <svg class="absolute w-36 h-16 top-24 left-16 cloud-slow" viewBox="0 0 120 60" fill="#FFF">
+                    <path d="M10,40 Q25,20 40,30 Q55,10 70,30 Q90,15 105,40 Z" />
+                </svg>
+                <svg class="absolute w-48 h-20 top-40 right-24 cloud-fast" viewBox="0 0 120 60" fill="#FFF">
+                    <path d="M10,40 Q25,20 40,30 Q55,10 70,30 Q90,15 105,40 Z" />
+                </svg>
+            </div>
+            
+            <!-- Multi-layered Animated Ocean Waves -->
+            <div class="absolute bottom-0 left-0 right-0 h-64 overflow-hidden">
+                <svg class="w-full h-full" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                    <path class="wave-layer-1" d="M0,180 C360,220 720,140 1080,180 T1440,200 L1440,320 L0,320 Z" fill="#9BB7E2" opacity="0.45" />
+                    <path class="wave-layer-2" d="M0,210 C360,250 720,180 1080,210 T1440,230 L1440,320 L0,320 Z" fill="#4A6FA5" opacity="0.65" />
+                    <path class="wave-layer-3" d="M0,240 C360,270 720,210 1080,240 T1440,260 L1440,320 L0,320 Z" fill="#1A325A" />
+                </svg>
+            </div>
         </div>
 
-        <!-- Royal arched double frame border simulating hotel room window layout -->
-        <div class="absolute inset-6 border-[8px] border-double border-[#D4AF37]/20 rounded-[3rem] shadow-2xl"></div>
+        <!-- 2. The Ivory Room Wall Overlay with Arch Window Cutout (placed in front of the sunset view) -->
+        <svg class="absolute inset-0 w-full h-full z-10" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <defs>
+                <radialGradient id="wallGlow" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#FCFAF2" />
+                    <stop offset="80%" stop-color="#F5EFE0" />
+                    <stop offset="100%" stop-color="#EDE6D2" />
+                </radialGradient>
+                <radialGradient id="darkWallGlow" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#1E2430" />
+                    <stop offset="85%" stop-color="#141822" />
+                    <stop offset="100%" stop-color="#0A0C12" />
+                </radialGradient>
+            </defs>
+            <!-- A path with evenodd fill that covers the screen and leaves an arched cutout in the center -->
+            <path class="theme-wall-path" d="M0,0 H1000 V1000 H0 Z M180,1000 V350 C180,120 820,120 820,350 V1000 Z" fill="url(#wallGlow)" fill-rule="evenodd" />
+            <script>
+                // Synchronize custom wall fill with midnight theme
+                document.addEventListener("DOMContentLoaded", function() {
+                    const path = document.querySelector(".theme-wall-path");
+                    const observer = new MutationObserver(() => {
+                        const isDark = document.body.classList.contains("dark-theme");
+                        path.setAttribute("fill", isDark ? "url(#darkWallGlow)" : "url(#wallGlow)");
+                    });
+                    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+                    if (document.body.classList.contains("dark-theme")) {
+                        path.setAttribute("fill", "url(#darkWallGlow)");
+                    }
+                });
+            </script>
+            
+            <!-- Ornate Gold Arch Border -->
+            <path d="M180,1000 V350 C180,120 820,120 820,350 V1000" stroke="#C5A030" stroke-width="4.5" fill="none" opacity="0.8" />
+            <path d="M172,1000 V350 C172,110 828,110 828,350 V1000" stroke="#FFF1C5" stroke-width="1.5" fill="none" opacity="0.65" />
+        </svg>
 
-        <!-- Royal Blue Silk Valance/Swags (Top Drapes) -->
-        <div class="absolute top-0 left-0 right-0 h-32 opacity-90">
-            <svg class="w-full h-full" viewBox="0 0 1440 200" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="blueSilk" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#2C4875" />
-                        <stop offset="50%" stop-color="#5B7FB5" />
-                        <stop offset="100%" stop-color="#1B2A4A" />
-                    </linearGradient>
-                </defs>
-                <path class="swag-left" d="M0,0 Q360,150 720,50 L720,0 Z" fill="url(#blueSilk)" />
-                <path class="swag-right" d="M720,50 Q1080,150 1440,0 L720,0 Z" fill="url(#blueSilk)" />
-            </svg>
-        </div>
-
-        <!-- Golden curtains layout with tassels -->
-        <div class="absolute left-0 top-0 bottom-0 w-24 md:w-36 opacity-85">
-            <svg class="w-full h-full" viewBox="0 0 150 1000" preserveAspectRatio="none">
-                <path class="curtain-fold fold-1" d="M0,0 Q40,120 20,280 T30,550 T22,800 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
-                <path class="curtain-fold fold-2" d="M0,0 Q50,170 30,380 T40,750 T15,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
-                <path class="curtain-fold fold-3" d="M0,0 Q60,220 22,480 T50,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
-            </svg>
-        </div>
-        <div class="absolute right-0 top-0 bottom-0 w-24 md:w-36 opacity-85 transform scale-x-[-1]">
-            <svg class="w-full h-full" viewBox="0 0 150 1000" preserveAspectRatio="none">
-                <path class="curtain-fold fold-1" d="M0,0 Q40,120 20,280 T30,550 T22,800 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
-                <path class="curtain-fold fold-2" d="M0,0 Q50,170 30,380 T40,750 T15,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
-                <path class="curtain-fold fold-3" d="M0,0 Q60,220 22,480 T50,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
-            </svg>
+        <!-- 3. Gilded Swaying Curtains and Valance (inside room window frame z-20) -->
+        <div class="absolute inset-0 z-20 pointer-events-none">
+            <!-- Left Curtain -->
+            <div class="absolute left-0 top-0 bottom-0 w-24 md:w-56 lg:w-72 opacity-95">
+                <svg class="w-full h-full curtain-sway-left" viewBox="0 0 150 1000" preserveAspectRatio="none">
+                    <path d="M0,0 Q60,150 40,320 T55,600 T30,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
+                    <path d="M0,0 Q75,200 50,440 T60,800 T22,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
+                    <path d="M0,0 Q90,250 35,550 T70,900 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
+                </svg>
+            </div>
+            <!-- Right Curtain -->
+            <div class="absolute right-0 top-0 bottom-0 w-24 md:w-56 lg:w-72 opacity-95 transform scale-x-[-1]">
+                <svg class="w-full h-full curtain-sway-right" viewBox="0 0 150 1000" preserveAspectRatio="none">
+                    <path d="M0,0 Q60,150 40,320 T55,600 T30,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
+                    <path d="M0,0 Q75,200 50,440 T60,800 T22,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
+                    <path d="M0,0 Q90,250 35,550 T70,900 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
+                </svg>
+            </div>
+            <!-- Top Blue Silk Valance/Swags -->
+            <div class="absolute top-0 left-0 right-0 h-28 md:h-36 opacity-95 valance-flutter">
+                <svg class="w-full h-full" viewBox="0 0 1440 200" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="blueSilk" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#1A325A" />
+                            <stop offset="60%" stop-color="#4A6FA5" />
+                            <stop offset="100%" stop-color="#0E1E38" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,0 Q360,180 720,70 L720,0 Z" fill="url(#blueSilk)" />
+                    <path d="M720,70 Q1080,180 1440,0 L720,0 Z" fill="url(#blueSilk)" />
+                    <!-- Gold Tassel Fringe Border along Valance swags -->
+                    <path d="M0,5 Q360,185 720,75 M720,75 Q1080,185 1440,5" stroke="#C5A030" stroke-width="3" fill="none" stroke-dasharray="2 4" />
+                </svg>
+            </div>
         </div>
     </div>
 
-    <!-- Main Content Mount -->
-    <div id="root" class="flex-grow flex flex-col z-10"></div>
+    <!-- Main Content Mount (z-10 layer - scrolls beautifully behind the foreground curtains) -->
+    <div id="root" class="flex-grow flex flex-col z-10 relative"></div>
 
     <script type="text/babel" data-presets="custom-react">
         const { useState, useEffect, useRef } = React;
@@ -312,16 +471,16 @@
             const total = values.reduce((a, b) => a + b, 0);
 
             let accumulated = 0;
-            const colors = ["#5B7FB5", "#D4AF37", "#2C4875"];
+            const colors = ["#4A6FA5", "#C5A030", "#1A325A"];
 
             if (total === 0) {
-                return <div className="text-center py-6 text-xs text-[#6E7791] font-semibold">No active allocations yet.</div>;
+                return <div className="text-center py-6 text-xs text-[#5E6982] font-semibold font-serif">No active room allocations registered at this hour.</div>;
             }
 
             return (
-                <div className="flex flex-col sm:flex-row items-center justify-around gap-4 p-4 bg-white/70 rounded-2xl border border-[#D4AF37]/15">
+                <div className="flex flex-col sm:flex-row items-center justify-around gap-4 p-5 bg-white/10 rounded-2xl border border-[#C5A030]/20">
                     <svg className="w-28 h-28" viewBox="0 0 42 42">
-                        <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#E2E8F0" strokeWidth="4.5" />
+                        <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="rgba(197, 160, 48, 0.1)" strokeWidth="4.5" />
                         {categories.map((cat, idx) => {
                             const val = distribution[cat] || 0;
                             const percent = (val / total) * 100;
@@ -350,8 +509,8 @@
                         {categories.map((cat, idx) => (
                             <div key={cat} className="flex items-center gap-2">
                                 <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors[idx] }}></span>
-                                <span className="font-semibold text-[#2C4875]">{cat}:</span>
-                                <span className="font-bold text-[#D4AF37]">{distribution[cat] || 0}</span>
+                                <span className="font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5]">{cat}:</span>
+                                <span className="font-extrabold text-[#C5A030]">{distribution[cat] || 0}</span>
                             </div>
                         ))}
                     </div>
@@ -374,20 +533,20 @@
 
             const chartHeight = height - paddingTop - paddingBottom;
             const chartWidth = width - paddingLeft - paddingRight;
-            const barWidth = 30;
+            const barWidth = 32;
             const gap = (chartWidth - barWidth * categories.length) / (categories.length + 1);
 
-            const colors = { Standard: "#5B7FB5", Deluxe: "#D4AF37", Suite: "#2C4875" };
+            const colors = { Standard: "#4A6FA5", Deluxe: "#C5A030", Suite: "#1A325A" };
 
             return (
-                <svg className="w-full h-auto bg-white/60 rounded-2xl border border-[#D4AF37]/15 p-2" viewBox={`0 0 ${width} ${height}`}>
+                <svg className="w-full h-auto bg-white/10 rounded-2xl border border-[#C5A030]/20 p-2" viewBox={`0 0 ${width} ${height}`}>
                     {[0, 0.5, 1].map((ratio, idx) => {
                         const y = paddingTop + chartHeight * (1 - ratio);
                         const labelVal = Math.round(maxValue * ratio);
                         return (
                             <g key={idx}>
-                                <line x1={paddingLeft} y1={y} x2={width - paddingRight} y2={y} stroke="rgba(44, 72, 117, 0.08)" strokeDasharray="3" />
-                                <text x={paddingLeft - 8} y={y + 3} fill="#6E7791" fontSize="9" fontWeight="bold" textAnchor="end">{labelVal}</text>
+                                <line x1={paddingLeft} y1={y} x2={width - paddingRight} y2={y} stroke="rgba(197, 160, 48, 0.15)" strokeDasharray="3" />
+                                <text x={paddingLeft - 8} y={y + 3} fill="#5E6982" fontSize="9" fontWeight="bold" textAnchor="end">{labelVal}</text>
                             </g>
                         );
                     })}
@@ -400,8 +559,8 @@
                         return (
                             <g key={cat}>
                                 <rect x={x} y={y} width={barWidth} height={barHeight} fill={colors[cat]} rx="4" />
-                                <text x={x + barWidth / 2} y={y - 4} fill="#2C4875" fontSize="10" fontWeight="extrabold" textAnchor="middle">{value}</text>
-                                <text x={x + barWidth / 2} y={height - paddingBottom + 14} fill="#6E7791" fontSize="9" fontWeight="bold" textAnchor="middle">{cat}</text>
+                                <text x={x + barWidth / 2} y={y - 4} fill="#1A325A" className="dark:fill-[#F4E4B5]" fontSize="10" fontWeight="extrabold" textAnchor="middle">{value}</text>
+                                <text x={x + barWidth / 2} y={height - paddingBottom + 14} fill="#5E6982" fontSize="9" fontWeight="bold" textAnchor="middle">{cat}</text>
                             </g>
                         );
                     })}
@@ -439,14 +598,14 @@
             };
 
             return (
-                <div className="fixed inset-0 bg-[#2C4875]/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
-                    <div className="bg-[#FDFBF6] max-w-4xl w-full rounded-[2rem] border-2 border-[#D4AF37]/35 overflow-hidden shadow-2xl relative">
-                        <div className="bg-[#2C4875] text-white p-4.5 flex items-center justify-between border-b border-[#D4AF37]/20">
+                <div className="fixed inset-0 bg-[#1A325A]/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
+                    <div className="bg-[#FCFAF2]/95 max-w-4xl w-full rounded-[2.5rem] border-2 border-[#C5A030]/40 overflow-hidden shadow-2xl relative">
+                        <div className="bg-[#1A325A] text-white p-5 flex items-center justify-between border-b border-[#C5A030]/20">
                             <div>
                                 <h3 className="text-xl font-serif font-bold tracking-widest uppercase">Chamber 360° Virtual Inspector</h3>
-                                <p className="text-[9px] text-[#FFE9A8] uppercase tracking-wider font-semibold">Drag horizontally to pan the interior layout</p>
+                                <p className="text-[9px] text-[#FFF1C5] uppercase tracking-wider font-semibold font-sans">Drag horizontally to inspect the luxury interior</p>
                             </div>
-                            <button onClick={onClose} className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full font-bold">✕</button>
+                            <button onClick={onClose} className="bg-white/10 hover:bg-white/20 w-8 h-8 flex items-center justify-center rounded-full font-bold font-sans">✕</button>
                         </div>
                         
                         <div 
@@ -469,11 +628,11 @@
                                 }}
                             />
                             
-                            {/* Interactive hotspots */}
+                            {/* Hotspot details */}
                             <div className="absolute top-1/3 left-1/3 group cursor-help" style={{ transform: `translateX(${panX * 0.4}px)` }}>
-                                <span className="absolute h-4.5 w-4.5 rounded-full bg-[#D4AF37] opacity-75 animate-ping"></span>
-                                <span className="relative inline-flex rounded-full h-4.5 w-4.5 bg-[#D4AF37] text-white text-[9px] items-center justify-center border border-white font-extrabold">i</span>
-                                <div className="absolute left-6 top-0 hidden group-hover:block bg-white text-[#2C4875] text-[10px] p-2 rounded-lg shadow-md font-bold whitespace-nowrap">Canopy King Bed</div>
+                                <span className="absolute h-4.5 w-4.5 rounded-full bg-[#C5A030] opacity-75 animate-ping"></span>
+                                <span className="relative inline-flex rounded-full h-4.5 w-4.5 bg-[#C5A030] text-white text-[9px] items-center justify-center border border-white font-extrabold">i</span>
+                                <div className="absolute left-6 top-0 hidden group-hover:block bg-white text-[#1A325A] text-[10px] p-2 rounded-lg shadow-md font-bold whitespace-nowrap">Canopy King Bed</div>
                             </div>
                         </div>
                     </div>
@@ -481,11 +640,11 @@
             );
         }
 
-        // Royal Concierge AI Bot with triggers & voice search
+        // Royal Concierge AI Bot
         function RoyalConciergeWidget() {
             const [open, setOpen] = useState(false);
             const [messages, setMessages] = useState([
-                { sender: "bot", text: "Greetings, noble guest. I am your Royal Concierge. How may I elevate your experience at Luxury today?" }
+                { sender: "bot", text: "Greetings, noble guest. I am your Royal Concierge. How may I elevate your stay at Luxury today?" }
             ]);
             const [input, setInput] = useState("");
             const [typing, setTyping] = useState(false);
@@ -508,7 +667,7 @@
                         clearInterval(interval);
                         setTyping(false);
                     }
-                }, 70);
+                }, 60);
             };
 
             const handleSend = (e, customText) => {
@@ -538,25 +697,25 @@
                 <div className="fixed bottom-6 right-6 z-40 print-hide">
                     <button 
                         onClick={() => setOpen(!open)}
-                        className="w-14 h-14 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition"
+                        className="w-14 h-14 bg-gradient-to-tr from-[#C5A030] to-[#D9B855] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition pointer-events-auto"
                     >
                         {open ? <span className="text-xl font-bold">✕</span> : "💬"}
                     </button>
 
                     {open && (
-                        <div className="absolute bottom-16 right-0 w-80 sm:w-96 h-[430px] royal-panel border border-[#D4AF37]/35 shadow-2xl flex flex-col overflow-hidden">
-                            <div className="bg-gradient-to-r from-[#2C4875] to-[#5B7FB5] p-4 text-white text-center">
+                        <div className="absolute bottom-16 right-0 w-80 sm:w-96 h-[430px] royal-panel border border-[#C5A030]/35 shadow-2xl flex flex-col overflow-hidden pointer-events-auto">
+                            <div className="bg-gradient-to-r from-[#1A325A] to-[#4A6FA5] p-4 text-white text-center">
                                 <h3 className="font-serif text-lg font-bold tracking-widest">Royal Concierge</h3>
-                                <p className="text-[9px] uppercase tracking-wider opacity-85">Where Every Stay is a Reign</p>
+                                <p className="font-cursive text-lg text-[#FFF1C5]">Where Every Stay is a Reign</p>
                             </div>
 
-                            <div className="flex-grow p-4 overflow-y-auto space-y-3 bg-[#FDFBF6]/90">
+                            <div className="flex-grow p-4 overflow-y-auto space-y-3 bg-[#FCFAF2]/90">
                                 {messages.map((m, idx) => (
                                     <div key={idx} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                        <div className={`p-3 rounded-2xl max-w-[80%] text-xs shadow-sm ${
+                                        <div className={`p-3 rounded-2xl max-w-[85%] text-xs shadow-sm ${
                                             m.sender === 'user' 
-                                                ? 'bg-[#2C4875] text-white rounded-tr-none' 
-                                                : 'bg-white text-[#2A2E3A] border border-[#D4AF37]/15 rounded-tl-none'
+                                                ? 'bg-[#1A325A] text-[#FFF1C5] rounded-tr-none' 
+                                                : 'bg-white text-[#1F2430] border border-[#C5A030]/20 rounded-tl-none font-serif'
                                         }`}>
                                             {m.text}
                                         </div>
@@ -564,15 +723,15 @@
                                 ))}
                             </div>
 
-                            <form onSubmit={(e) => handleSend(e)} className="p-3 bg-white border-t border-[#D4AF37]/15 flex gap-2">
+                            <form onSubmit={(e) => handleSend(e)} className="p-3 bg-white border-t border-[#C5A030]/25 flex gap-2">
                                 <input 
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     placeholder="Inquire with the concierge..."
-                                    className="flex-grow px-4 py-2 border border-[#D4AF37]/25 rounded-full text-xs focus:outline-none bg-[#FDFBF6]"
+                                    className="flex-grow px-4 py-2 border border-[#C5A030]/35 rounded-full text-xs focus:outline-none bg-[#FCFAF2]"
                                 />
-                                <button type="submit" className="px-4 py-2 bg-[#D4AF37] hover:bg-[#E8C97A] text-white rounded-full text-xs font-bold">
+                                <button type="submit" className="px-4 py-2 bg-[#C5A030] hover:bg-[#D9B855] text-white rounded-full text-xs font-bold font-serif">
                                     Send
                                 </button>
                             </form>
@@ -589,65 +748,71 @@
             const tilt3 = useTilt();
 
             const dineMenu = [
-                { name: "Royal Ossetra Caviar", desc: "Served with blinis, creme fraiche, and chives", price: "$140" },
-                { name: "White Truffle Risotto", desc: "Acquerello aged rice with winter truffles and gold leaf", price: "$90" }
+                { name: "Royal Ossetra Caviar", desc: "Served with golden blinis, double cream, and fresh chives", price: "$140" },
+                { name: "White Truffle Risotto", desc: "Aged Acquerello rice with winter truffles and 24k gold leaf decoration", price: "$90" }
             ];
 
             const spaWellness = [
-                { name: "Grand Palace Massage", desc: "90-minute aromatherapy hot stone massage with royal oils", price: "$220" },
-                { name: "Oceanic Hydrotherapy Pool", desc: "Private pool access with sunset sea view", price: "$150" }
+                { name: "Grand Palace Massage", desc: "90-minute customized aromatherapy hot stone massage with royal oils", price: "$220" },
+                { name: "Oceanic Hydrotherapy Pool", desc: "Private temperature controlled pool with panoramic sunset views", price: "$150" }
             ];
 
             return (
                 <div className="space-y-16">
-                    {/* Hero Landing */}
-                    <div className="relative rounded-[3rem_1rem_3rem_1rem] overflow-hidden h-[80vh] flex items-center justify-center text-center p-8 bg-cover bg-center shadow-2xl border-2 border-[#D4AF37]/20" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80')" }}>
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#2C4875]/40 via-transparent to-black/20"></div>
+                    {/* Hero Landing - Arch Layout for Window View */}
+                    <div className="relative rounded-[3.5rem_1rem_3.5rem_1rem] overflow-hidden h-[75vh] flex items-center justify-center text-center p-8 bg-cover bg-center shadow-2xl border-2 border-[#C5A030]/30" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80')" }}>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#1A325A]/60 via-transparent to-black/35"></div>
                         <div className="relative z-10 max-w-xl space-y-6">
-                            <h2 className="text-5xl md:text-7xl font-serif font-extrabold text-[#FDFBF6] tracking-widest drop-shadow-xl">LUXURY</h2>
-                            <p className="text-[#FFE9A8] text-xs font-bold uppercase tracking-[0.28em]">Where Every Stay is a Reign</p>
-                            <p className="text-white/95 text-xs font-semibold drop-shadow-md max-w-md mx-auto leading-relaxed">
+                            <h2 className="text-5xl md:text-7xl font-serif font-extrabold text-[#FCFAF2] tracking-widest drop-shadow-xl">LUXURY</h2>
+                            <p className="font-cursive text-3xl text-[#FFF1C5]">Where Every Stay is a Reign</p>
+                            <p className="text-white/95 text-xs font-serif font-medium drop-shadow-md max-w-md mx-auto leading-relaxed">
                                 Enter our sunlit palace hotel corridors. Wake up to moving ocean sunset viewports, luxury silk valances, and premium spa facilities.
                             </p>
                             <button 
                                 onClick={onExploreClick}
-                                className="px-8 py-3.5 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] hover:brightness-105 text-white font-bold rounded-xl text-xs transition duration-200 uppercase tracking-widest shadow-lg border border-white/20"
+                                className="px-8 py-3.5 bg-gradient-to-tr from-[#C5A030] to-[#D9B855] hover:brightness-105 text-white font-bold rounded-xl text-xs transition duration-200 uppercase tracking-widest shadow-lg border border-white/20 font-serif"
                             >
                                 Book Royal Chambers
                             </button>
                         </div>
                     </div>
 
-                    {/* Asymmetric Room Catalog Showcase */}
+                    {/* Quick Previews - Suspended Arches */}
                     <div className="space-y-8">
                         <div className="text-center">
-                            <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-[0.2em]">The Catalog</span>
-                            <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#2C4875] mt-1">Magnificent Guest Chambers</h3>
+                            <span className="text-xs font-bold text-[#C5A030] uppercase tracking-[0.2em] font-sans">The Catalog</span>
+                            <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] mt-1">Magnificent Guest Chambers</h3>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
                             {/* Standard Chamber */}
-                            <div ref={tilt1.ref} onMouseMove={tilt1.onMouseMove} onMouseLeave={tilt1.onMouseLeave} className="royal-panel card-tilt p-6 space-y-4 hover:shadow-2xl">
-                                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover rounded-[2rem_0.5rem_2rem_0.5rem] border border-[#D4AF37]/15" alt="Standard" />
-                                <h4 className="text-xl font-bold font-serif text-[#2C4875] text-center">Standard Chamber</h4>
-                                <p className="text-xs text-[#6E7791] text-center leading-relaxed">Elegant garden views and private terrace balconies. Complete with custom down duvets.</p>
-                                <div className="text-sm font-extrabold text-[#D4AF37] text-center border-t border-[#D4AF37]/10 pt-3">$100 / night</div>
+                            <div ref={tilt1.ref} onMouseMove={tilt1.onMouseMove} onMouseLeave={tilt1.onMouseLeave} className="royal-panel filigree-corner filigree-bottom p-6 space-y-4 hover:shadow-2xl">
+                                <div className="arched-frame">
+                                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover" alt="Standard" />
+                                </div>
+                                <h4 className="text-xl font-bold font-serif text-[#1A325A] dark:text-[#F4E4B5] text-center mt-2">Standard Chamber</h4>
+                                <p className="text-xs text-[#5E6982] dark:text-[#94A3B8] text-center leading-relaxed">Elegant garden views and private terrace balconies. Complete with custom down duvets.</p>
+                                <div className="text-sm font-extrabold text-[#C5A030] text-center border-t border-[#C5A030]/20 pt-3 font-serif">$100 / night</div>
                             </div>
                             
                             {/* Deluxe Sanctuary */}
-                            <div ref={tilt2.ref} onMouseMove={tilt2.onMouseMove} onMouseLeave={tilt2.onMouseLeave} className="royal-panel royal-panel-alt card-tilt p-6 space-y-4 hover:shadow-2xl">
-                                <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover rounded-[0.5rem_2rem_0.5rem_2rem] border border-[#D4AF37]/15" alt="Deluxe" />
-                                <h4 className="text-xl font-bold font-serif text-[#2C4875] text-center">Deluxe Sanctuary</h4>
-                                <p className="text-xs text-[#6E7791] text-center leading-relaxed">Spacious layouts featuring separate workspace lounges and moving ocean views.</p>
-                                <div className="text-sm font-extrabold text-[#D4AF37] text-center border-t border-[#D4AF37]/10 pt-3">$180 / night</div>
+                            <div ref={tilt2.ref} onMouseMove={tilt2.onMouseMove} onMouseLeave={tilt2.onMouseLeave} className="royal-panel filigree-corner filigree-bottom p-6 space-y-4 hover:shadow-2xl">
+                                <div className="arched-frame">
+                                    <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover" alt="Deluxe" />
+                                </div>
+                                <h4 className="text-xl font-bold font-serif text-[#1A325A] dark:text-[#F4E4B5] text-center mt-2">Deluxe Sanctuary</h4>
+                                <p className="text-xs text-[#5E6982] dark:text-[#94A3B8] text-center leading-relaxed">Spacious layouts featuring separate workspace lounges and moving ocean views.</p>
+                                <div className="text-sm font-extrabold text-[#C5A030] text-center border-t border-[#C5A030]/20 pt-3 font-serif">$180 / night</div>
                             </div>
 
                             {/* Imperial Palace Suite */}
-                            <div ref={tilt3.ref} onMouseMove={tilt3.onMouseMove} onMouseLeave={tilt3.onMouseLeave} className="royal-panel card-tilt p-6 space-y-4 hover:shadow-2xl">
-                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4db85b?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover rounded-[2rem_0.5rem_2rem_0.5rem] border border-[#D4AF37]/15" alt="Suite" />
-                                <h4 className="text-xl font-bold font-serif text-[#2C4875] text-center">Imperial Palace Suite</h4>
-                                <p className="text-xs text-[#6E7791] text-center leading-relaxed">The pinnacle of royalty. King canopy bed, balcony jacuzzi pool, and dedicated butler.</p>
-                                <div className="text-sm font-extrabold text-[#D4AF37] text-center border-t border-[#D4AF37]/10 pt-3">$350 / night</div>
+                            <div ref={tilt3.ref} onMouseMove={tilt3.onMouseMove} onMouseLeave={tilt3.onMouseLeave} className="royal-panel filigree-corner filigree-bottom p-6 space-y-4 hover:shadow-2xl">
+                                <div className="arched-frame">
+                                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4db85b?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover" alt="Suite" />
+                                </div>
+                                <h4 className="text-xl font-bold font-serif text-[#1A325A] dark:text-[#F4E4B5] text-center mt-2">Imperial Palace Suite</h4>
+                                <p className="text-xs text-[#5E6982] dark:text-[#94A3B8] text-center leading-relaxed">The pinnacle of royalty. King canopy bed, balcony jacuzzi pool, and dedicated butler.</p>
+                                <div className="text-sm font-extrabold text-[#C5A030] text-center border-t border-[#C5A030]/20 pt-3 font-serif">$350 / night</div>
                             </div>
                         </div>
                     </div>
@@ -655,38 +820,38 @@
                     {/* Fine Resort Experiences: Dining and Spa */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Dining */}
-                        <div className="royal-panel p-8 border border-[#D4AF37]/15 space-y-6">
+                        <div className="royal-panel filigree-corner filigree-bottom p-8 border border-[#C5A030]/20 space-y-6">
                             <div className="text-center md:text-left">
-                                <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-[0.2em]">Michelin dining</span>
-                                <h4 className="text-2xl font-serif font-bold text-[#2C4875] mt-1">Palace Gastronomy</h4>
+                                <span className="text-xs font-bold text-[#C5A030] uppercase tracking-[0.2em] font-sans">Michelin dining</span>
+                                <h4 className="text-2xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] mt-1">Palace Gastronomy</h4>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-4 font-serif">
                                 {dineMenu.map((item, idx) => (
-                                    <div key={idx} className="flex justify-between items-start border-b border-[#D4AF37]/10 pb-3">
+                                    <div key={idx} className="flex justify-between items-start border-b border-[#C5A030]/15 pb-3">
                                         <div>
-                                            <h5 className="text-xs font-bold text-[#2C4875]">{item.name}</h5>
-                                            <p className="text-[10px] text-[#6E7791] mt-0.5">{item.desc}</p>
+                                            <h5 className="text-sm font-bold text-[#1A325A] dark:text-[#F4E4B5]">{item.name}</h5>
+                                            <p className="text-[11px] text-[#5E6982] dark:text-[#94A3B8] mt-0.5 font-sans leading-relaxed">{item.desc}</p>
                                         </div>
-                                        <span className="text-xs font-extrabold text-[#D4AF37]">{item.price}</span>
+                                        <span className="text-sm font-bold text-[#C5A030]">{item.price}</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
                         {/* Spa */}
-                        <div className="royal-panel royal-panel-alt p-8 border border-[#D4AF37]/15 space-y-6">
+                        <div className="royal-panel filigree-corner filigree-bottom p-8 border border-[#C5A030]/20 space-y-6">
                             <div className="text-center md:text-left">
-                                <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-[0.2em]">Therapeutic Wellness</span>
-                                <h4 className="text-2xl font-serif font-bold text-[#2C4875] mt-1">Imperial Spa Lounge</h4>
+                                <span className="text-xs font-bold text-[#C5A030] uppercase tracking-[0.2em] font-sans">Therapeutic Wellness</span>
+                                <h4 className="text-2xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] mt-1">Imperial Spa Lounge</h4>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-4 font-serif">
                                 {spaWellness.map((item, idx) => (
-                                    <div key={idx} className="flex justify-between items-start border-b border-[#D4AF37]/10 pb-3">
+                                    <div key={idx} className="flex justify-between items-start border-b border-[#C5A030]/15 pb-3">
                                         <div>
-                                            <h5 className="text-xs font-bold text-[#2C4875]">{item.name}</h5>
-                                            <p className="text-[10px] text-[#6E7791] mt-0.5">{item.desc}</p>
+                                            <h5 className="text-sm font-bold text-[#1A325A] dark:text-[#F4E4B5]">{item.name}</h5>
+                                            <p className="text-[11px] text-[#5E6982] dark:text-[#94A3B8] mt-0.5 font-sans leading-relaxed">{item.desc}</p>
                                         </div>
-                                        <span className="text-xs font-extrabold text-[#D4AF37]">{item.price}</span>
+                                        <span className="text-sm font-bold text-[#C5A030]">{item.price}</span>
                                     </div>
                                 ))}
                             </div>
@@ -694,23 +859,24 @@
                     </div>
 
                     {/* Hand-drawn story signature note */}
-                    <div className="royal-panel p-8 text-center space-y-4 max-w-xl mx-auto border border-[#D4AF37]/20 bg-white/70">
-                        <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">Heritage note</span>
-                        <h4 className="text-2xl font-serif font-extrabold text-[#2C4875]">A Message from the Custodian</h4>
-                        <p className="text-xs italic text-[#6E7791] leading-relaxed">
+                    <div className="royal-panel filigree-corner filigree-bottom p-8 text-center space-y-4 max-w-xl mx-auto border border-[#C5A030]/30">
+                        <span className="text-[10px] font-bold text-[#C5A030] uppercase tracking-widest font-sans">Heritage note</span>
+                        <h4 className="text-2xl font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">A Message from the Custodian</h4>
+                        <p className="text-xs italic text-[#5E6982] dark:text-[#94A3B8] leading-relaxed font-serif">
                             "Luxury is not a commodity; it is a coronation. Every detail inside this palace—from the slow horizontal sways of the golden curtains to the Michelin dining—is hand-crafted to celebrate your stay."
                         </p>
-                        <div className="text-3xl font-cursive text-[#D4AF37] pt-2">Alexander de Bourbon</div>
+                        <div className="text-3xl font-cursive text-[#C5A030] pt-2">Alexander de Bourbon</div>
                     </div>
                 </div>
             );
         }
 
-        // Explorer view with filters and custom AI predictions
+        // Explorer view with Palace Arch Carousel
         function ExplorerView({ rooms, bookings, selectedRoomNo, onRoomSelect, onBookClick, onLaunchTour }) {
             const [filter, setFilter] = useState("All");
             const [search, setSearch] = useState("");
             const [priceRange, setPriceRange] = useState(400);
+            const [activeIndex, setActiveIndex] = useState(0);
 
             // Voice Search
             const [voiceListening, setVoiceListening] = useState(false);
@@ -735,27 +901,52 @@
                 return bookings.some(b => b.roomNumber === roomNo);
             };
 
+            const filteredRooms = rooms
+                .filter(r => filter === 'All' || r.category === filter)
+                .filter(r => r.pricePerNight <= priceRange)
+                .filter(r => r.category.toLowerCase().includes(search.toLowerCase()) || r.roomNumber.toString().includes(search));
+
+            const handlePrev = () => {
+                setActiveIndex(prev => (prev === 0 ? filteredRooms.length - 1 : prev - 1));
+            };
+
+            const handleNext = () => {
+                setActiveIndex(prev => (prev === filteredRooms.length - 1 ? 0 : prev + 1));
+            };
+
+            useEffect(() => {
+                setActiveIndex(0);
+            }, [filter, search, priceRange]);
+
+            const currentRoom = filteredRooms[activeIndex % filteredRooms.length];
+
+            const getRoomImage = (cat) => {
+                if (cat === "Suite") return "https://images.unsplash.com/photo-1582719478250-c89cae4db85b?auto=format&fit=crop&w=800&q=80";
+                if (cat === "Deluxe") return "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80";
+                return "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80";
+            };
+
             return (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Filters & AI Advisor */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    {/* Filters - Parchment Scroll style */}
                     <div className="lg:col-span-1 space-y-6">
-                        <div className="royal-panel p-6 border border-[#D4AF37]/15 space-y-6 h-fit">
-                            <h3 className="text-lg font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/10 pb-2">Chamber Filters</h3>
+                        <div className="royal-panel filigree-corner filigree-bottom p-6 border border-[#C5A030]/25 space-y-6">
+                            <h3 className="text-xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] border-b border-[#C5A030]/20 pb-2">Chamber Filters</h3>
                             
                             <div className="space-y-2">
-                                <label className="block text-xs font-bold text-[#6E7791] uppercase">Search suites</label>
+                                <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase tracking-wider font-sans">Search suites</label>
                                 <div className="flex gap-2">
                                     <input 
                                         type="text" 
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
                                         placeholder="Sanctuary, Imperial..."
-                                        className="flex-grow px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
+                                        className="flex-grow px-3 py-2 border border-[#C5A030]/35 rounded-xl text-xs bg-white/40 text-[#1F2430] focus:outline-none dark:text-white"
                                     />
                                     <button 
                                         type="button"
                                         onClick={triggerVoiceSearch}
-                                        className={`px-3 py-2 rounded-xl border text-xs ${voiceListening ? 'bg-rose-500 text-white animate-pulse' : 'border-[#D4AF37]/20 text-[#D4AF37]'}`}
+                                        className={`px-3 py-2 rounded-xl border text-xs ${voiceListening ? 'bg-rose-500 text-white animate-pulse' : 'border-[#C5A030]/35 text-[#C5A030]'}`}
                                     >
                                         🎙️
                                     </button>
@@ -763,9 +954,9 @@
                             </div>
 
                             <div className="space-y-2">
-                                <div className="flex justify-between text-xs font-bold text-[#6E7791] uppercase">
+                                <div className="flex justify-between text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase tracking-wider font-sans">
                                     <span>Max Rate Per Night</span>
-                                    <span className="text-[#2C4875]">${priceRange}</span>
+                                    <span className="text-[#C5A030]">${priceRange}</span>
                                 </div>
                                 <input 
                                     type="range" 
@@ -773,16 +964,16 @@
                                     max="400" 
                                     value={priceRange}
                                     onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                                    className="w-full accent-[#D4AF37]"
+                                    className="w-full accent-[#C5A030]"
                                 />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-xs font-bold text-[#6E7791] uppercase">Chamber tier</label>
+                                <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase tracking-wider font-sans">Chamber tier</label>
                                 <select 
                                     value={filter}
                                     onChange={(e) => setFilter(e.target.value)}
-                                    className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
+                                    className="w-full px-3 py-2 border border-[#C5A030]/35 rounded-xl text-xs bg-white/40 text-[#1F2430] dark:bg-[#1A2436] dark:text-white"
                                 >
                                     <option value="All">All Categories</option>
                                     <option value="Standard">Standard ($100)</option>
@@ -792,89 +983,141 @@
                             </div>
                         </div>
 
-                        {/* AI Price prediction component */}
-                        <div className="royal-panel royal-panel-alt p-5 border border-[#D4AF37]/20 bg-[#FFE9A8]/10 space-y-3">
+                        {/* AI Price prediction */}
+                        <div className="royal-panel filigree-corner filigree-bottom p-5 border border-[#C5A030]/30 bg-[#FFF1C5]/10 space-y-3">
                             <div className="flex items-center gap-2">
                                 <span className="text-xs">🤖</span>
-                                <h4 className="text-xs font-bold text-[#2C4875] uppercase tracking-wider">AI Room Rate Forecast</h4>
+                                <h4 className="text-xs font-bold text-[#1A325A] dark:text-[#F4E4B5] uppercase tracking-wider">AI Room Rate Forecast</h4>
                             </div>
-                            <p className="text-[10px] text-[#6E7791] leading-relaxed">
+                            <p className="text-[10px] text-[#5E6982] dark:text-[#94A3B8] leading-relaxed">
                                 Demand patterns indicate optimal occupancy levels. Booking today yields an estimated 12% saving compared to projected weekend rates.
                             </p>
-                            <span className="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/25">
+                            <span className="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/25 font-sans">
                                 Best time to book
                             </span>
                         </div>
                     </div>
 
-                    {/* Room Grid */}
+                    {/* Room Showcase: Palace Arch Carousel */}
                     <div className="lg:col-span-2 space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {rooms
-                                .filter(r => filter === 'All' || r.category === filter)
-                                .filter(r => r.pricePerNight <= priceRange)
-                                .filter(r => r.category.toLowerCase().includes(search.toLowerCase()) || r.roomNumber.toString().includes(search))
-                                .map((r) => {
-                                    const booked = isRoomBooked(r.roomNumber);
-                                    const isSelected = selectedRoomNo === r.roomNumber.toString();
-                                    return (
-                                        <div 
-                                            key={r.roomNumber}
-                                            className={`royal-panel p-5 border transition relative flex flex-col justify-between ${
-                                                booked 
-                                                    ? 'bg-rose-500/5 border-rose-500/10 text-rose-900/40 opacity-70' 
-                                                    : isSelected 
-                                                        ? 'bg-[#D4AF37] border-[#D4AF37] text-white shadow-xl shadow-[#D4AF37]/20' 
-                                                        : 'bg-white hover:bg-[#F6EBC8]/10 border-[#D4AF37]/15 text-[#2C4875]'
-                                            }`}
-                                        >
-                                            <div>
-                                                <div className="text-[9px] uppercase tracking-wider font-extrabold mb-1 opacity-70">{r.category}</div>
-                                                <h4 className="text-2xl font-serif font-extrabold mb-1">Suite {r.roomNumber}</h4>
-                                                <p className="text-xs font-bold opacity-80 mb-4">${r.pricePerNight} / night</p>
-                                                
-                                                <div className="flex flex-wrap gap-1.5 mb-4">
-                                                    <span className="text-[9px] font-bold bg-[#DCE6F4] text-[#2C4875] px-2.5 py-0.5 rounded-full">Fast Wifi</span>
-                                                    <span className="text-[9px] font-bold bg-[#DCE6F4] text-[#2C4875] px-2.5 py-0.5 rounded-full">Sea View</span>
-                                                </div>
-                                            </div>
+                        {filteredRooms.length === 0 ? (
+                            <div className="royal-panel p-12 text-center text-[#5E6982] dark:text-[#94A3B8]">
+                                <h4 className="text-2xl font-serif font-bold">No Vacant Chambers Found</h4>
+                                <p className="text-xs mt-2">Adjust your parameters to locate available sanctuaries.</p>
+                            </div>
+                        ) : (
+                            <div className="relative">
+                                {/* Left Slide Arrow */}
+                                <button 
+                                    onClick={handlePrev}
+                                    className="absolute -left-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#C5A030]/50 bg-[#FCFAF2]/90 backdrop-blur-md flex items-center justify-center text-[#1A325A] hover:bg-[#C5A030] hover:text-white transition shadow-lg z-20 cursor-pointer pointer-events-auto"
+                                >
+                                    ←
+                                </button>
 
-                                            <div className="flex gap-2">
-                                                <button 
-                                                    disabled={booked}
-                                                    onClick={() => onRoomSelect(r.roomNumber)}
-                                                    className={`flex-grow py-2 text-xs font-bold rounded-xl transition ${
-                                                        booked 
-                                                            ? 'bg-transparent text-[#6E7791] border border-slate-200 cursor-not-allowed'
-                                                            : isSelected
-                                                                ? 'bg-white text-[#D4AF37] hover:bg-slate-50'
-                                                                : 'bg-[#2C4875] text-white hover:bg-[#5B7FB5]'
-                                                    }`}
-                                                >
-                                                    {booked ? 'Booked' : isSelected ? 'Selected' : 'Select'}
-                                                </button>
-                                                <button 
-                                                    onClick={() => onLaunchTour(r.category)}
-                                                    className="px-3 py-2 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] text-white rounded-xl text-xs font-bold"
-                                                    title="Launch 360 virtual tour"
-                                                >
-                                                    👁️
-                                                </button>
+                                {/* Main Arch Chamber Frame */}
+                                <div className="royal-panel filigree-corner filigree-bottom p-6 flex flex-col items-stretch border-2 border-[#C5A030]/30 shadow-2xl relative">
+                                    {/* Arched Top Image */}
+                                    <div className="relative h-64 sm:h-96 rounded-t-[10rem] overflow-hidden border-2 border-[#C5A030]/25 shadow-inner">
+                                        <img 
+                                            src={getRoomImage(currentRoom.category)} 
+                                            className="w-full h-full object-cover" 
+                                            alt={currentRoom.category} 
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#FCFAF2]/80 via-transparent to-transparent dark:from-black/70"></div>
+                                        <span className="absolute top-6 left-6 bg-[#1A325A] text-[#FFF1C5] px-3.5 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest border border-[#C5A030]/40">
+                                            Suite {currentRoom.roomNumber}
+                                        </span>
+                                        {isRoomBooked(currentRoom.roomNumber) && (
+                                            <span className="absolute top-6 right-6 bg-rose-600 text-white px-3.5 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest">
+                                                Reserved
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Suite Details Info */}
+                                    <div className="pt-6 pb-2 text-center space-y-4">
+                                        <span className="text-[10px] font-extrabold text-[#C5A030] uppercase tracking-[0.25em] block">{currentRoom.category} Sanctuary</span>
+                                        <h4 className="text-3xl font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">Suite {currentRoom.roomNumber}</h4>
+                                        <p className="font-cursive text-3xl text-[#C5A030]">An exquisite haven for the refined traveler</p>
+                                        
+                                        <p className="text-xs text-[#5E6982] dark:text-[#94A3B8] max-w-md mx-auto leading-relaxed">
+                                            Featuring custom gilded details, double private balconies looking over the moving sunset, high-speed Wi-Fi, and 24-hour butler assistance.
+                                        </p>
+
+                                        <div className="flex justify-center gap-4 py-2 border-t border-b border-[#C5A030]/15">
+                                            <div className="text-center px-4 font-serif">
+                                                <span className="block text-[8px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase tracking-wider font-sans">Rate per Night</span>
+                                                <span className="text-lg font-bold text-[#1A325A] dark:text-[#F4E4B5]">${currentRoom.pricePerNight}</span>
+                                            </div>
+                                            <div className="text-center px-4 border-l border-[#C5A030]/15">
+                                                <span className="block text-[8px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase tracking-wider font-sans">Features</span>
+                                                <span className="text-xs font-bold text-[#C5A030] font-serif">Sea View / VIP Wifi</span>
                                             </div>
                                         </div>
-                                    );
-                                })}
-                        </div>
+
+                                        {/* Operations Buttons */}
+                                        <div className="flex gap-4 pt-2 max-w-sm mx-auto">
+                                            <button 
+                                                disabled={isRoomBooked(currentRoom.roomNumber)}
+                                                onClick={() => onRoomSelect(currentRoom.roomNumber)}
+                                                className={`flex-grow py-3 text-xs font-bold rounded-xl uppercase tracking-wider font-serif shadow-md transition ${
+                                                    isRoomBooked(currentRoom.roomNumber)
+                                                        ? 'bg-transparent text-[#5E6982] border border-slate-300 cursor-not-allowed'
+                                                        : selectedRoomNo === currentRoom.roomNumber.toString()
+                                                            ? 'bg-[#C5A030] text-white'
+                                                            : 'bg-[#1A325A] text-[#FFF1C5] hover:bg-[#4A6FA5]'
+                                                }`}
+                                            >
+                                                {isRoomBooked(currentRoom.roomNumber) ? 'Reserved' : selectedRoomNo === currentRoom.roomNumber.toString() ? 'Selected' : 'Select Chamber'}
+                                            </button>
+                                            <button 
+                                                onClick={() => onLaunchTour(currentRoom.category)}
+                                                className="px-4 py-3 bg-gradient-to-tr from-[#C5A030] to-[#D9B855] text-white rounded-xl text-xs font-bold font-serif shadow-md hover:brightness-105"
+                                                title="Launch 360 virtual tour"
+                                            >
+                                                Tour 👁️
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Slide Arrow */}
+                                <button 
+                                    onClick={handleNext}
+                                    className="absolute -right-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#C5A030]/50 bg-[#FCFAF2]/90 backdrop-blur-md flex items-center justify-center text-[#1A325A] hover:bg-[#C5A030] hover:text-white transition shadow-lg z-20 cursor-pointer pointer-events-auto"
+                                >
+                                    →
+                                </button>
+                                
+                                {/* Indicators - Golden Rings Preview */}
+                                <div className="flex justify-center gap-2 mt-6">
+                                    {filteredRooms.map((r, idx) => (
+                                        <button 
+                                            key={r.roomNumber}
+                                            onClick={() => setActiveIndex(idx)}
+                                            className={`w-9 h-9 rounded-full border flex items-center justify-center text-[10px] font-bold transition font-serif ${
+                                                activeIndex === idx 
+                                                    ? 'border-[#C5A030] bg-[#C5A030] text-white' 
+                                                    : 'border-[#C5A030]/35 bg-white/40 text-[#1A325A] hover:bg-[#C5A030]/10'
+                                            }`}
+                                        >
+                                            {r.roomNumber}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {selectedRoomNo && (
-                            <div className="royal-panel p-6 border border-[#D4AF37]/20 flex items-center justify-between">
+                            <div className="royal-panel filigree-corner filigree-bottom p-6 border border-[#C5A030]/30 flex items-center justify-between">
                                 <div>
-                                    <span className="text-xs font-bold text-[#6E7791] uppercase">Selected chamber</span>
-                                    <h4 className="text-xl font-serif font-extrabold text-[#2C4875]">Suite {selectedRoomNo}</h4>
+                                    <span className="text-xs font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase font-sans">Selected chamber</span>
+                                    <h4 className="text-xl font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">Suite {selectedRoomNo}</h4>
                                 </div>
                                 <button 
                                     onClick={onBookClick}
-                                    className="px-6 py-3 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs transition uppercase tracking-widest shadow-md"
+                                    className="px-6 py-3 bg-gradient-to-tr from-[#C5A030] to-[#D9B855] text-white font-bold rounded-xl text-xs transition uppercase tracking-widest shadow-md font-serif"
                                 >
                                     Proceed to Booking
                                 </button>
@@ -885,7 +1128,7 @@
             );
         }
 
-        // Booking Wizard
+        // Booking Wizard - Double Page Parchment style
         function BookingWizard({ rooms, selectedRoomNo, bookings, onBookingComplete }) {
             const [step, setStep] = useState(1);
             
@@ -954,115 +1197,116 @@
             };
 
             return (
-                <div className="max-w-2xl mx-auto royal-panel rounded-3xl p-8 border border-[#D4AF37]/25 shadow-xl space-y-8">
-                    <div className="flex justify-between items-center pb-4 border-b border-[#D4AF37]/15">
+                <div className="max-w-2xl mx-auto parchment-book filigree-corner filigree-bottom p-8 border border-[#C5A030]/30 shadow-2xl space-y-6">
+                    <div className="flex justify-between items-center pb-4 border-b border-[#C5A030]/20">
                         <div>
-                            <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">Reservation Flow</span>
-                            <h3 className="text-2xl font-serif font-extrabold text-[#2C4875]">Step {step} of 4</h3>
+                            <span className="text-[10px] font-bold text-[#C5A030] uppercase tracking-widest font-sans">Reservation Flow</span>
+                            <h3 className="text-2xl font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">Step {step} of 4</h3>
                         </div>
                         <div className="flex gap-2">
                             {[1, 2, 3, 4].map(idx => (
-                                <span key={idx} className={`w-2.5 h-2.5 rounded-full ${step >= idx ? 'bg-[#D4AF37]' : 'bg-[#DCE6F4]'}`}></span>
+                                <span key={idx} className={`w-2.5 h-2.5 rounded-full ${step >= idx ? 'bg-[#C5A030]' : 'bg-[#E5EEF9]'}`}></span>
                             ))}
                         </div>
                     </div>
 
                     {step === 1 && (
                         <div className="space-y-4">
-                            <h4 className="text-lg font-serif font-bold text-[#2C4875]">Select Stay Parameters</h4>
+                            <h4 className="text-lg font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5]">Select Stay Parameters</h4>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Check-in Date</label>
-                                    <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
+                                    <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Check-in Date</label>
+                                    <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="w-full gold-input focus:outline-none" />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Check-out Date</label>
-                                    <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
+                                    <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Check-out Date</label>
+                                    <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="w-full gold-input focus:outline-none" />
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Guests count</label>
-                                <select value={guests} onChange={(e) => setGuests(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]">
+                                <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Guests count</label>
+                                <select value={guests} onChange={(e) => setGuests(e.target.value)} className="w-full gold-input focus:outline-none dark:bg-[#1A2436] dark:text-white">
                                     <option value="1">1 Guest</option>
                                     <option value="2">2 Guests</option>
                                     <option value="3">3 Guests</option>
                                 </select>
                             </div>
                             <div className="pt-4 flex justify-end">
-                                <button onClick={() => setStep(2)} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold">Continue</button>
+                                <button onClick={() => setStep(2)} className="px-6 py-2.5 bg-[#1A325A] text-[#FFF1C5] hover:bg-[#4A6FA5] font-serif rounded-xl text-xs font-bold uppercase tracking-wider shadow-md">Continue</button>
                             </div>
                         </div>
                     )}
 
                     {step === 2 && (
                         <div className="space-y-4">
-                            <h4 className="text-lg font-serif font-bold text-[#2C4875]">Select Perks & Promos</h4>
-                            <div className="bg-[#FFE9A8]/10 p-5 rounded-2xl border border-[#D4AF37]/15 space-y-3">
-                                <label className="flex items-center justify-between cursor-pointer group text-xs text-[#2A2E3A]">
-                                    <span className="font-semibold group-hover:text-[#2C4875]">Gourmet Breakfast Buffet (+$15/day)</span>
-                                    <input type="checkbox" checked={breakfast} onChange={(e) => setBreakfast(e.target.checked)} className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0" />
+                            <h4 className="text-lg font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5]">Select Perks & Promos</h4>
+                            <div className="bg-[#FFF1C5]/10 p-5 rounded-2xl border border-[#C5A030]/20 space-y-3">
+                                <label className="flex items-center justify-between cursor-pointer group text-xs text-[#1F2430] dark:text-white">
+                                    <span className="font-serif font-bold group-hover:text-[#C5A030]">Gourmet Breakfast Buffet (+$15/day)</span>
+                                    <input type="checkbox" checked={breakfast} onChange={(e) => setBreakfast(e.target.checked)} className="w-4 h-4 rounded text-[#C5A030] border-[#C5A030]/30 focus:ring-0" />
                                 </label>
-                                <label className="flex items-center justify-between cursor-pointer group text-xs text-[#2A2E3A]">
-                                    <span className="font-semibold group-hover:text-[#2C4875]">Private Airport Shuttle (+$30 flat)</span>
-                                    <input type="checkbox" checked={shuttle} onChange={(e) => setShuttle(e.target.checked)} className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0" />
+                                <label className="flex items-center justify-between cursor-pointer group text-xs text-[#1F2430] dark:text-white">
+                                    <span className="font-serif font-bold group-hover:text-[#C5A030]">Private Airport Shuttle (+$30 flat)</span>
+                                    <input type="checkbox" checked={shuttle} onChange={(e) => setShuttle(e.target.checked)} className="w-4 h-4 rounded text-[#C5A030] border-[#C5A030]/30 focus:ring-0" />
                                 </label>
-                                <label className="flex items-center justify-between cursor-pointer group text-xs text-[#2A2E3A]">
-                                    <span className="font-semibold group-hover:text-[#2C4875]">VIP Wellness Spa Lounge Access (+$50 flat)</span>
-                                    <input type="checkbox" checked={spa} onChange={(e) => setSpa(e.target.checked)} className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0" />
+                                <label className="flex items-center justify-between cursor-pointer group text-xs text-[#1F2430] dark:text-white">
+                                    <span className="font-serif font-bold group-hover:text-[#C5A030]">VIP Wellness Spa Lounge Access (+$50 flat)</span>
+                                    <input type="checkbox" checked={spa} onChange={(e) => setSpa(e.target.checked)} className="w-4 h-4 rounded text-[#C5A030] border-[#C5A030]/30 focus:ring-0" />
                                 </label>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Promo Code</label>
-                                <input type="text" value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="e.g. ROYAL20, PALACE10" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A] font-bold" />
+                                <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Promo Code</label>
+                                <input type="text" value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="e.g. ROYAL20, PALACE10" className="w-full gold-input focus:outline-none uppercase font-bold placeholder-[#5E6982]/40" />
                             </div>
                             <div className="pt-4 flex justify-between">
-                                <button onClick={() => setStep(1)} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
-                                <button onClick={() => setStep(3)} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold">Continue</button>
+                                <button onClick={() => setStep(1)} className="px-5 py-2.5 border border-[#C5A030]/35 text-[#C5A030] rounded-xl text-xs font-bold font-serif uppercase tracking-wider">Back</button>
+                                <button onClick={() => setStep(3)} className="px-6 py-2.5 bg-[#1A325A] text-[#FFF1C5] hover:bg-[#4A6FA5] font-serif rounded-xl text-xs font-bold uppercase tracking-wider shadow-md">Continue</button>
                             </div>
                         </div>
                     )}
 
                     {step === 3 && (
                         <div className="space-y-4">
-                            <h4 className="text-lg font-serif font-bold text-[#2C4875]">Guest Credentials</h4>
+                            <h4 className="text-lg font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5]">Guest Credentials</h4>
                             <div>
-                                <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Guest Name</label>
-                                <input type="text" value={guestName} onChange={(e) => setGuestName(e.target.value)} placeholder="Jane Doe" className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
+                                <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Guest Name</label>
+                                <input type="text" value={guestName} onChange={(e) => setGuestName(e.target.value)} placeholder="Jane Doe" className="w-full gold-input focus:outline-none" />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Contact Phone</label>
-                                <input type="tel" value={contact} onChange={(e) => setContact(e.target.value)} placeholder="+91 9988776655" className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
+                                <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Contact Phone</label>
+                                <input type="tel" value={contact} onChange={(e) => setContact(e.target.value)} placeholder="+91 9988776655" className="w-full gold-input focus:outline-none" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">ID Document Type</label>
-                                    <select value={idType} onChange={(e) => setIdType(e.target.value)} className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]">
+                                    <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">ID Document Type</label>
+                                    <select value={idType} onChange={(e) => setIdType(e.target.value)} className="w-full gold-input focus:outline-none dark:bg-[#1A2436] dark:text-white">
                                         <option value="Passport">Passport</option>
                                         <option value="National ID">National ID</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Document Number</label>
-                                    <input type="text" value={idNumber} onChange={(e) => setIdNumber(e.target.value)} placeholder="Doc Num" className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
+                                    <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Document Number</label>
+                                    <input type="text" value={idNumber} onChange={(e) => setIdNumber(e.target.value)} placeholder="Doc Num" className="w-full gold-input focus:outline-none" />
                                 </div>
                             </div>
                             <div className="pt-4 flex justify-between">
-                                <button onClick={() => setStep(2)} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
-                                <button onClick={() => setStep(4)} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold">Continue</button>
+                                <button onClick={() => setStep(2)} className="px-5 py-2.5 border border-[#C5A030]/35 text-[#C5A030] rounded-xl text-xs font-bold font-serif uppercase tracking-wider">Back</button>
+                                <button onClick={() => setStep(4)} className="px-6 py-2.5 bg-[#1A325A] text-[#FFF1C5] hover:bg-[#4A6FA5] font-serif rounded-xl text-xs font-bold uppercase tracking-wider shadow-md">Continue</button>
                             </div>
                         </div>
                     )}
 
                     {step === 4 && (
                         <form onSubmit={handlePaySubmit} className="space-y-6">
-                            <h4 className="text-lg font-serif font-bold text-[#2C4875]">Royal Payment Panel</h4>
+                            <h4 className="text-lg font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5]">Royal Payment Panel</h4>
                             
                             <div className="flex justify-center">
                                 <div className={`flip-card w-72 h-44 cursor-pointer ${cardFlipped ? 'flipped' : ''}`}>
                                     <div className="flip-card-inner w-full h-full relative">
-                                        <div className="flip-card-front bg-gradient-to-tr from-[#2C4875] to-[#5B7FB5] p-5 text-white flex flex-col justify-between shadow-lg">
+                                        {/* Card Front */}
+                                        <div className="flip-card-front bg-gradient-to-tr from-[#1A325A] to-[#4A6FA5] p-5 text-white flex flex-col justify-between shadow-lg border border-[#C5A030]/30">
                                             <div className="flex justify-between items-center">
-                                                <span className="font-serif font-bold tracking-widest text-sm text-[#FFE9A8]">LUXURY CARD</span>
+                                                <span className="font-serif font-bold tracking-widest text-sm text-[#FFF1C5]">LUXURY CARD</span>
                                                 <span className="text-[10px] opacity-75 font-mono">GOLD MEMBER</span>
                                             </div>
                                             <div className="text-center font-mono text-base tracking-widest py-2">
@@ -1080,12 +1324,13 @@
                                             </div>
                                         </div>
 
-                                        <div className="flip-card-back bg-gradient-to-tr from-[#1B2A4A] to-[#2C4875] p-5 text-white flex flex-col justify-between shadow-lg">
+                                        {/* Card Back */}
+                                        <div className="flip-card-back bg-gradient-to-tr from-[#0E1E38] to-[#1A325A] p-5 text-white flex flex-col justify-between shadow-lg border border-[#C5A030]/35">
                                             <div className="w-full h-8 bg-black/60 -mx-5 mt-2"></div>
-                                            <div className="bg-white/80 text-[#2C4875] text-right font-mono px-3 py-1 text-xs rounded tracking-widest font-extrabold italic">
+                                            <div className="bg-white/80 text-[#1A325A] text-right font-mono px-3 py-1 text-xs rounded tracking-widest font-extrabold italic">
                                                 {cardCvv || '•••'}
                                             </div>
-                                            <div className="text-[7px] opacity-50 text-center leading-tight">Subject to royal terms.</div>
+                                            <div className="text-[7px] opacity-50 text-center leading-tight font-sans">Subject to royal terms.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1094,46 +1339,46 @@
                             <div className="space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Card Number</label>
-                                        <input type="text" maxLength="19" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} onFocus={() => setCardFlipped(false)} placeholder="XXXX XXXX XXXX XXXX" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
+                                        <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Card Number</label>
+                                        <input type="text" maxLength="19" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} onFocus={() => setCardFlipped(false)} placeholder="XXXX XXXX XXXX XXXX" className="w-full gold-input focus:outline-none" required />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Card Holder</label>
-                                        <input type="text" value={cardHolder} onChange={(e) => setCardHolder(e.target.value)} onFocus={() => setCardFlipped(false)} placeholder="Name" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
+                                        <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Card Holder</label>
+                                        <input type="text" value={cardHolder} onChange={(e) => setCardHolder(e.target.value)} onFocus={() => setCardFlipped(false)} placeholder="Name" className="w-full gold-input focus:outline-none" required />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Expiration Date</label>
-                                        <input type="text" placeholder="MM/YY" maxLength="5" value={cardExpiry} onChange={(e) => setCardExpiry(e.target.value)} onFocus={() => setCardFlipped(false)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
+                                        <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Expiration Date</label>
+                                        <input type="text" placeholder="MM/YY" maxLength="5" value={cardExpiry} onChange={(e) => setCardExpiry(e.target.value)} onFocus={() => setCardFlipped(false)} className="w-full gold-input focus:outline-none" required />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">CVV Security Code</label>
-                                        <input type="password" maxLength="3" value={cardCvv} onChange={(e) => setCardCvv(e.target.value)} onFocus={() => setCardFlipped(true)} placeholder="CVV" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
+                                        <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">CVV Security Code</label>
+                                        <input type="password" maxLength="3" value={cardCvv} onChange={(e) => setCardCvv(e.target.value)} onFocus={() => setCardFlipped(true)} placeholder="CVV" className="w-full gold-input focus:outline-none" required />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-[#FFE9A8]/10 p-4 rounded-2xl border border-[#D4AF37]/20 text-xs space-y-2">
+                            <div className="bg-[#FFF1C5]/10 p-4 rounded-2xl border border-[#C5A030]/20 text-xs space-y-2 font-serif">
                                 <div className="flex justify-between font-semibold">
-                                    <span className="text-[#6E7791]">Base Stay (3 nights @ ${selectedRoom.pricePerNight}):</span>
+                                    <span className="text-[#5E6982] dark:text-[#94A3B8]">Base Stay (3 nights @ ${selectedRoom.pricePerNight}):</span>
                                     <span>${baseCost}</span>
                                 </div>
                                 {discount > 0 && (
-                                    <div className="flex justify-between font-extrabold text-[#D4AF37]">
+                                    <div className="flex justify-between font-extrabold text-[#C5A030]">
                                         <span>Promo Discount Applied:</span>
                                         <span>-${discount.toFixed(2)}</span>
                                     </div>
                                 )}
-                                <div className="flex justify-between border-t border-[#D4AF37]/20 pt-2 font-extrabold text-sm text-[#2C4875]">
+                                <div className="flex justify-between border-t border-[#C5A030]/20 pt-2 font-extrabold text-sm text-[#1A325A] dark:text-[#F4E4B5]">
                                     <span>Total Payable Amount:</span>
                                     <span>${grandTotal.toFixed(2)}</span>
                                 </div>
                             </div>
 
                             <div className="pt-4 flex justify-between">
-                                <button type="button" onClick={() => setStep(3)} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
-                                <button type="submit" className="px-8 py-3 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs transition uppercase tracking-widest shadow-md">Pay & Reserve</button>
+                                <button type="button" onClick={() => setStep(3)} className="px-5 py-2.5 border border-[#C5A030]/35 text-[#C5A030] rounded-xl text-xs font-bold font-serif uppercase tracking-wider">Back</button>
+                                <button type="submit" className="px-8 py-3 bg-gradient-to-tr from-[#C5A030] to-[#D9B855] text-white font-bold rounded-xl text-xs transition uppercase tracking-widest shadow-md font-serif">Pay & Reserve</button>
                             </div>
                         </form>
                     )}
@@ -1145,37 +1390,37 @@
         function BookingConfirmation({ bookingData, onDone }) {
             const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${bookingData.bookingId}`;
             return (
-                <div className="max-w-md mx-auto royal-panel rounded-3xl border-2 border-[#D4AF37]/35 p-8 shadow-2xl space-y-8" id="print-area">
-                    <div className="text-center border-b border-[#D4AF37]/20 pb-4">
-                        <h2 className="text-2xl font-serif font-extrabold tracking-widest text-[#2C4875] uppercase">LUXURY RESORT</h2>
-                        <p className="text-[10px] text-[#D4AF37] font-bold uppercase tracking-widest mt-1">Booking Confirmation</p>
+                <div className="max-w-md mx-auto parchment-book rounded-[2.5rem] border-2 border-[#C5A030]/35 p-8 shadow-2xl space-y-6" id="print-area">
+                    <div className="text-center border-b border-[#C5A030]/20 pb-4">
+                        <h2 className="text-3xl font-serif font-extrabold tracking-widest text-[#1A325A] dark:text-[#F4E4B5] uppercase">LUXURY RESORT</h2>
+                        <p className="font-cursive text-2xl text-[#C5A030] mt-1">Booking Confirmation</p>
                     </div>
-                    <div className="flex justify-center py-4 bg-white/40 rounded-2xl border border-[#D4AF37]/10">
-                        <img src={qrCodeUrl} alt="Check-in QR Code" className="w-32 h-32 border border-[#D4AF37]/20 rounded-lg" />
+                    <div className="flex justify-center py-4 bg-white/40 rounded-2xl border border-[#C5A030]/10">
+                        <img src={qrCodeUrl} alt="Check-in QR Code" className="w-32 h-32 border border-[#C5A030]/20 rounded-lg" />
                     </div>
-                    <div className="space-y-3 text-xs text-[#2A2E3A]">
+                    <div className="space-y-3 text-xs text-[#1F2430] dark:text-white font-serif">
                         <div className="flex justify-between">
-                            <span className="font-bold text-[#6E7791]">Booking Ref:</span>
-                            <span className="font-extrabold text-[#D4AF37]">{bookingData.bookingId}</span>
+                            <span className="font-bold text-[#5E6982] dark:text-[#94A3B8]">Booking Ref:</span>
+                            <span className="font-extrabold text-[#C5A030]">{bookingData.bookingId}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="font-bold text-[#6E7791]">Payment Status:</span>
+                            <span className="font-bold text-[#5E6982] dark:text-[#94A3B8]">Payment Status:</span>
                             <span className="font-bold text-emerald-600 uppercase">Paid / Confirmed</span>
                         </div>
-                        <div className="flex justify-between border-t border-[#D4AF37]/10 pt-3">
-                            <span className="font-bold text-[#2C4875] text-sm">Grand Total Paid:</span>
-                            <span className="font-extrabold text-sm text-[#2C4875]">${bookingData.totalCost?.toFixed(2) || '0.00'}</span>
+                        <div className="flex justify-between border-t border-[#C5A030]/10 pt-3">
+                            <span className="font-bold text-[#1A325A] dark:text-[#F4E4B5] text-sm">Grand Total Paid:</span>
+                            <span className="font-extrabold text-sm text-[#1A325A] dark:text-[#F4E4B5]">${bookingData.totalCost?.toFixed(2) || '0.00'}</span>
                         </div>
                     </div>
                     <div className="flex gap-4 print-hide">
-                        <button onClick={() => window.print()} className="flex-grow py-3 bg-[#2C4875] hover:bg-[#5B7FB5] text-white font-bold rounded-xl text-xs transition shadow-md">Print Receipt</button>
-                        <button onClick={onDone} className="px-5 py-3 bg-white border border-[#D4AF37]/20 hover:bg-[#F6EBC8] text-[#6E7791] font-bold rounded-xl text-xs transition">Return Home</button>
+                        <button onClick={() => window.print()} className="flex-grow py-3 bg-[#1A325A] hover:bg-[#4A6FA5] text-[#FFF1C5] font-bold rounded-xl text-xs transition shadow-md font-serif uppercase tracking-wider font-sans">Print Receipt</button>
+                        <button onClick={onDone} className="px-5 py-3 bg-white border border-[#C5A030]/35 text-[#C5A030] hover:bg-[#C5A030]/10 font-bold rounded-xl text-xs transition font-serif uppercase tracking-wider font-sans">Return Home</button>
                     </div>
                 </div>
             );
         }
 
-        // Guest Loyalty Panel
+        // Guest Loyalty Dashboard
         function LoyaltyDashboard({ bookings }) {
             const nightsCount = bookings.reduce((sum, b) => sum + b.nights, 0);
             let tier = "Silver Member";
@@ -1187,55 +1432,55 @@
                 tier = "Platinum King";
                 progress = 100;
                 perks = ["Private lounge butler entry", "Free late check-out", "Unlimited luxury spa wellness pass"];
-                badgeColor = "text-[#D4AF37]";
+                badgeColor = "text-[#C5A030]";
             } else if (nightsCount >= 4) {
                 tier = "Royal Gold";
                 progress = 65;
                 perks = ["Gourmet breakfast upgrades", "Complimentary airport shuttle transfers"];
-                badgeColor = "text-[#E8C97A]";
+                badgeColor = "text-[#D9B855]";
             }
 
             return (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-1 royal-panel p-6 border border-[#D4AF37]/25 space-y-6">
+                    <div className="lg:col-span-1 parchment-book p-6 border border-[#C5A030]/30 space-y-6">
                         <div className="text-center space-y-3">
                             <div className={`text-5xl ${badgeColor} drop-shadow-md`}>👑</div>
-                            <h3 className="text-2xl font-serif font-extrabold text-[#2C4875]">{tier}</h3>
-                            <p className="text-xs font-semibold text-[#D4AF37] uppercase tracking-wider">Royal Loyalty Tier</p>
+                            <h3 className="text-3xl font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">{tier}</h3>
+                            <p className="font-cursive text-2xl text-[#C5A030]">Royal Loyalty Certificate</p>
                         </div>
                         <div className="space-y-2">
-                            <div className="flex justify-between text-[10px] font-extrabold text-[#6E7791] uppercase">
+                            <div className="flex justify-between text-[10px] font-extrabold text-[#5E6982] dark:text-[#94A3B8] uppercase tracking-wider font-sans">
                                 <span>Progress to next tier</span>
                                 <span>{nightsCount} night(s) stayed</span>
                             </div>
-                            <div className="w-full bg-[#DCE6F4] h-2.5 rounded-full overflow-hidden border border-[#D4AF37]/15">
-                                <div className="bg-[#D4AF37] h-full" style={{ width: `${progress}%` }}></div>
+                            <div className="w-full bg-[#E5EEF9] h-2.5 rounded-full overflow-hidden border border-[#C5A030]/15">
+                                <div className="bg-[#C5A030] h-full" style={{ width: `${progress}%` }}></div>
                             </div>
                         </div>
-                        <div className="bg-[#FFE9A8]/10 p-4 rounded-2xl border border-[#D4AF37]/15 space-y-2">
-                            <h4 className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border-b border-[#D4AF37]/15 pb-1.5 mb-2">Unlocked privileges</h4>
-                            <ul className="space-y-1.5 text-xs text-[#2A2E3A]">
-                                {perks.map((p, idx) => <li key={idx} className="flex items-center gap-2"><span className="text-[#D4AF37]">✓</span> {p}</li>)}
+                        <div className="bg-[#FFF1C5]/10 p-4 rounded-2xl border border-[#C5A030]/20 space-y-2 font-serif">
+                            <h4 className="text-[10px] font-bold text-[#C5A030] uppercase tracking-widest font-sans border-b border-[#C5A030]/15 pb-1.5 mb-2">Unlocked privileges</h4>
+                            <ul className="space-y-1.5 text-xs text-[#1F2430] dark:text-white">
+                                {perks.map((p, idx) => <li key={idx} className="flex items-center gap-2"><span className="text-[#C5A030]">✓</span> {p}</li>)}
                             </ul>
                         </div>
                     </div>
 
-                    <div className="lg:col-span-2 royal-panel p-6 border border-[#D4AF37]/25 space-y-6">
-                        <h3 className="text-xl font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/15 pb-2">Active Stays & Registries</h3>
+                    <div className="lg:col-span-2 parchment-book p-6 border border-[#C5A030]/30 space-y-6">
+                        <h3 className="text-xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] border-b border-[#C5A030]/20 pb-2">Active Stays & Registries</h3>
                         {bookings.length === 0 ? (
-                            <div className="text-center py-10 text-[#6E7791] text-xs font-semibold">No active chamber reservations registered.</div>
+                            <div className="text-center py-10 text-[#5E6982] dark:text-[#94A3B8] text-xs font-semibold font-serif">No active chamber reservations registered at this hour.</div>
                         ) : (
                             <div className="space-y-4">
                                 {bookings.map(b => (
-                                    <div key={b.bookingId} className="bg-white/50 p-5 rounded-2xl border border-[#D4AF37]/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                    <div key={b.bookingId} className="bg-white/30 p-5 rounded-2xl border border-[#C5A030]/15 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                         <div>
-                                            <span className="text-[9px] font-extrabold text-[#D4AF37] uppercase tracking-wider">{b.bookingId}</span>
-                                            <h4 className="text-lg font-serif font-extrabold text-[#2C4875]">Suite {b.roomNumber}</h4>
-                                            <p className="text-xs text-[#6E7791] mt-0.5">{b.nights} night(s) stayed | Guest: {b.guestName}</p>
+                                            <span className="text-[9px] font-extrabold text-[#C5A030] uppercase tracking-wider font-sans">{b.bookingId}</span>
+                                            <h4 className="text-lg font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">Suite {b.roomNumber}</h4>
+                                            <p className="text-xs text-[#5E6982] dark:text-[#94A3B8] mt-0.5">Stay duration: {b.nights} night(s) | Guest: {b.guestName}</p>
                                         </div>
                                         <div className="text-right">
-                                            <span className="block text-sm font-extrabold text-[#2C4875]">${b.totalCost?.toFixed(2)}</span>
-                                            <span className="inline-block px-2.5 py-0.5 mt-1 rounded-full text-[9px] font-bold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">Paid</span>
+                                            <span className="block text-sm font-extrabold text-[#1A325A] dark:text-[#F4E4B5] font-serif">${b.totalCost?.toFixed(2)}</span>
+                                            <span className="inline-block px-2.5 py-0.5 mt-1 rounded-full text-[9px] font-bold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 font-sans">Confirmed</span>
                                         </div>
                                     </div>
                                 ))}
@@ -1246,7 +1491,7 @@
             );
         }
 
-        // Admin Dashboards
+        // Admin Dashboard
         function AdminDashboard({ rooms, bookings, analytics, onCancelBooking, onAddRoom }) {
             const [selectedTab, setSelectedTab] = useState("bookings");
             const [newRoomNo, setNewRoomNo] = useState("");
@@ -1263,12 +1508,12 @@
 
             return (
                 <div className="space-y-8">
-                    <div className="flex gap-2 border-b border-[#D4AF37]/15 pb-2">
+                    <div className="flex gap-2 border-b border-[#C5A030]/20 pb-2">
                         {["bookings", "inventory", "analytics"].map(tab => (
                             <button 
                                 key={tab}
                                 onClick={() => setSelectedTab(tab)}
-                                className={`px-4 py-2 text-xs font-bold rounded-xl transition uppercase tracking-wider ${selectedTab === tab ? 'bg-[#2C4875] text-white' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}
+                                className={`px-4 py-2 text-xs font-bold rounded-xl transition uppercase tracking-wider font-serif ${selectedTab === tab ? 'bg-[#1A325A] text-[#FFF1C5]' : 'text-[#5E6982] hover:bg-[#FFF1C5]/30'}`}
                             >
                                 {tab}
                             </button>
@@ -1276,12 +1521,12 @@
                     </div>
 
                     {selectedTab === "bookings" && (
-                        <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25 overflow-hidden">
-                            <h3 className="text-xl font-serif font-bold text-[#2C4875] mb-6">Reservations Registry</h3>
+                        <div className="parchment-book p-6 border border-[#C5A030]/30 overflow-hidden">
+                            <h3 className="text-2xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] mb-6 border-b border-[#C5A030]/20 pb-2">Reservations Registry</h3>
                             <div className="overflow-x-auto">
-                                <table className="w-full text-left border-collapse">
+                                <table className="w-full text-left border-collapse font-serif">
                                     <thead>
-                                        <tr className="text-[#6E7791] font-semibold text-xs border-b border-[#D4AF37]/15 uppercase tracking-wider">
+                                        <tr className="text-[#5E6982] dark:text-[#94A3B8] font-bold text-xs border-b border-[#C5A030]/20 uppercase tracking-wider">
                                             <th className="py-3 px-4">Ref Code</th>
                                             <th className="py-3 px-4">Guest Name</th>
                                             <th className="py-3 px-4">Suite</th>
@@ -1292,14 +1537,14 @@
                                     </thead>
                                     <tbody>
                                         {bookings.map(b => (
-                                            <tr key={b.bookingId} className="border-b border-slate-200/50 hover:bg-[#F6EBC8]/10 text-xs">
-                                                <td className="py-4 px-4 font-bold text-[#D4AF37]">{b.bookingId}</td>
-                                                <td className="py-4 px-4 font-semibold text-[#2A2E3A]">{b.guestName}</td>
-                                                <td className="py-4 px-4 font-serif font-extrabold text-[#2C4875]">{b.roomNumber}</td>
-                                                <td className="py-4 px-4 text-center">{b.nights}</td>
-                                                <td className="py-4 px-4 text-center font-extrabold text-[#2C4875]">${b.totalCost?.toFixed(2)}</td>
+                                            <tr key={b.bookingId} className="border-b border-[#C5A030]/10 hover:bg-[#FFF1C5]/10 text-xs">
+                                                <td className="py-4 px-4 font-bold text-[#C5A030]">{b.bookingId}</td>
+                                                <td className="py-4 px-4 font-semibold text-[#1F2430] dark:text-white font-sans">{b.guestName}</td>
+                                                <td className="py-4 px-4 font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">{b.roomNumber}</td>
+                                                <td className="py-4 px-4 text-center font-sans">{b.nights}</td>
+                                                <td className="py-4 px-4 text-center font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">${b.totalCost?.toFixed(2)}</td>
                                                 <td className="py-4 px-4 text-right">
-                                                    <button onClick={() => onCancelBooking(b.bookingId)} className="px-3 py-1.5 bg-rose-500/10 text-rose-600 font-bold rounded-lg hover:bg-rose-500/20 text-[10px]">Cancel stay</button>
+                                                    <button onClick={() => onCancelBooking(b.bookingId)} className="px-3 py-1.5 bg-rose-500/10 text-rose-600 font-bold rounded-lg hover:bg-rose-500/20 text-[10px] uppercase font-sans">Cancel stay</button>
                                                 </td>
                                             </tr>
                                         ))}
@@ -1311,37 +1556,37 @@
 
                     {selectedTab === "inventory" && (
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <div className="lg:col-span-1 royal-panel p-6 border border-[#D4AF37]/25 h-fit">
-                                <h3 className="text-lg font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/15 pb-2 mb-4">Add Chamber</h3>
+                            <div className="lg:col-span-1 parchment-book p-6 border border-[#C5A030]/30 h-fit">
+                                <h3 className="text-xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] border-b border-[#C5A030]/20 pb-2 mb-4">Add Chamber</h3>
                                 <form onSubmit={handleRoomSubmit} className="space-y-4">
                                     <div>
-                                        <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Chamber Number</label>
-                                        <input type="number" value={newRoomNo} onChange={(e) => setNewRoomNo(e.target.value)} placeholder="e.g. 401" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
+                                        <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Chamber Number</label>
+                                        <input type="number" value={newRoomNo} onChange={(e) => setNewRoomNo(e.target.value)} placeholder="e.g. 401" className="w-full gold-input focus:outline-none" required />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Category</label>
-                                        <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]">
+                                        <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Category</label>
+                                        <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className="w-full gold-input focus:outline-none dark:bg-[#1A2436] dark:text-white">
                                             <option value="Standard">Standard</option>
                                             <option value="Deluxe">Deluxe</option>
                                             <option value="Suite">Suite</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Price Per Night ($)</label>
-                                        <input type="number" value={newPrice} onChange={(e) => setNewPrice(e.target.value)} placeholder="e.g. 200" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
+                                        <label className="block text-[10px] font-bold text-[#5E6982] dark:text-[#94A3B8] uppercase mb-1 font-sans">Price Per Night ($)</label>
+                                        <input type="number" value={newPrice} onChange={(e) => setNewPrice(e.target.value)} placeholder="e.g. 200" className="w-full gold-input focus:outline-none" required />
                                     </div>
-                                    <button type="submit" className="w-full py-2 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs">Register Suite</button>
+                                    <button type="submit" className="w-full py-3 bg-[#C5A030] hover:bg-[#D9B855] text-white font-bold rounded-xl text-xs font-serif uppercase tracking-wider shadow-md">Register Suite</button>
                                 </form>
                             </div>
 
-                            <div className="lg:col-span-2 royal-panel p-6 border border-[#D4AF37]/25">
-                                <h3 className="text-lg font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/15 pb-2 mb-4">Chamber Registry</h3>
+                            <div className="lg:col-span-2 parchment-book p-6 border border-[#C5A030]/30">
+                                <h3 className="text-xl font-serif font-bold text-[#1A325A] dark:text-[#F4E4B5] border-b border-[#C5A030]/20 pb-2 mb-4">Chamber Registry</h3>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 h-96 overflow-y-auto pr-2">
                                     {rooms.map(r => (
-                                        <div key={r.roomNumber} className="bg-white/50 p-4 rounded-2xl border border-[#D4AF37]/10 text-center">
-                                            <span className="text-[9px] uppercase tracking-wider font-extrabold text-[#6E7791]">{r.category}</span>
-                                            <h4 className="text-lg font-serif font-extrabold text-[#2C4875] mt-1">Suite {r.roomNumber}</h4>
-                                            <p className="text-xs font-bold text-[#D4AF37] mt-0.5">${r.pricePerNight} / night</p>
+                                        <div key={r.roomNumber} className="bg-white/30 p-4 rounded-2xl border border-[#C5A030]/15 text-center">
+                                            <span className="text-[9px] uppercase tracking-wider font-extrabold text-[#5E6982] dark:text-[#94A3B8] font-sans">{r.category}</span>
+                                            <h4 className="text-lg font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5] mt-1">Suite {r.roomNumber}</h4>
+                                            <p className="text-xs font-bold text-[#C5A030] mt-0.5 font-serif">${r.pricePerNight} / night</p>
                                         </div>
                                     ))}
                                 </div>
@@ -1352,26 +1597,26 @@
                     {selectedTab === "analytics" && (
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div className="lg:col-span-1 space-y-6">
-                                <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25 space-y-4">
-                                    <h3 className="text-xs font-bold text-[#D4AF37] uppercase tracking-widest">Financial metrics</h3>
-                                    <div className="bg-white/60 p-4 rounded-2xl border border-[#D4AF37]/10">
-                                        <span className="block text-[10px] text-[#6E7791] font-bold uppercase tracking-wider mb-1">Occupancy Rate</span>
-                                        <span className="text-3xl font-serif font-extrabold text-[#2C4875]">{analytics.occupancyRate?.toFixed(1)}%</span>
+                                <div className="parchment-book p-6 border border-[#C5A030]/30 space-y-4">
+                                    <h3 className="text-[10px] font-bold text-[#C5A030] uppercase tracking-widest font-sans border-b border-[#C5A030]/20 pb-2">Financial metrics</h3>
+                                    <div className="bg-white/30 p-4 rounded-2xl border border-[#C5A030]/15">
+                                        <span className="block text-[10px] text-[#5E6982] dark:text-[#94A3B8] font-bold uppercase tracking-wider mb-1 font-sans">Occupancy Rate</span>
+                                        <span className="text-3xl font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">{analytics.occupancyRate?.toFixed(1)}%</span>
                                     </div>
-                                    <div className="bg-white/60 p-4 rounded-2xl border border-[#D4AF37]/10">
-                                        <span className="block text-[10px] text-[#6E7791] font-bold uppercase tracking-wider mb-1">Gross Revenue</span>
-                                        <span className="text-3xl font-serif font-extrabold text-[#2C4875]">${analytics.grossRevenue?.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
+                                    <div className="bg-white/30 p-4 rounded-2xl border border-[#C5A030]/15">
+                                        <span className="block text-[10px] text-[#5E6982] dark:text-[#94A3B8] font-bold uppercase tracking-wider mb-1 font-sans">Gross Revenue</span>
+                                        <span className="text-3xl font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5]">${analytics.grossRevenue?.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="lg:col-span-2 space-y-6">
-                                <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25">
-                                    <h3 className="text-sm font-serif font-extrabold text-[#2C4875] mb-4">Suite Bookings popularities</h3>
+                                <div className="parchment-book p-6 border border-[#C5A030]/30">
+                                    <h3 className="text-sm font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5] mb-4">Suite Bookings popularities</h3>
                                     <OccupancyBarChart distribution={analytics.categoryDistribution} />
                                 </div>
-                                <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25">
-                                    <h3 className="text-sm font-serif font-extrabold text-[#2C4875] mb-4">Room Allocation Density</h3>
+                                <div className="parchment-book p-6 border border-[#C5A030]/30">
+                                    <h3 className="text-sm font-serif font-extrabold text-[#1A325A] dark:text-[#F4E4B5] mb-4">Room Allocation Density</h3>
                                     <AllocationDonut distribution={analytics.categoryDistribution} />
                                 </div>
                             </div>
@@ -1454,22 +1699,36 @@
             };
 
             return (
-                <div className="max-w-6xl mx-auto flex-grow flex flex-col p-4 md:p-8 space-y-8 z-10 relative">
+                <div className="max-w-6xl mx-auto flex-grow flex flex-col pt-24 md:pt-36 pb-12 px-14 md:px-32 lg:px-44 space-y-8 z-10 relative">
                     
                     {/* Header frosted glass navbar */}
-                    <div className="glass-panel rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white print-hide">
-                        <div className="text-center md:text-left cursor-pointer" onClick={() => setView("home")}>
-                            <h1 className="text-3xl font-extrabold tracking-widest text-[#2C4875] font-serif">LUXURY</h1>
-                            <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest mt-0.5">Where Every Stay is a Reign</p>
+                    <div className="glass-navbar rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 print-hide">
+                        <div className="text-center md:text-left cursor-pointer pointer-events-auto flex items-center gap-3 select-none" onClick={() => setView("home")}>
+                            {/* Royal Crest Monogram Logo */}
+                            <svg className="w-12 h-12" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="42" stroke="url(#goldSilkGrad1)" strokeWidth="1.5" strokeDasharray="3 3" />
+                                <circle cx="50" cy="50" r="38" stroke="url(#goldSilkGrad1)" strokeWidth="1" />
+                                {/* Crown Path */}
+                                <path d="M35 42 L42 48 L50 36 L58 48 L65 42 L62 58 L38 58 Z" fill="url(#goldSilkGrad2)" />
+                                <circle cx="35" cy="40" r="1.5" fill="#FFF1C5" />
+                                <circle cx="50" cy="34" r="1.5" fill="#FFF1C5" />
+                                <circle cx="65" cy="40" r="1.5" fill="#FFF1C5" />
+                                {/* Letter L Monogram */}
+                                <path d="M46 68 H58 V64 H50 V48 H46 Z" fill="#FFF1C5" />
+                            </svg>
+                            <div>
+                                <h1 className="text-2xl font-serif font-extrabold tracking-[0.25em] text-[#1A325A] dark:text-[#F4E4B5] leading-none">LUXURY</h1>
+                                <span className="font-cursive text-lg text-[#C5A030] tracking-wide mt-1.5 block">Where Every Stay is a Reign</span>
+                            </div>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 md:gap-4 items-center">
-                            <button onClick={() => setView("home")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'home' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Lobby</button>
-                            <button onClick={() => setView("explorer")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'explorer' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Chamber Grid</button>
-                            <button onClick={() => setView("loyalty")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'loyalty' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Guest Directory</button>
-                            <button onClick={() => setView("admin")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'admin' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Manager Console</button>
+                        <div className="flex flex-wrap gap-2 md:gap-4 items-center pointer-events-auto">
+                            <button onClick={() => setView("home")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs font-serif uppercase tracking-wider ${view === 'home' ? 'bg-[#1A325A] text-[#FFF1C5] shadow-md border border-[#C5A030]/20' : 'text-[#5E6982] hover:bg-[#FFF1C5]/30'}`}>Lobby</button>
+                            <button onClick={() => setView("explorer")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs font-serif uppercase tracking-wider ${view === 'explorer' ? 'bg-[#1A325A] text-[#FFF1C5] shadow-md border border-[#C5A030]/20' : 'text-[#5E6982] hover:bg-[#FFF1C5]/30'}`}>Chamber Grid</button>
+                            <button onClick={() => setView("loyalty")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs font-serif uppercase tracking-wider ${view === 'loyalty' ? 'bg-[#1A325A] text-[#FFF1C5] shadow-md border border-[#C5A030]/20' : 'text-[#5E6982] hover:bg-[#FFF1C5]/30'}`}>Guest Directory</button>
+                            <button onClick={() => setView("admin")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs font-serif uppercase tracking-wider ${view === 'admin' ? 'bg-[#1A325A] text-[#FFF1C5] shadow-md border border-[#C5A030]/20' : 'text-[#5E6982] hover:bg-[#FFF1C5]/30'}`}>Manager Console</button>
                             
-                            <button onClick={toggleTheme} className="w-8 h-8 rounded-full border border-[#D4AF37]/35 flex items-center justify-center text-sm bg-white shadow-inner">{darkMode ? '☀️' : '🌙'}</button>
+                            <button onClick={toggleTheme} className="w-8 h-8 rounded-full border border-[#C5A030]/35 flex items-center justify-center text-sm bg-white shadow-inner">{darkMode ? '☀️' : '🌙'}</button>
                         </div>
                     </div>
 
@@ -1489,8 +1748,6 @@
             );
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
     </script>
 </body>
 </html>
