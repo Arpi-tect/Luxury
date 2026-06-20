@@ -60,7 +60,8 @@ public class HotelController {
                                              @RequestParam String idNumber,
                                              @RequestParam(required = false, defaultValue = "false") boolean breakfast,
                                              @RequestParam(required = false, defaultValue = "false") boolean shuttle,
-                                             @RequestParam(required = false, defaultValue = "false") boolean spa) {
+                                             @RequestParam(required = false, defaultValue = "false") boolean spa,
+                                             @RequestParam(required = false, defaultValue = "") String promoCode) {
         Map<String, Object> response = new HashMap<>();
 
         // Validate room exists
@@ -85,16 +86,29 @@ public class HotelController {
         double breakfastCost = breakfast ? 15.0 * nights : 0.0;
         double shuttleCost = shuttle ? 30.0 : 0.0;
         double spaCost = spa ? 50.0 : 0.0;
-        double totalCost = roomCost + breakfastCost + shuttleCost + spaCost;
+        double subTotal = roomCost + breakfastCost + shuttleCost + spaCost;
+
+        // Apply promo code discount if matches
+        double discountPercent = 0.0;
+        if (promoCode.equalsIgnoreCase("ROYAL20")) {
+            discountPercent = 0.20;
+        } else if (promoCode.equalsIgnoreCase("PALACE10")) {
+            discountPercent = 0.10;
+        }
+
+        double discountAmount = subTotal * discountPercent;
+        double totalCost = subTotal - discountAmount;
 
         String bookingId = "BK" + (1000 + bookingRepository.count() + 1);
 
         Booking booking = new Booking(bookingId, guestName, contact, roomNumber, nights, totalCost, "PAID",
-                idType, idNumber, breakfast, shuttle, spa);
+                idType, idNumber, breakfast, shuttle, spa, promoCode, discountAmount);
         bookingRepository.save(booking);
 
         response.put("success", true);
         response.put("bookingId", bookingId);
+        response.put("discountAmount", discountAmount);
+        response.put("totalCost", totalCost);
         response.put("message", "Room booked successfully.");
         return response;
     }
