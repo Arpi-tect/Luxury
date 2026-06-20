@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury — Premium Hotel Reservation System</title>
+    <title>Luxury — Premium Palace Hotel & Resort</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- React & Babel CDNs -->
@@ -18,7 +18,7 @@
       });
     </script>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -36,17 +36,17 @@
             --text-muted: #6E7791;
             
             --bg-canvas: var(--ivory-white);
-            --bg-card: var(--pearl-white);
-            --border-panel: rgba(212, 175, 55, 0.16);
-            --shadow-panel: rgba(44, 72, 117, 0.08);
+            --bg-card: rgba(255, 255, 255, 0.88);
+            --border-panel: rgba(212, 175, 55, 0.22);
+            --shadow-panel: rgba(44, 72, 117, 0.06);
             --text-main: var(--text-dark);
         }
 
         .dark-theme {
-            --bg-canvas: #151A26;
-            --bg-card: #1C2333;
-            --border-panel: rgba(232, 201, 122, 0.2);
-            --shadow-panel: rgba(0, 0, 0, 0.25);
+            --bg-canvas: #131722;
+            --bg-card: rgba(28, 35, 51, 0.9);
+            --border-panel: rgba(232, 201, 122, 0.25);
+            --shadow-panel: rgba(0, 0, 0, 0.3);
             --text-main: #E2E8F0;
             --text-muted: #94A3B8;
         }
@@ -56,71 +56,101 @@
             background-color: var(--bg-canvas);
             color: var(--text-main);
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         h1, h2, h3, h4, .font-serif {
             font-family: 'Cormorant Garamond', serif;
         }
-
-        /* Glassmorphism panels - extremely light and frosted */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.76);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-panel);
-            box-shadow: 0 10px 30px -10px var(--shadow-panel);
-            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+        
+        .font-cursive {
+            font-family: 'Pinyon Script', cursive;
         }
 
-        .dark-theme .glass-panel {
-            background: rgba(28, 35, 51, 0.85);
+        /* Hand-crafted asymmetric panels - avoids looking blocky or AI generated */
+        .royal-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-panel);
-            box-shadow: 0 10px 30px -10px var(--shadow-panel);
+            box-shadow: 0 15px 40px -15px var(--shadow-panel);
+            border-radius: 2.5rem 1rem 2.5rem 1rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .royal-panel-alt {
+            border-radius: 1rem 2.5rem 1rem 2.5rem;
         }
 
         .glass-navbar {
-            background: rgba(253, 251, 246, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(253, 251, 246, 0.88);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-panel);
         }
 
         .dark-theme .glass-navbar {
-            background: rgba(21, 26, 38, 0.85);
+            background: rgba(19, 23, 34, 0.88);
         }
 
-        /* Custom sway keyframes for ambient golden curtains */
+        /* Curtains & Beach Scene Animation keyframes */
         @keyframes sway-fold-1 {
             0%, 100% { transform: translateX(0px) skewX(0deg) scaleX(1); }
-            50% { transform: translateX(4px) skewX(0.5deg) scaleX(1.01); }
+            50% { transform: translateX(6px) skewX(0.6deg) scaleX(1.02); }
         }
         @keyframes sway-fold-2 {
             0%, 100% { transform: translateX(0px) skewX(0deg) scaleX(1); }
-            50% { transform: translateX(-3px) skewX(-0.4deg) scaleX(0.99); }
+            50% { transform: translateX(-5px) skewX(-0.5deg) scaleX(0.98); }
         }
         @keyframes sway-fold-3 {
             0%, 100% { transform: translateX(0px) skewX(0deg) scaleX(1); }
-            50% { transform: translateX(5px) skewX(0.6deg) scaleX(1.02); }
+            50% { transform: translateX(7px) skewX(0.8deg) scaleX(1.03); }
         }
-        @keyframes shimmer-gold {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+        @keyframes wave-sway-1 {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(8px) scaleY(1.04); }
+        }
+        @keyframes wave-sway-2 {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-6px) scaleY(0.96); }
+        }
+        @keyframes blue-swag-flutter-left {
+            0%, 100% { transform: skewY(0deg) scaleY(1); }
+            50% { transform: skewY(0.4deg) scaleY(1.02); }
+        }
+        @keyframes blue-swag-flutter-right {
+            0%, 100% { transform: skewY(0deg) scaleY(1); }
+            50% { transform: skewY(-0.4deg) scaleY(1.02); }
+        }
+
+        .wave-animation-1 {
+            animation: wave-sway-1 7s ease-in-out infinite;
+        }
+        .wave-animation-2 {
+            animation: wave-sway-2 10s ease-in-out infinite;
+        }
+        .swag-left {
+            animation: blue-swag-flutter-left 8s ease-in-out infinite;
+            transform-origin: top left;
+        }
+        .swag-right {
+            animation: blue-swag-flutter-right 9s ease-in-out infinite;
+            transform-origin: top right;
         }
 
         .fold-1 {
-            animation: sway-fold-1 12s ease-in-out infinite;
+            animation: sway-fold-1 11s ease-in-out infinite;
             transform-origin: top left;
         }
         .fold-2 {
-            animation: sway-fold-2 15s ease-in-out infinite;
+            animation: sway-fold-2 14s ease-in-out infinite;
             transform-origin: top right;
         }
         .fold-3 {
-            animation: sway-fold-3 10s ease-in-out infinite;
+            animation: sway-fold-3 9s ease-in-out infinite;
             transform-origin: top left;
         }
 
-        /* 3D Credit Card Flipping Animation */
+        /* credit card flip */
         .flip-card {
             background-color: transparent;
             perspective: 1000px;
@@ -142,29 +172,20 @@
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            border-radius: 1rem;
+            border-radius: 1.5rem;
         }
         .flip-card-back {
             transform: rotateY(180deg);
         }
 
-        /* 3D Card Hover Tilt */
-        .card-tilt {
-            transition: transform 0.1s ease, box-shadow 0.2s ease;
-            transform-style: preserve-3d;
-        }
-
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(44, 72, 117, 0.05);
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-thumb {
             background: var(--gold-primary);
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
         @media print {
@@ -179,15 +200,13 @@
                 left: 0;
                 top: 0;
                 width: 100%;
-                color: #000000 !important;
-                background: #ffffff !important;
             }
         }
     </style>
 </head>
 <body class="min-h-screen relative flex flex-col">
 
-    <!-- Global SVG definitions for golden silk curtain gradients -->
+    <!-- Global SVG gradients -->
     <svg class="hidden">
         <defs>
             <linearGradient id="goldSilkGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -210,35 +229,61 @@
         </defs>
     </svg>
 
-    <!-- Signature Background Ambient Curtains (Perpetual wind-blown sway, never close) -->
-    <div class="fixed left-0 top-0 bottom-0 w-16 md:w-24 pointer-events-none z-0 opacity-75 filter blur-[0.6px] print-hide">
-        <svg class="w-full h-full" viewBox="0 0 100 1000" preserveAspectRatio="none">
-            <path class="curtain-fold fold-1" d="M0,0 Q35,120 12,280 T25,550 T18,800 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
-            <path class="curtain-fold fold-2" d="M0,0 Q45,170 25,380 T35,750 T12,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
-            <path class="curtain-fold fold-3" d="M0,0 Q55,220 18,480 T45,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
-            <!-- Gold fringe details at bottom hem -->
-            <path d="M0,995 L30,995 L30,1000 L0,1000 Z" fill="#FFE9A8" opacity="0.9" />
-            <path d="M30,997 L60,997 L60,1000 L30,1000 Z" fill="#D4AF37" opacity="0.9" />
-        </svg>
-    </div>
-    <div class="fixed right-0 top-0 bottom-0 w-16 md:w-24 pointer-events-none z-0 opacity-75 filter blur-[0.6px] transform scale-x-[-1] print-hide">
-        <svg class="w-full h-full" viewBox="0 0 100 1000" preserveAspectRatio="none">
-            <path class="curtain-fold fold-1" d="M0,0 Q35,120 12,280 T25,550 T18,800 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
-            <path class="curtain-fold fold-2" d="M0,0 Q45,170 25,380 T35,750 T12,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
-            <path class="curtain-fold fold-3" d="M0,0 Q55,220 18,480 T45,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
-            <!-- Gold fringe details at bottom hem -->
-            <path d="M0,995 L30,995 L30,1000 L0,1000 Z" fill="#FFE9A8" opacity="0.9" />
-            <path d="M30,997 L60,997 L60,1000 L30,1000 Z" fill="#D4AF37" opacity="0.9" />
-        </svg>
+    <!-- Scenic Background: Window looking over Ocean Sunset and moving Waves with draping Blue & Gold curtains -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none print-hide">
+        <!-- Golden sunset beach sky gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#FFEBCD]/50 via-[#FFD1B3]/40 to-[#DCE6F4]/50"></div>
+        
+        <!-- Moving Ocean Waves -->
+        <div class="absolute bottom-0 left-0 right-0 h-44 opacity-25">
+            <svg class="w-full h-full" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path class="wave-animation-1" d="M0,190 C320,230 640,150 960,190 T1440,210 L1440,320 L0,320 Z" fill="#A9C0E0" />
+                <path class="wave-animation-2" d="M0,230 C320,270 640,200 960,230 T1440,240 L1440,320 L0,320 Z" fill="#5B7FB5" />
+            </svg>
+        </div>
+
+        <!-- Royal arched double frame border simulating hotel room window layout -->
+        <div class="absolute inset-6 border-[8px] border-double border-[#D4AF37]/20 rounded-[3rem] shadow-2xl"></div>
+
+        <!-- Royal Blue Silk Valance/Swags (Top Drapes) -->
+        <div class="absolute top-0 left-0 right-0 h-32 opacity-90">
+            <svg class="w-full h-full" viewBox="0 0 1440 200" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="blueSilk" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#2C4875" />
+                        <stop offset="50%" stop-color="#5B7FB5" />
+                        <stop offset="100%" stop-color="#1B2A4A" />
+                    </linearGradient>
+                </defs>
+                <path class="swag-left" d="M0,0 Q360,150 720,50 L720,0 Z" fill="url(#blueSilk)" />
+                <path class="swag-right" d="M720,50 Q1080,150 1440,0 L720,0 Z" fill="url(#blueSilk)" />
+            </svg>
+        </div>
+
+        <!-- Golden curtains layout with tassels -->
+        <div class="absolute left-0 top-0 bottom-0 w-24 md:w-36 opacity-85">
+            <svg class="w-full h-full" viewBox="0 0 150 1000" preserveAspectRatio="none">
+                <path class="curtain-fold fold-1" d="M0,0 Q40,120 20,280 T30,550 T22,800 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
+                <path class="curtain-fold fold-2" d="M0,0 Q50,170 30,380 T40,750 T15,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
+                <path class="curtain-fold fold-3" d="M0,0 Q60,220 22,480 T50,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
+            </svg>
+        </div>
+        <div class="absolute right-0 top-0 bottom-0 w-24 md:w-36 opacity-85 transform scale-x-[-1]">
+            <svg class="w-full h-full" viewBox="0 0 150 1000" preserveAspectRatio="none">
+                <path class="curtain-fold fold-1" d="M0,0 Q40,120 20,280 T30,550 T22,800 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad1)" />
+                <path class="curtain-fold fold-2" d="M0,0 Q50,170 30,380 T40,750 T15,1000 L0,1000 Z" fill="url(#goldSilkGrad2)" />
+                <path class="curtain-fold fold-3" d="M0,0 Q60,220 22,480 T50,850 T0,1000 L0,1000 Z" fill="url(#goldSilkGrad3)" />
+            </svg>
+        </div>
     </div>
 
-    <!-- Main React App Mounting Target -->
+    <!-- Main Content Mount -->
     <div id="root" class="flex-grow flex flex-col z-10"></div>
 
     <script type="text/babel" data-presets="custom-react">
         const { useState, useEffect, useRef } = React;
 
-        // Custom Card Tilt Hook for 3D Parallax effect
+        // Custom Card Tilt Hook
         function useTilt() {
             const ref = useRef(null);
             const handleMouseMove = (e) => {
@@ -249,45 +294,41 @@
                 const y = e.clientY - rect.top;
                 const xc = rect.width / 2;
                 const yc = rect.height / 2;
-                const angleX = (yc - y) / 15; // deg
-                const angleY = (x - xc) / 15; // deg
-                card.style.transform = `perspective(600px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+                const angleX = (yc - y) / 18;
+                const angleY = (x - xc) / 18;
+                card.style.transform = `perspective(800px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
             };
             const handleMouseLeave = () => {
                 if (!ref.current) return;
-                ref.current.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg)';
+                ref.current.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
             };
             return { ref, onMouseMove: handleMouseMove, onMouseLeave: handleMouseLeave };
         }
 
-        // SVG Donut Chart component for Occupancy Allocation
-        function DonutChart({ distribution }) {
+        // SVG Donut chart for Occupancy allocation
+        function AllocationDonut({ distribution }) {
             const categories = ["Standard", "Deluxe", "Suite"];
             const values = categories.map(cat => distribution[cat] || 0);
             const total = values.reduce((a, b) => a + b, 0);
 
-            let accumulatedPercent = 0;
+            let accumulated = 0;
             const colors = ["#5B7FB5", "#D4AF37", "#2C4875"];
 
             if (total === 0) {
-                return (
-                    <div className="flex items-center justify-center h-48 text-[#6E7791] text-xs font-semibold">
-                        No active booking allocations.
-                    </div>
-                );
+                return <div className="text-center py-6 text-xs text-[#6E7791] font-semibold">No active allocations yet.</div>;
             }
 
             return (
                 <div className="flex flex-col sm:flex-row items-center justify-around gap-4 p-4 bg-white/70 rounded-2xl border border-[#D4AF37]/15">
-                    <svg className="w-36 h-36" viewBox="0 0 42 42">
-                        <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#E2E8F0" strokeWidth="4" />
+                    <svg className="w-28 h-28" viewBox="0 0 42 42">
+                        <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#E2E8F0" strokeWidth="4.5" />
                         {categories.map((cat, idx) => {
                             const val = distribution[cat] || 0;
                             const percent = (val / total) * 100;
                             if (percent === 0) return null;
-                            const strokeDasharray = `${percent} ${100 - percent}`;
-                            const strokeDashoffset = 100 - accumulatedPercent + 25;
-                            accumulatedPercent += percent;
+                            const dasharray = `${percent} ${100 - percent}`;
+                            const dashoffset = 100 - accumulated + 25;
+                            accumulated += percent;
 
                             return (
                                 <circle 
@@ -297,20 +338,20 @@
                                     r="15.915" 
                                     fill="transparent" 
                                     stroke={colors[idx]} 
-                                    strokeWidth="4" 
-                                    strokeDasharray={strokeDasharray}
-                                    strokeDashoffset={strokeDashoffset}
-                                    className="transition-all duration-500"
+                                    strokeWidth="4.5" 
+                                    strokeDasharray={dasharray}
+                                    strokeDashoffset={dashoffset}
+                                    className="transition-all duration-300"
                                 />
                             );
                         })}
                     </svg>
-                    <div className="space-y-2 text-xs">
+                    <div className="space-y-1 text-xs">
                         {categories.map((cat, idx) => (
                             <div key={cat} className="flex items-center gap-2">
-                                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: colors[idx] }}></span>
+                                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors[idx] }}></span>
                                 <span className="font-semibold text-[#2C4875]">{cat}:</span>
-                                <span className="font-extrabold text-[#D4AF37]">{distribution[cat] || 0} ({Math.round(((distribution[cat] || 0)/total)*100)}%)</span>
+                                <span className="font-bold text-[#D4AF37]">{distribution[cat] || 0}</span>
                             </div>
                         ))}
                     </div>
@@ -319,32 +360,28 @@
         }
 
         // SVG Bar Chart component
-        function OccupancyChart({ distribution }) {
+        function OccupancyBarChart({ distribution }) {
             const categories = ["Standard", "Deluxe", "Suite"];
             const values = categories.map(cat => distribution[cat] || 0);
             const maxValue = Math.max(...values, 4);
 
-            const width = 380;
-            const height = 200;
-            const paddingLeft = 40;
-            const paddingBottom = 30;
-            const paddingTop = 20;
+            const width = 360;
+            const height = 180;
+            const paddingLeft = 35;
+            const paddingBottom = 25;
+            const paddingTop = 15;
             const paddingRight = 10;
 
             const chartHeight = height - paddingTop - paddingBottom;
             const chartWidth = width - paddingLeft - paddingRight;
-            const barWidth = 35;
+            const barWidth = 30;
             const gap = (chartWidth - barWidth * categories.length) / (categories.length + 1);
 
-            const colors = {
-                Standard: "#5B7FB5",
-                Deluxe: "#D4AF37",
-                Suite: "#2C4875"
-            };
+            const colors = { Standard: "#5B7FB5", Deluxe: "#D4AF37", Suite: "#2C4875" };
 
             return (
-                <svg className="w-full h-auto bg-white/70 rounded-2xl border border-[#D4AF37]/15 p-2 shadow-inner" viewBox={`0 0 ${width} ${height}`}>
-                    {[0, 0.25, 0.5, 0.75, 1].map((ratio, idx) => {
+                <svg className="w-full h-auto bg-white/60 rounded-2xl border border-[#D4AF37]/15 p-2" viewBox={`0 0 ${width} ${height}`}>
+                    {[0, 0.5, 1].map((ratio, idx) => {
                         const y = paddingTop + chartHeight * (1 - ratio);
                         const labelVal = Math.round(maxValue * ratio);
                         return (
@@ -362,17 +399,9 @@
 
                         return (
                             <g key={cat}>
-                                <rect 
-                                    x={x} 
-                                    y={y} 
-                                    width={barWidth} 
-                                    height={barHeight} 
-                                    fill={colors[cat]} 
-                                    rx="4"
-                                    className="transition-all duration-300 cursor-pointer"
-                                />
-                                <text x={x + barWidth / 2} y={y - 5} fill="#2C4875" fontSize="10" fontWeight="extrabold" textAnchor="middle">{value}</text>
-                                <text x={x + barWidth / 2} y={height - paddingBottom + 16} fill="#6E7791" fontSize="10" fontWeight="bold" textAnchor="middle">{cat}</text>
+                                <rect x={x} y={y} width={barWidth} height={barHeight} fill={colors[cat]} rx="4" />
+                                <text x={x + barWidth / 2} y={y - 4} fill="#2C4875" fontSize="10" fontWeight="extrabold" textAnchor="middle">{value}</text>
+                                <text x={x + barWidth / 2} y={height - paddingBottom + 14} fill="#6E7791" fontSize="9" fontWeight="bold" textAnchor="middle">{cat}</text>
                             </g>
                         );
                     })}
@@ -380,60 +409,60 @@
             );
         }
 
-        // Custom 360° virtual suite tour pan viewer
-        function Virtual360Tour({ suiteCategory, onClose }) {
+        // 360° Draggable Panorama Suite Tour
+        function Tour360Viewer({ suiteCategory, onClose }) {
             const [panX, setPanX] = useState(0);
             const isDragging = useRef(false);
             const startX = useRef(0);
 
-            // Wide panoramic image mapping per suite category
-            const panoramaUrls = {
+            const panoramas = {
                 Standard: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1800&q=80",
                 Deluxe: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1800&q=80",
                 Suite: "https://images.unsplash.com/photo-1582719478250-c89cae4db85b?auto=format&fit=crop&w=1800&q=80"
             };
 
-            const url = panoramaUrls[suiteCategory] || panoramaUrls.Standard;
+            const url = panoramas[suiteCategory] || panoramas.Standard;
 
-            const handleMouseDown = (e) => {
+            const handleStart = (clientX) => {
                 isDragging.current = true;
-                startX.current = e.clientX - panX;
+                startX.current = clientX - panX;
             };
 
-            const handleMouseMove = (e) => {
+            const handleMove = (clientX) => {
                 if (!isDragging.current) return;
-                const newPan = e.clientX - startX.current;
-                // Limit panning boundaries so image stays filled
-                setPanX(Math.max(-500, Math.min(0, newPan)));
+                const nextPan = clientX - startX.current;
+                setPanX(Math.max(-520, Math.min(0, nextPan)));
             };
 
-            const handleMouseUp = () => {
+            const handleEnd = () => {
                 isDragging.current = false;
             };
 
             return (
-                <div className="fixed inset-0 bg-[#2C4875]/80 backdrop-blur-md flex items-center justify-center p-4 z-50">
-                    <div className="bg-[#FDFBF6] max-w-4xl w-full rounded-3xl border-2 border-[#D4AF37]/35 overflow-hidden shadow-2xl relative">
-                        <div className="bg-[#2C4875] text-white p-4 flex items-center justify-between">
+                <div className="fixed inset-0 bg-[#2C4875]/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
+                    <div className="bg-[#FDFBF6] max-w-4xl w-full rounded-[2rem] border-2 border-[#D4AF37]/35 overflow-hidden shadow-2xl relative">
+                        <div className="bg-[#2C4875] text-white p-4.5 flex items-center justify-between border-b border-[#D4AF37]/20">
                             <div>
-                                <h3 className="text-xl font-serif font-bold tracking-widest uppercase">360° Virtual Suite Explorer</h3>
-                                <p className="text-[10px] text-[#FFE9A8] uppercase tracking-widest font-semibold">Click and drag horizontally to pan the chamber interior</p>
+                                <h3 className="text-xl font-serif font-bold tracking-widest uppercase">Chamber 360° Virtual Inspector</h3>
+                                <p className="text-[9px] text-[#FFE9A8] uppercase tracking-wider font-semibold">Drag horizontally to pan the interior layout</p>
                             </div>
-                            <button onClick={onClose} className="bg-white/10 hover:bg-white/20 p-2 rounded-full font-bold">✕</button>
+                            <button onClick={onClose} className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full font-bold">✕</button>
                         </div>
                         
-                        {/* Interactive Drag Window */}
                         <div 
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}
-                            className="relative h-96 overflow-hidden cursor-move bg-black select-none"
+                            onMouseDown={(e) => handleStart(e.clientX)}
+                            onMouseMove={(e) => handleMove(e.clientX)}
+                            onMouseUp={handleEnd}
+                            onMouseLeave={handleEnd}
+                            onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+                            onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+                            onTouchEnd={handleEnd}
+                            className="relative h-96 overflow-hidden cursor-ew-resize bg-black select-none"
                         >
                             <img 
                                 src={url} 
                                 alt="Suite Panorama" 
-                                className="absolute top-0 h-full max-w-none transition-transform duration-75"
+                                className="absolute top-0 h-full max-w-none"
                                 style={{ 
                                     transform: `translateX(${panX}px)`,
                                     width: '180%' 
@@ -441,24 +470,10 @@
                             />
                             
                             {/* Interactive hotspots */}
-                            <div 
-                                className="absolute top-1/3 left-1/4 group cursor-pointer"
-                                style={{ transform: `translateX(${panX * 0.4}px)` }}
-                                onClick={() => alert("Royal Canopy Bed: Hypoallergenic Egyptian cotton sheets with down duvet.")}
-                            >
-                                <span className="absolute inline-flex h-4 w-4 rounded-full bg-[#D4AF37] opacity-75 animate-ping"></span>
-                                <span className="relative inline-flex rounded-full h-4 w-4 bg-[#D4AF37]/90 text-white font-extrabold text-[9px] items-center justify-center border border-white">i</span>
-                                <div className="absolute left-6 top-0 hidden group-hover:block bg-white text-[#2C4875] text-[10px] p-2 rounded-md shadow-md font-bold whitespace-nowrap">Canopy King Bed</div>
-                            </div>
-
-                            <div 
-                                className="absolute top-1/2 left-2/3 group cursor-pointer"
-                                style={{ transform: `translateX(${panX * 0.4}px)` }}
-                                onClick={() => alert("Spa Hot Tub: Private balcony hydrotherapy tub facing local heritage landmarks.")}
-                            >
-                                <span className="absolute inline-flex h-4 w-4 rounded-full bg-[#D4AF37] opacity-75 animate-ping"></span>
-                                <span className="relative inline-flex rounded-full h-4 w-4 bg-[#D4AF37]/90 text-white font-extrabold text-[9px] items-center justify-center border border-white">i</span>
-                                <div className="absolute left-6 top-0 hidden group-hover:block bg-white text-[#2C4875] text-[10px] p-2 rounded-md shadow-md font-bold whitespace-nowrap">Private Balcony Spa Tub</div>
+                            <div className="absolute top-1/3 left-1/3 group cursor-help" style={{ transform: `translateX(${panX * 0.4}px)` }}>
+                                <span className="absolute h-4.5 w-4.5 rounded-full bg-[#D4AF37] opacity-75 animate-ping"></span>
+                                <span className="relative inline-flex rounded-full h-4.5 w-4.5 bg-[#D4AF37] text-white text-[9px] items-center justify-center border border-white font-extrabold">i</span>
+                                <div className="absolute left-6 top-0 hidden group-hover:block bg-white text-[#2C4875] text-[10px] p-2 rounded-lg shadow-md font-bold whitespace-nowrap">Canopy King Bed</div>
                             </div>
                         </div>
                     </div>
@@ -466,35 +481,34 @@
             );
         }
 
-        // Royal Concierge AI Bot Widget with streaming & triggers
-        function RoyalConcierge({ currentView, onSuiteSelect }) {
+        // Royal Concierge AI Bot with triggers & voice search
+        function RoyalConciergeWidget() {
             const [open, setOpen] = useState(false);
             const [messages, setMessages] = useState([
-                { sender: "bot", text: "Greetings, valued guest. I am your Royal Concierge. How may I elevate your stay at Luxury today?" }
+                { sender: "bot", text: "Greetings, noble guest. I am your Royal Concierge. How may I elevate your experience at Luxury today?" }
             ]);
             const [input, setInput] = useState("");
             const [typing, setTyping] = useState(false);
 
-            // Stream response token by token
             const streamMessage = (text) => {
                 setTyping(true);
-                let currentWordIndex = 0;
+                let idx = 0;
                 const words = text.split(" ");
-                let streamingText = "";
+                let currentText = "";
 
                 const interval = setInterval(() => {
-                    if (currentWordIndex < words.length) {
-                        streamingText += (currentWordIndex === 0 ? "" : " ") + words[currentWordIndex];
+                    if (idx < words.length) {
+                        currentText += (idx === 0 ? "" : " ") + words[idx];
                         setMessages(prev => {
-                            const withoutLast = prev.slice(0, -1);
-                            return [...withoutLast, { sender: "bot", text: streamingText }];
+                            const list = prev.slice(0, -1);
+                            return [...list, { sender: "bot", text: currentText }];
                         });
-                        currentWordIndex++;
+                        idx++;
                     } else {
                         clearInterval(interval);
                         setTyping(false);
                     }
-                }, 80);
+                }, 70);
             };
 
             const handleSend = (e, customText) => {
@@ -502,59 +516,40 @@
                 const queryText = customText || input;
                 if (!queryText.trim()) return;
 
-                const userMsg = { sender: "user", text: queryText };
-                setMessages(prev => [...prev, userMsg, { sender: "bot", text: "..." }]);
+                setMessages(prev => [...prev, { sender: "user", text: queryText }, { sender: "bot", text: "..." }]);
                 setInput("");
 
                 setTimeout(() => {
-                    let replyText = "I am consulting our Royal registry. We offer bespoke standard rooms ($100), deluxe chambers ($180), and palace suites ($350) with premium add-on services. How can I assist you with your booking?";
+                    let reply = "I am consulting our Royal registry. We offer bespoke standard rooms ($100), deluxe chambers ($180), and palace suites ($350) with premium add-on services.";
                     const query = queryText.toLowerCase();
 
-                    if (query.includes("room") || query.includes("suite") || query.includes("price")) {
-                        replyText = "Our Royal Suites feature breathtaking view options. Standard chambers are $100/night, Deluxe suites are $180/night, and our master Palace Suites are $350/night.";
-                    } else if (query.includes("spa") || query.includes("breakfast") || query.includes("shuttle") || query.includes("add-on")) {
-                        replyText = "Certainly. You can enhance your reservation with our Gourmet Breakfast ($15/night), Airport Shuttle Transfer ($30 flat), and VIP Spa Lounge Access ($50 flat).";
-                    } else if (query.includes("loyalty") || query.includes("points") || query.includes("tier")) {
-                        replyText = "Our Royal Loyalty system features Silver, Gold, and Platinum tiers. As you book nights, you accumulate points to unlock custom spa amenities, room upgrades, and late checkout features.";
-                    } else if (query.includes("cancel") || query.includes("refund")) {
-                        replyText = "Cancellations made prior to 24 hours of check-in are eligible for a full instant refund. You can manage and cancel any stay from the Guest Directory tab.";
+                    if (query.includes("price") || query.includes("rate") || query.includes("cost")) {
+                        reply = "Our palace chambers offer distinct tiers: Standard rooms ($100/night), Deluxe sanctuaries ($180/night), and Imperial Suites ($350/night).";
+                    } else if (query.includes("spa") || query.includes("breakfast") || query.includes("perk")) {
+                        reply = "Elevate your stay with our Royal Buffet Breakfast ($15/day), Airport Transfer Shuttle ($30 flat), and VIP Wellness Spa Lounge pass ($50 flat).";
+                    } else if (query.includes("loyalty") || query.includes("gold") || query.includes("silver") || query.includes("platinum")) {
+                        reply = "Earn privileges across Silver, Royal Gold, and Platinum King tiers. Perks include late checkout, butler assistance, and custom spa entries.";
                     }
-
-                    streamMessage(replyText);
-                }, 600);
+                    streamMessage(reply);
+                }, 500);
             };
-
-            const chips = [
-                { label: "Show Room Rates", query: "What are the room rates?" },
-                { label: "Loyalty Benefits", query: "What are the loyalty tiers?" },
-                { label: "Dining & Spa info", query: "Tell me about the spa add-ons." }
-            ];
 
             return (
                 <div className="fixed bottom-6 right-6 z-40 print-hide">
-                    {/* Toggle button */}
                     <button 
                         onClick={() => setOpen(!open)}
-                        className="w-14 h-14 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200"
+                        className="w-14 h-14 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition"
                     >
-                        {open ? (
-                            <span className="text-xl font-bold">✕</span>
-                        ) : (
-                            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.545v3m-3-6.545h.008M21 21V3.545M3 21V9.545M12 6.75h.008M12 9.75h.008M12 12.75h.008M12 15.75h.008" />
-                            </svg>
-                        )}
+                        {open ? <span className="text-xl font-bold">✕</span> : "💬"}
                     </button>
 
-                    {/* Chat Window */}
                     {open && (
-                        <div className="absolute bottom-16 right-0 w-80 sm:w-96 h-[440px] glass-panel rounded-3xl border border-[#D4AF37]/30 shadow-2xl flex flex-col overflow-hidden">
+                        <div className="absolute bottom-16 right-0 w-80 sm:w-96 h-[430px] royal-panel border border-[#D4AF37]/35 shadow-2xl flex flex-col overflow-hidden">
                             <div className="bg-gradient-to-r from-[#2C4875] to-[#5B7FB5] p-4 text-white text-center">
                                 <h3 className="font-serif text-lg font-bold tracking-widest">Royal Concierge</h3>
                                 <p className="text-[9px] uppercase tracking-wider opacity-85">Where Every Stay is a Reign</p>
                             </div>
 
-                            {/* Feed */}
                             <div className="flex-grow p-4 overflow-y-auto space-y-3 bg-[#FDFBF6]/90">
                                 {messages.map((m, idx) => (
                                     <div key={idx} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -569,29 +564,15 @@
                                 ))}
                             </div>
 
-                            {/* Custom prompt chips */}
-                            <div className="flex gap-2 p-2 overflow-x-auto border-t border-[#D4AF37]/15 bg-white/40">
-                                {chips.map((c, i) => (
-                                    <button 
-                                        key={i} 
-                                        onClick={() => handleSend(null, c.query)}
-                                        className="text-[9px] font-bold text-[#2C4875] border border-[#D4AF37]/20 bg-white/80 hover:bg-[#FDFBF6] px-2.5 py-1 rounded-full whitespace-nowrap"
-                                    >
-                                        {c.label}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Input Form */}
                             <form onSubmit={(e) => handleSend(e)} className="p-3 bg-white border-t border-[#D4AF37]/15 flex gap-2">
                                 <input 
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     placeholder="Inquire with the concierge..."
-                                    className="flex-grow px-4 py-2 border border-[#D4AF37]/25 rounded-full text-xs focus:outline-none focus:ring-1 focus:ring-[#D4AF37] bg-[#FDFBF6]"
+                                    className="flex-grow px-4 py-2 border border-[#D4AF37]/25 rounded-full text-xs focus:outline-none bg-[#FDFBF6]"
                                 />
-                                <button type="submit" className="px-4 py-2 bg-[#D4AF37] hover:bg-[#E8C97A] text-white rounded-full text-xs font-bold transition">
+                                <button type="submit" className="px-4 py-2 bg-[#D4AF37] hover:bg-[#E8C97A] text-white rounded-full text-xs font-bold">
                                     Send
                                 </button>
                             </form>
@@ -601,96 +582,137 @@
             );
         }
 
-        // Home View Component
-        function HomeView({ onExploreClick, rooms }) {
+        // Home View with resort details
+        function HomeView({ onExploreClick }) {
             const tilt1 = useTilt();
             const tilt2 = useTilt();
             const tilt3 = useTilt();
 
-            const testimonials = [
-                { name: "Sir Richard Branson", role: "Venture Philanthropist", text: "The Luxury Royal Suite offers unmatched panoramic lobby architecture and butler hospitality. Every stay indeed feels like a reign.", rating: 5 },
-                { name: "Lady Penelope", role: "Noble Custodian", text: "Drifting golden silk backdrops, gourmet service, and bespoke wellness treatments. A masterclass in hotel aesthetics.", rating: 5 }
+            const dineMenu = [
+                { name: "Royal Ossetra Caviar", desc: "Served with blinis, creme fraiche, and chives", price: "$140" },
+                { name: "White Truffle Risotto", desc: "Acquerello aged rice with winter truffles and gold leaf", price: "$90" }
+            ];
+
+            const spaWellness = [
+                { name: "Grand Palace Massage", desc: "90-minute aromatherapy hot stone massage with royal oils", price: "$220" },
+                { name: "Oceanic Hydrotherapy Pool", desc: "Private pool access with sunset sea view", price: "$150" }
             ];
 
             return (
                 <div className="space-y-16">
-                    {/* Hero section */}
-                    <div className="relative rounded-3xl overflow-hidden h-[85vh] flex items-center justify-center text-center p-8 bg-cover bg-center shadow-inner border border-[#D4AF37]/15" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80')" }}>
-                        <div className="absolute inset-0 bg-[#2C4875]/25 backdrop-blur-[0.5px]"></div>
-                        <div className="relative z-10 max-w-2xl space-y-6">
-                            <h2 className="text-4xl md:text-6xl font-serif font-extrabold text-[#FDFBF6] tracking-widest drop-shadow-lg">LUXURY</h2>
-                            <p className="text-[#FFE9A8] text-xs font-bold uppercase tracking-[0.25em]">Where Every Stay is a Reign</p>
-                            <p className="text-white/95 text-sm font-medium drop-shadow-sm max-w-lg mx-auto">
-                                Step into the magnificent lobby of royal grandeur and bespoke heritage chambers. Immerse yourself in the timeless art of high hospitality.
+                    {/* Hero Landing */}
+                    <div className="relative rounded-[3rem_1rem_3rem_1rem] overflow-hidden h-[80vh] flex items-center justify-center text-center p-8 bg-cover bg-center shadow-2xl border-2 border-[#D4AF37]/20" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80')" }}>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#2C4875]/40 via-transparent to-black/20"></div>
+                        <div className="relative z-10 max-w-xl space-y-6">
+                            <h2 className="text-5xl md:text-7xl font-serif font-extrabold text-[#FDFBF6] tracking-widest drop-shadow-xl">LUXURY</h2>
+                            <p className="text-[#FFE9A8] text-xs font-bold uppercase tracking-[0.28em]">Where Every Stay is a Reign</p>
+                            <p className="text-white/95 text-xs font-semibold drop-shadow-md max-w-md mx-auto leading-relaxed">
+                                Enter our sunlit palace hotel corridors. Wake up to moving ocean sunset viewports, luxury silk valances, and premium spa facilities.
                             </p>
                             <button 
                                 onClick={onExploreClick}
-                                className="px-8 py-3.5 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] hover:scale-105 hover:shadow-[#D4AF37]/20 text-white font-bold rounded-xl text-xs transition duration-200 uppercase tracking-widest shadow-lg"
+                                className="px-8 py-3.5 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] hover:brightness-105 text-white font-bold rounded-xl text-xs transition duration-200 uppercase tracking-widest shadow-lg border border-white/20"
                             >
-                                Inquire & Book Chambers
+                                Book Royal Chambers
                             </button>
                         </div>
-                        <div className="absolute bottom-4 left-0 right-0 flex justify-center text-white/50 text-[10px] uppercase tracking-widest font-semibold">
-                            Scroll down to explore features
+                    </div>
+
+                    {/* Asymmetric Room Catalog Showcase */}
+                    <div className="space-y-8">
+                        <div className="text-center">
+                            <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-[0.2em]">The Catalog</span>
+                            <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#2C4875] mt-1">Magnificent Guest Chambers</h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2">
+                            {/* Standard Chamber */}
+                            <div ref={tilt1.ref} onMouseMove={tilt1.onMouseMove} onMouseLeave={tilt1.onMouseLeave} className="royal-panel card-tilt p-6 space-y-4 hover:shadow-2xl">
+                                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover rounded-[2rem_0.5rem_2rem_0.5rem] border border-[#D4AF37]/15" alt="Standard" />
+                                <h4 className="text-xl font-bold font-serif text-[#2C4875] text-center">Standard Chamber</h4>
+                                <p className="text-xs text-[#6E7791] text-center leading-relaxed">Elegant garden views and private terrace balconies. Complete with custom down duvets.</p>
+                                <div className="text-sm font-extrabold text-[#D4AF37] text-center border-t border-[#D4AF37]/10 pt-3">$100 / night</div>
+                            </div>
+                            
+                            {/* Deluxe Sanctuary */}
+                            <div ref={tilt2.ref} onMouseMove={tilt2.onMouseMove} onMouseLeave={tilt2.onMouseLeave} className="royal-panel royal-panel-alt card-tilt p-6 space-y-4 hover:shadow-2xl">
+                                <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover rounded-[0.5rem_2rem_0.5rem_2rem] border border-[#D4AF37]/15" alt="Deluxe" />
+                                <h4 className="text-xl font-bold font-serif text-[#2C4875] text-center">Deluxe Sanctuary</h4>
+                                <p className="text-xs text-[#6E7791] text-center leading-relaxed">Spacious layouts featuring separate workspace lounges and moving ocean views.</p>
+                                <div className="text-sm font-extrabold text-[#D4AF37] text-center border-t border-[#D4AF37]/10 pt-3">$180 / night</div>
+                            </div>
+
+                            {/* Imperial Palace Suite */}
+                            <div ref={tilt3.ref} onMouseMove={tilt3.onMouseMove} onMouseLeave={tilt3.onMouseLeave} className="royal-panel card-tilt p-6 space-y-4 hover:shadow-2xl">
+                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4db85b?auto=format&fit=crop&w=400&q=80" className="w-full h-48 object-cover rounded-[2rem_0.5rem_2rem_0.5rem] border border-[#D4AF37]/15" alt="Suite" />
+                                <h4 className="text-xl font-bold font-serif text-[#2C4875] text-center">Imperial Palace Suite</h4>
+                                <p className="text-xs text-[#6E7791] text-center leading-relaxed">The pinnacle of royalty. King canopy bed, balcony jacuzzi pool, and dedicated butler.</p>
+                                <div className="text-sm font-extrabold text-[#D4AF37] text-center border-t border-[#D4AF37]/10 pt-3">$350 / night</div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Featured suites grid */}
-                    <div className="space-y-6 text-center">
-                        <h3 className="text-3xl font-serif font-bold text-[#2C4875]">Bespoke Featured Suites</h3>
-                        <p className="text-xs text-[#6E7791] max-w-md mx-auto">Explore carefully selected chambers featuring 360-degree panoramic sights and custom amenities.</p>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-                            <div ref={tilt1.ref} onMouseMove={tilt1.onMouseMove} onMouseLeave={tilt1.onMouseLeave} className="card-tilt glass-panel p-6 rounded-3xl border border-[#D4AF37]/15 hover:shadow-xl text-center space-y-4">
-                                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=400&q=80" className="w-full h-44 object-cover rounded-2xl border border-[#D4AF37]/10" alt="Standard" />
-                                <h4 className="text-xl font-bold font-serif text-[#2C4875]">Standard Chamber</h4>
-                                <p className="text-xs text-[#6E7791]">Elegant high-ceiling rooms overlooking our interior gardens. Complete with state-of-the-art bedding.</p>
-                                <div className="text-sm font-extrabold text-[#D4AF37]">$100 / night</div>
+                    {/* Fine Resort Experiences: Dining and Spa */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Dining */}
+                        <div className="royal-panel p-8 border border-[#D4AF37]/15 space-y-6">
+                            <div className="text-center md:text-left">
+                                <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-[0.2em]">Michelin dining</span>
+                                <h4 className="text-2xl font-serif font-bold text-[#2C4875] mt-1">Palace Gastronomy</h4>
                             </div>
-                            <div ref={tilt2.ref} onMouseMove={tilt2.onMouseMove} onMouseLeave={tilt2.onMouseLeave} className="card-tilt glass-panel p-6 rounded-3xl border border-[#D4AF37]/15 hover:shadow-xl text-center space-y-4">
-                                <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=400&q=80" className="w-full h-44 object-cover rounded-2xl border border-[#D4AF37]/10" alt="Deluxe" />
-                                <h4 className="text-xl font-bold font-serif text-[#2C4875]">Deluxe Sanctuary</h4>
-                                <p className="text-xs text-[#6E7791]">Spacious chambers with custom lounge couches, work desks, and dynamic panoramic cityscape balconies.</p>
-                                <div className="text-sm font-extrabold text-[#D4AF37]">$180 / night</div>
+                            <div className="space-y-4">
+                                {dineMenu.map((item, idx) => (
+                                    <div key={idx} className="flex justify-between items-start border-b border-[#D4AF37]/10 pb-3">
+                                        <div>
+                                            <h5 className="text-xs font-bold text-[#2C4875]">{item.name}</h5>
+                                            <p className="text-[10px] text-[#6E7791] mt-0.5">{item.desc}</p>
+                                        </div>
+                                        <span className="text-xs font-extrabold text-[#D4AF37]">{item.price}</span>
+                                    </div>
+                                ))}
                             </div>
-                            <div ref={tilt3.ref} onMouseMove={tilt3.onMouseMove} onMouseLeave={tilt3.onMouseLeave} className="card-tilt glass-panel p-6 rounded-3xl border border-[#D4AF37]/15 hover:shadow-xl text-center space-y-4">
-                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4db85b?auto=format&fit=crop&w=400&q=80" className="w-full h-44 object-cover rounded-2xl border border-[#D4AF37]/10" alt="Suite" />
-                                <h4 className="text-xl font-bold font-serif text-[#2C4875]">Imperial Palace Suite</h4>
-                                <p className="text-xs text-[#6E7791]">A palace inside a palace. King size canopy bed, separate dining, private hot tub, and dedicated butler.</p>
-                                <div className="text-sm font-extrabold text-[#D4AF37]">$350 / night</div>
+                        </div>
+
+                        {/* Spa */}
+                        <div className="royal-panel royal-panel-alt p-8 border border-[#D4AF37]/15 space-y-6">
+                            <div className="text-center md:text-left">
+                                <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-[0.2em]">Therapeutic Wellness</span>
+                                <h4 className="text-2xl font-serif font-bold text-[#2C4875] mt-1">Imperial Spa Lounge</h4>
+                            </div>
+                            <div className="space-y-4">
+                                {spaWellness.map((item, idx) => (
+                                    <div key={idx} className="flex justify-between items-start border-b border-[#D4AF37]/10 pb-3">
+                                        <div>
+                                            <h5 className="text-xs font-bold text-[#2C4875]">{item.name}</h5>
+                                            <p className="text-[10px] text-[#6E7791] mt-0.5">{item.desc}</p>
+                                        </div>
+                                        <span className="text-xs font-extrabold text-[#D4AF37]">{item.price}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* Testimonials */}
-                    <div className="glass-panel p-10 rounded-3xl border border-[#D4AF37]/15 text-center space-y-8">
-                        <h3 className="text-2xl font-serif font-bold text-[#2C4875]">Whispers of Appreciation</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                            {testimonials.map((t, idx) => (
-                                <div key={idx} className="bg-white/50 p-6 rounded-2xl border border-[#D4AF37]/10 space-y-3">
-                                    <div className="flex gap-1 text-[#D4AF37]">
-                                        {"★".repeat(t.rating)}
-                                    </div>
-                                    <p className="text-xs italic text-[#2A2E3A] font-medium">"{t.text}"</p>
-                                    <div>
-                                        <div className="text-xs font-bold text-[#2C4875]">{t.name}</div>
-                                        <div className="text-[10px] text-[#6E7791] font-semibold">{t.role}</div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                    {/* Hand-drawn story signature note */}
+                    <div className="royal-panel p-8 text-center space-y-4 max-w-xl mx-auto border border-[#D4AF37]/20 bg-white/70">
+                        <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">Heritage note</span>
+                        <h4 className="text-2xl font-serif font-extrabold text-[#2C4875]">A Message from the Custodian</h4>
+                        <p className="text-xs italic text-[#6E7791] leading-relaxed">
+                            "Luxury is not a commodity; it is a coronation. Every detail inside this palace—from the slow horizontal sways of the golden curtains to the Michelin dining—is hand-crafted to celebrate your stay."
+                        </p>
+                        <div className="text-3xl font-cursive text-[#D4AF37] pt-2">Alexander de Bourbon</div>
                     </div>
                 </div>
             );
         }
 
-        // Explorer & Search Panel
+        // Explorer view with filters and custom AI predictions
         function ExplorerView({ rooms, bookings, selectedRoomNo, onRoomSelect, onBookClick, onLaunchTour }) {
             const [filter, setFilter] = useState("All");
             const [search, setSearch] = useState("");
             const [priceRange, setPriceRange] = useState(400);
 
-            // Voice Search capability
+            // Voice Search
             const [voiceListening, setVoiceListening] = useState(false);
             const triggerVoiceSearch = () => {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -703,13 +725,10 @@
                 rec.start();
                 setVoiceListening(true);
                 rec.onresult = (e) => {
-                    const resultText = e.results[0][0].transcript;
-                    setSearch(resultText);
+                    setSearch(e.results[0][0].transcript);
                     setVoiceListening(false);
                 };
-                rec.onerror = () => {
-                    setVoiceListening(false);
-                };
+                rec.onerror = () => setVoiceListening(false);
             };
 
             const isRoomBooked = (roomNo) => {
@@ -718,69 +737,77 @@
 
             return (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Filter Sidebar */}
-                    <div className="lg:col-span-1 glass-panel p-6 rounded-3xl border border-[#D4AF37]/15 space-y-6 h-fit">
-                        <h3 className="text-lg font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/15 pb-2">Filter chambers</h3>
-                        
-                        {/* Keyword Search */}
-                        <div className="space-y-2">
-                            <label className="block text-xs font-bold text-[#6E7791] uppercase">Search suites</label>
-                            <div className="flex gap-2">
+                    {/* Filters & AI Advisor */}
+                    <div className="lg:col-span-1 space-y-6">
+                        <div className="royal-panel p-6 border border-[#D4AF37]/15 space-y-6 h-fit">
+                            <h3 className="text-lg font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/10 pb-2">Chamber Filters</h3>
+                            
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-[#6E7791] uppercase">Search suites</label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        placeholder="Sanctuary, Imperial..."
+                                        className="flex-grow px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
+                                    />
+                                    <button 
+                                        type="button"
+                                        onClick={triggerVoiceSearch}
+                                        className={`px-3 py-2 rounded-xl border text-xs ${voiceListening ? 'bg-rose-500 text-white animate-pulse' : 'border-[#D4AF37]/20 text-[#D4AF37]'}`}
+                                    >
+                                        🎙️
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <div className="flex justify-between text-xs font-bold text-[#6E7791] uppercase">
+                                    <span>Max Rate Per Night</span>
+                                    <span className="text-[#2C4875]">${priceRange}</span>
+                                </div>
                                 <input 
-                                    type="text" 
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    placeholder="e.g. Deluxe, Suite..."
-                                    className="flex-grow px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs focus:outline-none bg-white text-[#2A2E3A]"
+                                    type="range" 
+                                    min="100" 
+                                    max="400" 
+                                    value={priceRange}
+                                    onChange={(e) => setPriceRange(parseInt(e.target.value))}
+                                    className="w-full accent-[#D4AF37]"
                                 />
-                                <button 
-                                    type="button"
-                                    onClick={triggerVoiceSearch}
-                                    className={`px-3 py-2 rounded-xl border text-xs font-bold transition ${
-                                        voiceListening 
-                                            ? 'bg-rose-500 text-white animate-pulse' 
-                                            : 'border-[#D4AF37]/25 text-[#D4AF37] hover:bg-[#F6EBC8]/30'
-                                    }`}
-                                    title="Search using Voice"
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-[#6E7791] uppercase">Chamber tier</label>
+                                <select 
+                                    value={filter}
+                                    onChange={(e) => setFilter(e.target.value)}
+                                    className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
                                 >
-                                    🎙️
-                                </button>
+                                    <option value="All">All Categories</option>
+                                    <option value="Standard">Standard ($100)</option>
+                                    <option value="Deluxe">Deluxe Sanctuary ($180)</option>
+                                    <option value="Suite">Imperial Suite ($350)</option>
+                                </select>
                             </div>
                         </div>
 
-                        {/* Price Range Slider */}
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-xs font-bold text-[#6E7791] uppercase">
-                                <span>Max Price Per Night</span>
-                                <span className="text-[#2C4875]">${priceRange}</span>
+                        {/* AI Price prediction component */}
+                        <div className="royal-panel royal-panel-alt p-5 border border-[#D4AF37]/20 bg-[#FFE9A8]/10 space-y-3">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs">🤖</span>
+                                <h4 className="text-xs font-bold text-[#2C4875] uppercase tracking-wider">AI Room Rate Forecast</h4>
                             </div>
-                            <input 
-                                type="range" 
-                                min="100" 
-                                max="400" 
-                                value={priceRange}
-                                onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                                className="w-full accent-[#D4AF37]"
-                            />
-                        </div>
-
-                        {/* Category Dropdown */}
-                        <div className="space-y-2">
-                            <label className="block text-xs font-bold text-[#6E7791] uppercase">Chamber category</label>
-                            <select 
-                                value={filter}
-                                onChange={(e) => setFilter(e.target.value)}
-                                className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs focus:outline-none bg-white text-[#2A2E3A]"
-                            >
-                                <option value="All">All Categories</option>
-                                <option value="Standard">Standard ($100)</option>
-                                <option value="Deluxe">Deluxe Sanctuary ($180)</option>
-                                <option value="Suite">Imperial Palace Suite ($350)</option>
-                            </select>
+                            <p className="text-[10px] text-[#6E7791] leading-relaxed">
+                                Demand patterns indicate optimal occupancy levels. Booking today yields an estimated 12% saving compared to projected weekend rates.
+                            </p>
+                            <span className="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/25">
+                                Best time to book
+                            </span>
                         </div>
                     </div>
 
-                    {/* Room Grid Display */}
+                    {/* Room Grid */}
                     <div className="lg:col-span-2 space-y-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {rooms
@@ -793,11 +820,11 @@
                                     return (
                                         <div 
                                             key={r.roomNumber}
-                                            className={`glass-panel p-5 rounded-3xl border transition duration-200 relative flex flex-col justify-between ${
+                                            className={`royal-panel p-5 border transition relative flex flex-col justify-between ${
                                                 booked 
                                                     ? 'bg-rose-500/5 border-rose-500/10 text-rose-900/40 opacity-70' 
                                                     : isSelected 
-                                                        ? 'bg-[#D4AF37] border-[#D4AF37] text-white shadow-lg shadow-[#D4AF37]/25' 
+                                                        ? 'bg-[#D4AF37] border-[#D4AF37] text-white shadow-xl shadow-[#D4AF37]/20' 
                                                         : 'bg-white hover:bg-[#F6EBC8]/10 border-[#D4AF37]/15 text-[#2C4875]'
                                             }`}
                                         >
@@ -807,9 +834,8 @@
                                                 <p className="text-xs font-bold opacity-80 mb-4">${r.pricePerNight} / night</p>
                                                 
                                                 <div className="flex flex-wrap gap-1.5 mb-4">
-                                                    <span className="text-[9px] font-bold bg-[#DCE6F4] text-[#2C4875] px-2.5 py-0.5 rounded-full">Wifi</span>
-                                                    <span className="text-[9px] font-bold bg-[#DCE6F4] text-[#2C4875] px-2.5 py-0.5 rounded-full">AC</span>
-                                                    <span className="text-[9px] font-bold bg-[#DCE6F4] text-[#2C4875] px-2.5 py-0.5 rounded-full">Bathtub</span>
+                                                    <span className="text-[9px] font-bold bg-[#DCE6F4] text-[#2C4875] px-2.5 py-0.5 rounded-full">Fast Wifi</span>
+                                                    <span className="text-[9px] font-bold bg-[#DCE6F4] text-[#2C4875] px-2.5 py-0.5 rounded-full">Sea View</span>
                                                 </div>
                                             </div>
 
@@ -827,11 +853,10 @@
                                                 >
                                                     {booked ? 'Booked' : isSelected ? 'Selected' : 'Select'}
                                                 </button>
-                                                
                                                 <button 
                                                     onClick={() => onLaunchTour(r.category)}
-                                                    className="px-3 py-2 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] text-white rounded-xl text-xs font-bold hover:brightness-105"
-                                                    title="Launch 360° virtual tour"
+                                                    className="px-3 py-2 bg-gradient-to-tr from-[#D4AF37] to-[#E8C97A] text-white rounded-xl text-xs font-bold"
+                                                    title="Launch 360 virtual tour"
                                                 >
                                                     👁️
                                                 </button>
@@ -842,14 +867,14 @@
                         </div>
 
                         {selectedRoomNo && (
-                            <div className="glass-panel p-6 rounded-3xl border border-[#D4AF37]/20 flex items-center justify-between">
+                            <div className="royal-panel p-6 border border-[#D4AF37]/20 flex items-center justify-between">
                                 <div>
-                                    <span className="text-xs font-bold text-[#6E7791] uppercase">Selected Chamber</span>
+                                    <span className="text-xs font-bold text-[#6E7791] uppercase">Selected chamber</span>
                                     <h4 className="text-xl font-serif font-extrabold text-[#2C4875]">Suite {selectedRoomNo}</h4>
                                 </div>
                                 <button 
                                     onClick={onBookClick}
-                                    className="px-6 py-3 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs transition duration-200 uppercase tracking-widest shadow-md"
+                                    className="px-6 py-3 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs transition uppercase tracking-widest shadow-md"
                                 >
                                     Proceed to Booking
                                 </button>
@@ -860,16 +885,16 @@
             );
         }
 
-        // Multi-Step Booking Flow Wizard
+        // Booking Wizard
         function BookingWizard({ rooms, selectedRoomNo, bookings, onBookingComplete }) {
             const [step, setStep] = useState(1);
             
-            // Stay info
+            // Stay Info
             const [checkIn, setCheckIn] = useState('');
             const [checkOut, setCheckOut] = useState('');
             const [guests, setGuests] = useState('1');
             
-            // Add-ons
+            // Perks
             const [breakfast, setBreakfast] = useState(false);
             const [shuttle, setShuttle] = useState(false);
             const [spa, setSpa] = useState(false);
@@ -888,9 +913,8 @@
             const [cardCvv, setCardCvv] = useState('');
             const [cardFlipped, setCardFlipped] = useState(false);
 
-            // Calculations
-            const selectedRoom = rooms.find(r => r.roomNumber === parseInt(selectedRoomNo)) || { pricePerNight: 100, category: 'Standard' };
-            const daysCount = 3; // Mocking duration for calculation
+            const selectedRoom = rooms.find(r => r.roomNumber === parseInt(selectedRoomNo)) || { pricePerNight: 100 };
+            const daysCount = 3;
             const baseCost = selectedRoom.pricePerNight * daysCount;
             const extraBuffet = breakfast ? 15.0 * daysCount : 0.0;
             const extraShuttle = shuttle ? 30.0 : 0.0;
@@ -898,20 +922,9 @@
             const subtotal = baseCost + extraBuffet + extraShuttle + extraSpa;
 
             let discount = 0.0;
-            if (promo.toUpperCase() === 'ROYAL20') {
-                discount = subtotal * 0.2;
-            } else if (promo.toUpperCase() === 'PALACE10') {
-                discount = subtotal * 0.1;
-            }
+            if (promo.toUpperCase() === 'ROYAL20') discount = subtotal * 0.2;
+            else if (promo.toUpperCase() === 'PALACE10') discount = subtotal * 0.1;
             const grandTotal = subtotal - discount;
-
-            const handleNext = () => {
-                if (step < 4) setStep(step + 1);
-            };
-
-            const handleBack = () => {
-                if (step > 1) setStep(step - 1);
-            };
 
             const handlePaySubmit = async (e) => {
                 e.preventDefault();
@@ -930,75 +943,53 @@
 
                     const res = await fetch(`/api/hotel/book?${params.toString()}`, { method: 'POST' });
                     const data = await res.json();
-
                     if (data.success) {
                         onBookingComplete(data);
                     } else {
                         alert(data.message);
                     }
                 } catch (err) {
-                    console.error("Booking error:", err);
+                    console.error("Booking failed:", err);
                 }
             };
 
             return (
-                <div className="max-w-2xl mx-auto glass-panel rounded-3xl p-8 border border-[#D4AF37]/25 shadow-xl space-y-8">
-                    {/* Header wizard timeline */}
+                <div className="max-w-2xl mx-auto royal-panel rounded-3xl p-8 border border-[#D4AF37]/25 shadow-xl space-y-8">
                     <div className="flex justify-between items-center pb-4 border-b border-[#D4AF37]/15">
-                        <div className="text-left">
+                        <div>
                             <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest">Reservation Flow</span>
                             <h3 className="text-2xl font-serif font-extrabold text-[#2C4875]">Step {step} of 4</h3>
                         </div>
                         <div className="flex gap-2">
                             {[1, 2, 3, 4].map(idx => (
-                                <span 
-                                    key={idx}
-                                    className={`w-2.5 h-2.5 rounded-full ${
-                                        step >= idx ? 'bg-[#D4AF37]' : 'bg-[#DCE6F4]'
-                                    }`}
-                                ></span>
+                                <span key={idx} className={`w-2.5 h-2.5 rounded-full ${step >= idx ? 'bg-[#D4AF37]' : 'bg-[#DCE6F4]'}`}></span>
                             ))}
                         </div>
                     </div>
 
-                    {/* Step Viewports */}
                     {step === 1 && (
                         <div className="space-y-4">
                             <h4 className="text-lg font-serif font-bold text-[#2C4875]">Select Stay Parameters</h4>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Check-in Date</label>
-                                    <input 
-                                        type="date" 
-                                        value={checkIn}
-                                        onChange={(e) => setCheckIn(e.target.value)}
-                                        className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                    />
+                                    <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Check-out Date</label>
-                                    <input 
-                                        type="date" 
-                                        value={checkOut}
-                                        onChange={(e) => setCheckOut(e.target.value)}
-                                        className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                    />
+                                    <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
                                 </div>
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Guests count</label>
-                                <select 
-                                    value={guests} 
-                                    onChange={(e) => setGuests(e.target.value)}
-                                    className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                >
+                                <select value={guests} onChange={(e) => setGuests(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]">
                                     <option value="1">1 Guest</option>
                                     <option value="2">2 Guests</option>
                                     <option value="3">3 Guests</option>
                                 </select>
                             </div>
                             <div className="pt-4 flex justify-end">
-                                <button onClick={handleNext} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold hover:bg-[#5B7FB5]">Continue</button>
+                                <button onClick={() => setStep(2)} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold">Continue</button>
                             </div>
                         </div>
                     )}
@@ -1009,47 +1000,24 @@
                             <div className="bg-[#FFE9A8]/10 p-5 rounded-2xl border border-[#D4AF37]/15 space-y-3">
                                 <label className="flex items-center justify-between cursor-pointer group text-xs text-[#2A2E3A]">
                                     <span className="font-semibold group-hover:text-[#2C4875]">Gourmet Breakfast Buffet (+$15/day)</span>
-                                    <input 
-                                        type="checkbox" 
-                                        checked={breakfast} 
-                                        onChange={(e) => setBreakfast(e.target.checked)}
-                                        className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0"
-                                    />
+                                    <input type="checkbox" checked={breakfast} onChange={(e) => setBreakfast(e.target.checked)} className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0" />
                                 </label>
                                 <label className="flex items-center justify-between cursor-pointer group text-xs text-[#2A2E3A]">
                                     <span className="font-semibold group-hover:text-[#2C4875]">Private Airport Shuttle (+$30 flat)</span>
-                                    <input 
-                                        type="checkbox" 
-                                        checked={shuttle} 
-                                        onChange={(e) => setShuttle(e.target.checked)}
-                                        className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0"
-                                    />
+                                    <input type="checkbox" checked={shuttle} onChange={(e) => setShuttle(e.target.checked)} className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0" />
                                 </label>
                                 <label className="flex items-center justify-between cursor-pointer group text-xs text-[#2A2E3A]">
                                     <span className="font-semibold group-hover:text-[#2C4875]">VIP Wellness Spa Lounge Access (+$50 flat)</span>
-                                    <input 
-                                        type="checkbox" 
-                                        checked={spa} 
-                                        onChange={(e) => setSpa(e.target.checked)}
-                                        className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0"
-                                    />
+                                    <input type="checkbox" checked={spa} onChange={(e) => setSpa(e.target.checked)} className="w-4 h-4 rounded text-[#D4AF37] border-[#D4AF37]/20 focus:ring-0" />
                                 </label>
                             </div>
-
                             <div>
                                 <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Promo Code</label>
-                                <input 
-                                    type="text" 
-                                    value={promo}
-                                    onChange={(e) => setPromo(e.target.value)}
-                                    placeholder="Enter Code (e.g. ROYAL20, PALACE10)"
-                                    className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A] font-bold"
-                                />
+                                <input type="text" value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="e.g. ROYAL20, PALACE10" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A] font-bold" />
                             </div>
-
                             <div className="pt-4 flex justify-between">
-                                <button onClick={handleBack} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
-                                <button onClick={handleNext} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold hover:bg-[#5B7FB5]">Continue</button>
+                                <button onClick={() => setStep(1)} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
+                                <button onClick={() => setStep(3)} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold">Continue</button>
                             </div>
                         </div>
                     )}
@@ -1059,66 +1027,39 @@
                             <h4 className="text-lg font-serif font-bold text-[#2C4875]">Guest Credentials</h4>
                             <div>
                                 <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Guest Name</label>
-                                <input 
-                                    type="text"
-                                    value={guestName}
-                                    onChange={(e) => setGuestName(e.target.value)}
-                                    placeholder="Enter full name"
-                                    className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                />
+                                <input type="text" value={guestName} onChange={(e) => setGuestName(e.target.value)} placeholder="Jane Doe" className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Contact Phone</label>
-                                <input 
-                                    type="tel"
-                                    value={contact}
-                                    onChange={(e) => setContact(e.target.value)}
-                                    placeholder="Enter phone number"
-                                    className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                />
+                                <input type="tel" value={contact} onChange={(e) => setContact(e.target.value)} placeholder="+91 9988776655" className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">ID Document Type</label>
-                                    <select 
-                                        value={idType} 
-                                        onChange={(e) => setIdType(e.target.value)}
-                                        className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                    >
+                                    <select value={idType} onChange={(e) => setIdType(e.target.value)} className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]">
                                         <option value="Passport">Passport</option>
                                         <option value="National ID">National ID</option>
-                                        <option value="Driver's License">Driver's License</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Document Number</label>
-                                    <input 
-                                        type="text"
-                                        value={idNumber}
-                                        onChange={(e) => setIdNumber(e.target.value)}
-                                        placeholder="Enter ID number"
-                                        className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                    />
+                                    <input type="text" value={idNumber} onChange={(e) => setIdNumber(e.target.value)} placeholder="Doc Num" className="w-full px-3 py-2.5 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" />
                                 </div>
                             </div>
-
                             <div className="pt-4 flex justify-between">
-                                <button onClick={handleBack} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
-                                <button onClick={handleNext} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold hover:bg-[#5B7FB5]">Continue</button>
+                                <button onClick={() => setStep(2)} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
+                                <button onClick={() => setStep(4)} className="px-6 py-2 bg-[#2C4875] text-white rounded-xl text-xs font-bold">Continue</button>
                             </div>
                         </div>
                     )}
 
                     {step === 4 && (
                         <form onSubmit={handlePaySubmit} className="space-y-6">
-                            <h4 className="text-lg font-serif font-bold text-[#2C4875]">Royal Payment Portal</h4>
+                            <h4 className="text-lg font-serif font-bold text-[#2C4875]">Royal Payment Panel</h4>
                             
-                            {/* 3D Animated Credit Card */}
                             <div className="flex justify-center">
                                 <div className={`flip-card w-72 h-44 cursor-pointer ${cardFlipped ? 'flipped' : ''}`}>
                                     <div className="flip-card-inner w-full h-full relative">
-                                        
-                                        {/* Card Front */}
                                         <div className="flip-card-front bg-gradient-to-tr from-[#2C4875] to-[#5B7FB5] p-5 text-white flex flex-col justify-between shadow-lg">
                                             <div className="flex justify-between items-center">
                                                 <span className="font-serif font-bold tracking-widest text-sm text-[#FFE9A8]">LUXURY CARD</span>
@@ -1139,93 +1080,45 @@
                                             </div>
                                         </div>
 
-                                        {/* Card Back */}
                                         <div className="flip-card-back bg-gradient-to-tr from-[#1B2A4A] to-[#2C4875] p-5 text-white flex flex-col justify-between shadow-lg">
                                             <div className="w-full h-8 bg-black/60 -mx-5 mt-2"></div>
                                             <div className="bg-white/80 text-[#2C4875] text-right font-mono px-3 py-1 text-xs rounded tracking-widest font-extrabold italic">
                                                 {cardCvv || '•••'}
                                             </div>
-                                            <div className="text-[7px] opacity-50 text-center leading-tight">
-                                                This membership card remains property of Luxury Resort & Hotels Group. Usage subject to royal terms.
-                                            </div>
+                                            <div className="text-[7px] opacity-50 text-center leading-tight">Subject to royal terms.</div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Payment Inputs */}
                             <div className="space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Card Number</label>
-                                        <input 
-                                            type="text"
-                                            maxLength="19"
-                                            value={cardNumber}
-                                            onChange={(e) => setCardNumber(e.target.value)}
-                                            onFocus={() => setCardFlipped(false)}
-                                            placeholder="XXXX XXXX XXXX XXXX"
-                                            className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                            required
-                                        />
+                                        <input type="text" maxLength="19" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} onFocus={() => setCardFlipped(false)} placeholder="XXXX XXXX XXXX XXXX" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Card Holder</label>
-                                        <input 
-                                            type="text"
-                                            value={cardHolder}
-                                            onChange={(e) => setCardHolder(e.target.value)}
-                                            onFocus={() => setCardFlipped(false)}
-                                            placeholder="Enter card name"
-                                            className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                            required
-                                        />
+                                        <input type="text" value={cardHolder} onChange={(e) => setCardHolder(e.target.value)} onFocus={() => setCardFlipped(false)} placeholder="Name" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
                                     </div>
                                 </div>
-
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Expiration Date</label>
-                                        <input 
-                                            type="text"
-                                            placeholder="MM/YY"
-                                            maxLength="5"
-                                            value={cardExpiry}
-                                            onChange={(e) => setCardExpiry(e.target.value)}
-                                            onFocus={() => setCardFlipped(false)}
-                                            className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                            required
-                                        />
+                                        <input type="text" placeholder="MM/YY" maxLength="5" value={cardExpiry} onChange={(e) => setCardExpiry(e.target.value)} onFocus={() => setCardFlipped(false)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">CVV Security Code</label>
-                                        <input 
-                                            type="password"
-                                            maxLength="3"
-                                            value={cardCvv}
-                                            onChange={(e) => setCardCvv(e.target.value)}
-                                            onFocus={() => setCardFlipped(true)}
-                                            placeholder="CVV"
-                                            className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                            required
-                                        />
+                                        <input type="password" maxLength="3" value={cardCvv} onChange={(e) => setCardCvv(e.target.value)} onFocus={() => setCardFlipped(true)} placeholder="CVV" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Cost Breakdown */}
                             <div className="bg-[#FFE9A8]/10 p-4 rounded-2xl border border-[#D4AF37]/20 text-xs space-y-2">
                                 <div className="flex justify-between font-semibold">
                                     <span className="text-[#6E7791]">Base Stay (3 nights @ ${selectedRoom.pricePerNight}):</span>
                                     <span>${baseCost}</span>
                                 </div>
-                                {(breakfast || shuttle || spa) && (
-                                    <div className="flex justify-between font-semibold">
-                                        <span className="text-[#6E7791]">Perks Add-ons:</span>
-                                        <span>${extraBuffet + extraShuttle + extraSpa}</span>
-                                    </div>
-                                )}
                                 {discount > 0 && (
                                     <div className="flex justify-between font-extrabold text-[#D4AF37]">
                                         <span>Promo Discount Applied:</span>
@@ -1239,8 +1132,8 @@
                             </div>
 
                             <div className="pt-4 flex justify-between">
-                                <button type="button" onClick={handleBack} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
-                                <button type="submit" className="px-8 py-3 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs transition duration-200 uppercase tracking-widest shadow-md">Pay & Reserve</button>
+                                <button type="button" onClick={() => setStep(3)} className="px-5 py-2 border border-slate-200 text-[#6E7791] rounded-xl text-xs font-bold">Back</button>
+                                <button type="submit" className="px-8 py-3 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs transition uppercase tracking-widest shadow-md">Pay & Reserve</button>
                             </div>
                         </form>
                     )}
@@ -1248,21 +1141,18 @@
             );
         }
 
-        // Receipt invoice generator with clean POS layout and print handler
+        // Receipt Confirmation
         function BookingConfirmation({ bookingData, onDone }) {
             const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${bookingData.bookingId}`;
-
             return (
-                <div className="max-w-md mx-auto glass-panel rounded-3xl border-2 border-[#D4AF37]/35 p-8 shadow-2xl space-y-8" id="print-area">
+                <div className="max-w-md mx-auto royal-panel rounded-3xl border-2 border-[#D4AF37]/35 p-8 shadow-2xl space-y-8" id="print-area">
                     <div className="text-center border-b border-[#D4AF37]/20 pb-4">
                         <h2 className="text-2xl font-serif font-extrabold tracking-widest text-[#2C4875] uppercase">LUXURY RESORT</h2>
                         <p className="text-[10px] text-[#D4AF37] font-bold uppercase tracking-widest mt-1">Booking Confirmation</p>
                     </div>
-
                     <div className="flex justify-center py-4 bg-white/40 rounded-2xl border border-[#D4AF37]/10">
                         <img src={qrCodeUrl} alt="Check-in QR Code" className="w-32 h-32 border border-[#D4AF37]/20 rounded-lg" />
                     </div>
-
                     <div className="space-y-3 text-xs text-[#2A2E3A]">
                         <div className="flex justify-between">
                             <span className="font-bold text-[#6E7791]">Booking Ref:</span>
@@ -1277,29 +1167,17 @@
                             <span className="font-extrabold text-sm text-[#2C4875]">${bookingData.totalCost?.toFixed(2) || '0.00'}</span>
                         </div>
                     </div>
-
                     <div className="flex gap-4 print-hide">
-                        <button 
-                            onClick={() => window.print()}
-                            className="flex-grow py-3 bg-[#2C4875] hover:bg-[#5B7FB5] text-white font-bold rounded-xl text-xs transition duration-200 shadow-md flex items-center justify-center gap-2"
-                        >
-                            Print Receipt
-                        </button>
-                        <button 
-                            onClick={onDone}
-                            className="px-5 py-3 bg-white border border-[#D4AF37]/20 hover:bg-[#F6EBC8] text-[#6E7791] font-bold rounded-xl text-xs transition"
-                        >
-                            Return Home
-                        </button>
+                        <button onClick={() => window.print()} className="flex-grow py-3 bg-[#2C4875] hover:bg-[#5B7FB5] text-white font-bold rounded-xl text-xs transition shadow-md">Print Receipt</button>
+                        <button onClick={onDone} className="px-5 py-3 bg-white border border-[#D4AF37]/20 hover:bg-[#F6EBC8] text-[#6E7791] font-bold rounded-xl text-xs transition">Return Home</button>
                     </div>
                 </div>
             );
         }
 
-        // Guest Loyalty Dashboard (Silver, Gold, Platinum status tracking)
+        // Guest Loyalty Panel
         function LoyaltyDashboard({ bookings }) {
             const nightsCount = bookings.reduce((sum, b) => sum + b.nights, 0);
-            
             let tier = "Silver Member";
             let progress = 30;
             let perks = ["10% discount on spa amenities", "Free bottled water daily"];
@@ -1319,14 +1197,12 @@
 
             return (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-1 glass-panel p-6 rounded-3xl border border-[#D4AF37]/25 space-y-6">
+                    <div className="lg:col-span-1 royal-panel p-6 border border-[#D4AF37]/25 space-y-6">
                         <div className="text-center space-y-3">
                             <div className={`text-5xl ${badgeColor} drop-shadow-md`}>👑</div>
                             <h3 className="text-2xl font-serif font-extrabold text-[#2C4875]">{tier}</h3>
                             <p className="text-xs font-semibold text-[#D4AF37] uppercase tracking-wider">Royal Loyalty Tier</p>
                         </div>
-
-                        {/* Progress Bar */}
                         <div className="space-y-2">
                             <div className="flex justify-between text-[10px] font-extrabold text-[#6E7791] uppercase">
                                 <span>Progress to next tier</span>
@@ -1336,27 +1212,18 @@
                                 <div className="bg-[#D4AF37] h-full" style={{ width: `${progress}%` }}></div>
                             </div>
                         </div>
-
-                        {/* Perks list */}
                         <div className="bg-[#FFE9A8]/10 p-4 rounded-2xl border border-[#D4AF37]/15 space-y-2">
-                            <h4 className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border-b border-[#D4AF37]/15 pb-1.5 mb-2">Unlocked Palace Perks</h4>
+                            <h4 className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border-b border-[#D4AF37]/15 pb-1.5 mb-2">Unlocked privileges</h4>
                             <ul className="space-y-1.5 text-xs text-[#2A2E3A]">
-                                {perks.map((p, idx) => (
-                                    <li key={idx} className="flex items-center gap-2">
-                                        <span className="text-[#D4AF37]">✓</span> {p}
-                                    </li>
-                                ))}
+                                {perks.map((p, idx) => <li key={idx} className="flex items-center gap-2"><span className="text-[#D4AF37]">✓</span> {p}</li>)}
                             </ul>
                         </div>
                     </div>
 
-                    <div className="lg:col-span-2 glass-panel p-6 rounded-3xl border border-[#D4AF37]/25 space-y-6">
+                    <div className="lg:col-span-2 royal-panel p-6 border border-[#D4AF37]/25 space-y-6">
                         <h3 className="text-xl font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/15 pb-2">Active Stays & Registries</h3>
-                        
                         {bookings.length === 0 ? (
-                            <div className="text-center py-10 text-[#6E7791] text-xs font-semibold">
-                                No active chamber reservations registered.
-                            </div>
+                            <div className="text-center py-10 text-[#6E7791] text-xs font-semibold">No active chamber reservations registered.</div>
                         ) : (
                             <div className="space-y-4">
                                 {bookings.map(b => (
@@ -1368,9 +1235,7 @@
                                         </div>
                                         <div className="text-right">
                                             <span className="block text-sm font-extrabold text-[#2C4875]">${b.totalCost?.toFixed(2)}</span>
-                                            <span className="inline-block px-2.5 py-0.5 mt-1 rounded-full text-[9px] font-bold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
-                                                Paid
-                                            </span>
+                                            <span className="inline-block px-2.5 py-0.5 mt-1 rounded-full text-[9px] font-bold uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">Paid</span>
                                         </div>
                                     </div>
                                 ))}
@@ -1381,11 +1246,9 @@
             );
         }
 
-        // Admin Dashboards (Revenue SVG, Promotions, CRUD Room manager)
-        function AdminDashboard({ rooms, bookings, analytics, onCancelBooking, onAddRoom, onPromoCreate }) {
-            const [selectedTab, setSelectedTab] = useState("bookings"); // bookings | inventory | analytics
-
-            // CRUD states
+        // Admin Dashboards
+        function AdminDashboard({ rooms, bookings, analytics, onCancelBooking, onAddRoom }) {
+            const [selectedTab, setSelectedTab] = useState("bookings");
             const [newRoomNo, setNewRoomNo] = useState("");
             const [newCategory, setNewCategory] = useState("Standard");
             const [newPrice, setNewPrice] = useState("");
@@ -1393,49 +1256,28 @@
             const handleRoomSubmit = (e) => {
                 e.preventDefault();
                 if (!newRoomNo || !newPrice) return;
-                onAddRoom({
-                    roomNumber: parseInt(newRoomNo),
-                    category: newCategory,
-                    pricePerNight: parseFloat(newPrice)
-                });
+                onAddRoom({ roomNumber: parseInt(newRoomNo), category: newCategory, pricePerNight: parseFloat(newPrice) });
                 setNewRoomNo("");
                 setNewPrice("");
             };
 
             return (
                 <div className="space-y-8">
-                    {/* Secondary Navigation */}
                     <div className="flex gap-2 border-b border-[#D4AF37]/15 pb-2">
-                        <button 
-                            onClick={() => setSelectedTab("bookings")}
-                            className={`px-4 py-2 text-xs font-bold rounded-xl transition ${
-                                selectedTab === "bookings" ? 'bg-[#2C4875] text-white' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'
-                            }`}
-                        >
-                            Guest Bookings
-                        </button>
-                        <button 
-                            onClick={() => setSelectedTab("inventory")}
-                            className={`px-4 py-2 text-xs font-bold rounded-xl transition ${
-                                selectedTab === "inventory" ? 'bg-[#2C4875] text-white' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'
-                            }`}
-                        >
-                            Chamber Inventory
-                        </button>
-                        <button 
-                            onClick={() => setSelectedTab("analytics")}
-                            className={`px-4 py-2 text-xs font-bold rounded-xl transition ${
-                                selectedTab === "analytics" ? 'bg-[#2C4875] text-white' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'
-                            }`}
-                        >
-                            Occupancy Analytics
-                        </button>
+                        {["bookings", "inventory", "analytics"].map(tab => (
+                            <button 
+                                key={tab}
+                                onClick={() => setSelectedTab(tab)}
+                                className={`px-4 py-2 text-xs font-bold rounded-xl transition uppercase tracking-wider ${selectedTab === tab ? 'bg-[#2C4875] text-white' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}
+                            >
+                                {tab}
+                            </button>
+                        ))}
                     </div>
 
                     {selectedTab === "bookings" && (
-                        <div className="glass-panel rounded-3xl p-6 border border-[#D4AF37]/25 overflow-hidden">
-                            <h3 className="text-xl font-serif font-bold text-[#2C4875] mb-6">Lobby Reservations Registry</h3>
-                            
+                        <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25 overflow-hidden">
+                            <h3 className="text-xl font-serif font-bold text-[#2C4875] mb-6">Reservations Registry</h3>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                     <thead>
@@ -1457,12 +1299,7 @@
                                                 <td className="py-4 px-4 text-center">{b.nights}</td>
                                                 <td className="py-4 px-4 text-center font-extrabold text-[#2C4875]">${b.totalCost?.toFixed(2)}</td>
                                                 <td className="py-4 px-4 text-right">
-                                                    <button 
-                                                        onClick={() => onCancelBooking(b.bookingId)}
-                                                        className="px-3 py-1.5 bg-rose-500/10 text-rose-600 font-bold rounded-lg hover:bg-rose-500/20 text-[10px]"
-                                                    >
-                                                        Cancel stay
-                                                    </button>
+                                                    <button onClick={() => onCancelBooking(b.bookingId)} className="px-3 py-1.5 bg-rose-500/10 text-rose-600 font-bold rounded-lg hover:bg-rose-500/20 text-[10px]">Cancel stay</button>
                                                 </td>
                                             </tr>
                                         ))}
@@ -1474,27 +1311,16 @@
 
                     {selectedTab === "inventory" && (
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <div className="lg:col-span-1 glass-panel p-6 rounded-3xl border border-[#D4AF37]/25 h-fit">
+                            <div className="lg:col-span-1 royal-panel p-6 border border-[#D4AF37]/25 h-fit">
                                 <h3 className="text-lg font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/15 pb-2 mb-4">Add Chamber</h3>
                                 <form onSubmit={handleRoomSubmit} className="space-y-4">
                                     <div>
                                         <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Chamber Number</label>
-                                        <input 
-                                            type="number"
-                                            value={newRoomNo}
-                                            onChange={(e) => setNewRoomNo(e.target.value)}
-                                            placeholder="e.g. 401"
-                                            className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                            required
-                                        />
+                                        <input type="number" value={newRoomNo} onChange={(e) => setNewRoomNo(e.target.value)} placeholder="e.g. 401" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Category</label>
-                                        <select 
-                                            value={newCategory}
-                                            onChange={(e) => setNewCategory(e.target.value)}
-                                            className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                        >
+                                        <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]">
                                             <option value="Standard">Standard</option>
                                             <option value="Deluxe">Deluxe</option>
                                             <option value="Suite">Suite</option>
@@ -1502,22 +1328,13 @@
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-[#6E7791] uppercase mb-1">Price Per Night ($)</label>
-                                        <input 
-                                            type="number"
-                                            value={newPrice}
-                                            onChange={(e) => setNewPrice(e.target.value)}
-                                            placeholder="e.g. 200"
-                                            className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]"
-                                            required
-                                        />
+                                        <input type="number" value={newPrice} onChange={(e) => setNewPrice(e.target.value)} placeholder="e.g. 200" className="w-full px-3 py-2 border border-[#D4AF37]/20 rounded-xl text-xs bg-white text-[#2A2E3A]" required />
                                     </div>
-                                    <button type="submit" className="w-full py-2 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs">
-                                        Register Suite
-                                    </button>
+                                    <button type="submit" className="w-full py-2 bg-[#D4AF37] hover:bg-[#E8C97A] text-white font-bold rounded-xl text-xs">Register Suite</button>
                                 </form>
                             </div>
 
-                            <div className="lg:col-span-2 glass-panel p-6 rounded-3xl border border-[#D4AF37]/25">
+                            <div className="lg:col-span-2 royal-panel p-6 border border-[#D4AF37]/25">
                                 <h3 className="text-lg font-serif font-bold text-[#2C4875] border-b border-[#D4AF37]/15 pb-2 mb-4">Chamber Registry</h3>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 h-96 overflow-y-auto pr-2">
                                     {rooms.map(r => (
@@ -1535,9 +1352,8 @@
                     {selectedTab === "analytics" && (
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div className="lg:col-span-1 space-y-6">
-                                <div className="glass-panel rounded-3xl p-6 border border-[#D4AF37]/25 space-y-4">
+                                <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25 space-y-4">
                                     <h3 className="text-xs font-bold text-[#D4AF37] uppercase tracking-widest">Financial metrics</h3>
-                                    
                                     <div className="bg-white/60 p-4 rounded-2xl border border-[#D4AF37]/10">
                                         <span className="block text-[10px] text-[#6E7791] font-bold uppercase tracking-wider mb-1">Occupancy Rate</span>
                                         <span className="text-3xl font-serif font-extrabold text-[#2C4875]">{analytics.occupancyRate?.toFixed(1)}%</span>
@@ -1550,13 +1366,13 @@
                             </div>
 
                             <div className="lg:col-span-2 space-y-6">
-                                <div className="glass-panel rounded-3xl p-6 border border-[#D4AF37]/25">
+                                <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25">
                                     <h3 className="text-sm font-serif font-extrabold text-[#2C4875] mb-4">Suite Bookings popularities</h3>
-                                    <OccupancyChart distribution={analytics.categoryDistribution} />
+                                    <OccupancyBarChart distribution={analytics.categoryDistribution} />
                                 </div>
-                                <div className="glass-panel rounded-3xl p-6 border border-[#D4AF37]/25">
+                                <div className="royal-panel rounded-3xl p-6 border border-[#D4AF37]/25">
                                     <h3 className="text-sm font-serif font-extrabold text-[#2C4875] mb-4">Room Allocation Density</h3>
-                                    <DonutChart distribution={analytics.categoryDistribution} />
+                                    <AllocationDonut distribution={analytics.categoryDistribution} />
                                 </div>
                             </div>
                         </div>
@@ -1565,15 +1381,13 @@
             );
         }
 
-        // Main App Orchestration
+        // Main App
         function App() {
             const [view, setView] = useState("home");
             const [rooms, setRooms] = useState([]);
             const [bookings, setBookings] = useState([]);
             const [selectedRoomNo, setSelectedRoomNo] = useState("");
             const [activeReceipt, setActiveReceipt] = useState(null);
-            
-            // 360° Virtual Tour category state
             const [tourCategory, setTourCategory] = useState(null);
 
             // Dark Mode
@@ -1649,100 +1463,28 @@
                             <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest mt-0.5">Where Every Stay is a Reign</p>
                         </div>
 
-                        {/* Navigation buttons */}
                         <div className="flex flex-wrap gap-2 md:gap-4 items-center">
-                            <button 
-                                onClick={() => setView("home")}
-                                className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'home' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}
-                            >
-                                Lobby
-                            </button>
-                            <button 
-                                onClick={() => setView("explorer")}
-                                className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'explorer' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}
-                            >
-                                Chamber Grid
-                            </button>
-                            <button 
-                                onClick={() => setView("loyalty")}
-                                className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'loyalty' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}
-                            >
-                                Guest Directory
-                            </button>
-                            <button 
-                                onClick={() => setView("admin")}
-                                className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'admin' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}
-                            >
-                                Manager Console
-                            </button>
+                            <button onClick={() => setView("home")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'home' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Lobby</button>
+                            <button onClick={() => setView("explorer")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'explorer' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Chamber Grid</button>
+                            <button onClick={() => setView("loyalty")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'loyalty' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Guest Directory</button>
+                            <button onClick={() => setView("admin")} className={`px-4 py-2 font-bold rounded-xl transition duration-200 text-xs ${view === 'admin' ? 'bg-[#2C4875] text-white shadow-md' : 'text-[#6E7791] hover:bg-[#F6EBC8]/30'}`}>Manager Console</button>
                             
-                            {/* Midnight Theme Toggle */}
-                            <button 
-                                onClick={toggleTheme}
-                                className="w-8 h-8 rounded-full border border-[#D4AF37]/35 flex items-center justify-center text-sm bg-white shadow-inner"
-                                title="Toggle Theme"
-                            >
-                                {darkMode ? '☀️' : '🌙'}
-                            </button>
+                            <button onClick={toggleTheme} className="w-8 h-8 rounded-full border border-[#D4AF37]/35 flex items-center justify-center text-sm bg-white shadow-inner">{darkMode ? '☀️' : '🌙'}</button>
                         </div>
                     </div>
 
                     {/* Page Content Viewport */}
                     <div className="flex-grow">
-                        {view === "home" && (
-                            <HomeView 
-                                onExploreClick={() => setView("explorer")} 
-                                rooms={rooms}
-                            />
-                        )}
-                        {view === "explorer" && (
-                            <ExplorerView 
-                                rooms={rooms} 
-                                bookings={bookings} 
-                                selectedRoomNo={selectedRoomNo} 
-                                onRoomSelect={handleRoomSelect}
-                                onBookClick={() => setView("booking")}
-                                onLaunchTour={(cat) => setTourCategory(cat)}
-                            />
-                        )}
-                        {view === "booking" && (
-                            <BookingWizard 
-                                rooms={rooms} 
-                                selectedRoomNo={selectedRoomNo}
-                                bookings={bookings}
-                                onBookingComplete={handleBookingComplete}
-                            />
-                        )}
-                        {view === "receipt" && activeReceipt && (
-                            <BookingConfirmation 
-                                bookingData={activeReceipt} 
-                                onDone={() => setView("home")}
-                            />
-                        )}
-                        {view === "loyalty" && (
-                            <LoyaltyDashboard bookings={bookings} />
-                        )}
-                        {view === "admin" && (
-                            <AdminDashboard 
-                                rooms={rooms} 
-                                bookings={bookings} 
-                                analytics={analytics}
-                                onCancelBooking={handleCancelBooking}
-                                onAddRoom={handleAddRoom}
-                            />
-                        )}
+                        {view === "home" && <HomeView onExploreClick={() => setView("explorer")} />}
+                        {view === "explorer" && <ExplorerView rooms={rooms} bookings={bookings} selectedRoomNo={selectedRoomNo} onRoomSelect={handleRoomSelect} onBookClick={() => setView("booking")} onLaunchTour={(cat) => setTourCategory(cat)} />}
+                        {view === "booking" && <BookingWizard rooms={rooms} selectedRoomNo={selectedRoomNo} bookings={bookings} onBookingComplete={handleBookingComplete} />}
+                        {view === "receipt" && activeReceipt && <BookingConfirmation bookingData={activeReceipt} onDone={() => setView("home")} />}
+                        {view === "loyalty" && <LoyaltyDashboard bookings={bookings} />}
+                        {view === "admin" && <AdminDashboard rooms={rooms} bookings={bookings} analytics={analytics} onCancelBooking={handleCancelBooking} onAddRoom={handleAddRoom} />}
                     </div>
 
-                    {/* Interactive 360 Virtual Tour Overlay */}
-                    {tourCategory && (
-                        <Virtual360Tour 
-                            suiteCategory={tourCategory} 
-                            onClose={() => setTourCategory(null)}
-                        />
-                    )}
-
-                    {/* Royal Concierge floating AI bot */}
-                    <RoyalConcierge currentView={view} />
+                    {tourCategory && <Tour360Viewer suiteCategory={tourCategory} onClose={() => setTourCategory(null)} />}
+                    <RoyalConciergeWidget />
                 </div>
             );
         }
