@@ -1,6 +1,6 @@
-package com.codealpha.hotelreservation.repository;
+package com.apex.hotelreservation.repository;
 
-import com.codealpha.hotelreservation.model.Booking;
+import com.apex.hotelreservation.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookingRepository extends JpaRepository<Booking, String> {

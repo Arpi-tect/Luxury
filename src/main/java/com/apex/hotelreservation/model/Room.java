@@ -1,4 +1,4 @@
-package com.codealpha.hotelreservation.model;
+package com.apex.hotelreservation.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
