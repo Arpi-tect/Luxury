@@ -12,8 +12,11 @@
 </p>
 
 <p align="center">
+  <a href="https://luxuryretreat.vercel.app" target="_blank">
+    <img src="https://img.shields.io/badge/Live%20Demo-Vercel%20(Fast%20Loading)-000000?style=for-the-badge&logo=vercel&logoColor=fff" alt="Live Demo Vercel">
+  </a>
   <a href="https://luxury-retreat.onrender.com" target="_blank">
-    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Website-bda371?style=for-the-badge&logo=render&logoColor=fff" alt="Live Demo">
+    <img src="https://img.shields.io/badge/API%20Server-Render%20(Cold%20Start)-bda371?style=for-the-badge&logo=render&logoColor=fff" alt="API Server Render">
   </a>
 </p>
 
