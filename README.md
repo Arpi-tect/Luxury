@@ -1,85 +1,141 @@
-# 🏨 LUXURY — Premium Hotel Reservation System
+<p align="center">
+  <img src="src/main/resources/static/luxury_retreat_banner.png" alt="Luxury Retreat Royal Banner" width="100%">
+</p>
 
-> **Where Every Stay is a Reign.**
+<p align="center">
+  <img src="src/main/resources/static/luxury_retreat_logo.png" alt="Luxury Retreat Gold Monogram" width="120px">
+</p>
 
-Luxury is a commercial-grade, high-end hotel reservation platform designed to feel like booking a 7-star palace experience. Built with a robust **Java Spring Boot** REST API backend and a cinematic, responsive **React.js & Tailwind CSS** web application frontend.
+<h1 align="center">👑 LUXURY RETREAT 👑</h1>
+<p align="center">
+  <strong>The Most Ultra-Luxury Experiential Resorts & Reservation Platform in India</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Theme-Royal%20Navy%20Blue-06122c?style=for-the-badge&logo=css3&logoColor=fff" alt="Royal Navy Blue Theme">
+  <img src="https://img.shields.io/badge/Accent-Chamber%20Gold-bda371?style=for-the-badge&logo=adguard&logoColor=fff" alt="Chamber Gold Accent">
+  <img src="https://img.shields.io/badge/Framework-Spring%20Boot%203-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 3">
+  <img src="https://img.shields.io/badge/Frontend-React%2018-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 18">
+</p>
 
 ---
 
-## 🎨 Visual Identity & Theme
+## 🔱 Welcome to the Realm of Royalty
 
-*   **Ivory-White Dominance (`#FDFBF6`)**: The primary canvas, evoking an airy palace suite at golden hour.
-*   **Royal Blue Accents (`#2C4875` / `#5B7FB5`)**: Used as soft slate-blue washes, borders, and high-emphasis heading typography.
-*   **Gold Primary Highlights (`#D4AF37` / `#E8C97A`)**: Used as elegant buttons, interactive highlights, and golden hover glows.
-*   **Signature Backdrop — Ambient Flowing Silk Curtains**: A slow, wind-blown drape of light golden silk rendered as overlapping animated SVG paths that sway gently in the background, creating a living hotel lobby experience.
+**Luxury Retreat** is an experiential, 7-star hotel reservation system modeled after the ultra-exclusive **Della Resorts** aesthetic. Built with a robust **Java Spring Boot** backend and a cinematic, responsive **React.js & Tailwind CSS** frontend, the platform replicates the high-end hospitality features, extreme adventure booking, theme gastronomy, and wellness spa offerings.
+
+Every visual element has been tailored to evoke a sense of nobility, transitioning from traditional slate themes into a deep, premium **Royal Navy Blue** and **Chamber Gold** aesthetic.
 
 ---
 
-## 🚀 Key Features
+## 🎨 Visual Identity & Royal Design System
 
-*   **Palace Room Catalog Status Grid**: Browse and filter premium hotel room tiers (Standard, Deluxe, and Suite) with dynamic availability checks.
-*   **Step-by-Step Checkout & Booking**: Guest registration with Passport/ID verification and direct selection of stay enhancements (Breakfast Buffet, Airport Shuttle pick-up, VIP Spa Lounge access).
-*   **Contactless QR Check-in Receipt**: Generates a POS-style guest invoice with an isolated print layout that hides browser frames.
-*   **Manager Analytics Dashboard**: Interactive operations metrics tracking hotel occupancy rate (%), gross revenues, RevPAR, and booking popularity graphs.
-*   **Interactive Royal Concierge**: A gold-accented, RAG-inspired concierge assistant widget to answer booking queries and guide guests.
+```
+  ⚜️  Base Canvas        :  Deep Royal Navy Blue (#06122c)
+  ⚜️  Grid & Card Panels :  Dark Navy Blue (#0c1b3d)
+  ⚜️  Modals & Overlays  :  Midnight Blue (#050d21) with soft opacities
+  ⚜️  Primary Accent     :  Gleaming Gold (#bda371) / Antique Gold (#a68a5c)
+```
+
+*   **Parted Royal Curtains**: Parted visual curtains define the framing elements of the workspace.
+*   **Video-Overlay Navigation Menu**: The header menu sits transparently over a looping widescreen YouTube hero video, blending to a semi-transparent royal navy backdrop (`rgba(6, 18, 44, 0.95)`) upon scroll.
+*   **Cursive Monogram**: Features a gold "LX" monogram badge integrated into the header, footer, and active AI chat concierge panels.
+*   **Zoom-on-Hover Staggered Grids**: Visual highlights of stay packages and extreme activities.
+
+---
+
+## 🚀 Royal Features & Capabilities
+
+### 🛏️ Stay Chamber Reservation Grid
+*   **6 Signature Resorts**: Supports interactive bookings for *Garden Villa*, *Luxury Resort*, *Camp Luxury Retreat Tents*, *Adventure Resort*, *Enclave Villas*, and the *DATA Military Escape*.
+*   **Availability Status check**: Live updates on rates, room capacity, and check-in options.
+
+### 🍽️ Gastronomy Selection
+*   **8 Theme Restaurants & Bars**: Details for Café 24, Villa Bistro, Parsi Dhaba, PNF, Crème Luxury Retreat, Sports Bar, Salaam Manekshaw, and Sky Garden.
+*   **Interactive Table Booking**: Custom booking modals to schedule date, timing, and guest count.
+
+### 🧗 Extreme Adventure Park
+*   **Staggered 6-Photo Layout**: Replicates Della's extreme sports panels.
+*   **50+ Activities**: Supports detail bookings for Swoop Swings (100 ft), Ziplines (1250 ft), and Zorbing.
+
+### 💳 Stripe Checkout & Stepper Wizard
+*   **3-Step Stepper Flow**: Guides guests through dates selection, premium perks (breakfast, shuttle, spa access), credentials input, and Stripe card payment validation.
+*   **Flipping Stripe Card UI**: A micro-animated payment card that flips dynamically to show CVV verification.
+*   **QR-Coded Check-in Receipt**: Generates a printer-optimized invoice layout hiding browser frames.
+
+### 🍷 RAG AI Concierge
+*   **AI Chatbot Widget**: A floating RAG-based concierge to answer resort-related queries.
+*   **RAG Similarity Engine**: Backed by a keyword/TF-IDF similarity index running in Java to fetch contextual resort knowledge documents.
+*   **Simulated Trace Logs**: View active RAG agent DAG routing paths directly from the developer console.
 
 ---
 
 ## 🛠️ Technology Stack
 
-*   **Backend**: Java 17, Spring Boot 3.x, Spring Data JPA, Hibernate, H2 Database.
-*   **Frontend**: React (ES6+), Tailwind CSS, Babel, HTML5, Custom SVG animations, Print CSS.
-*   **Build Tool**: Maven Wrapper (included).
+*   **Backend Core**: Java 17, Spring Boot 3.x, Spring Data JPA, Hibernate, H2 Database.
+*   **RAG Engine**: Natural Language Similarity Index, TF-IDF Search Matchers.
+*   **Frontend Core**: React 18, Tailwind CSS, Babel Compiler, custom CSS/SVG transitions.
+*   **Payment Gateway Integration**: Custom Stripe Card Payment mock interface.
 
 ---
 
-## 💻 How to Run Locally
+## 💻 How to Install & Run Locally
 
-You only need **Java 17 or higher** installed.
+### Prerequisites
+Make sure you have **Java 17** (or higher) installed on your system.
 
-### Step 1: Clone the repository
+### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/Arpi-tect/Luxury.git
 cd Luxury
 ```
 
-### Step 2: Start the Application
-Run the Maven wrapper command in your terminal:
-*   **On Windows**:
+### Step 2: Run the Spring Boot Server
+Launch the application using the Maven wrapper:
+*   **Windows (PowerShell/CMD)**:
     ```cmd
-    mvnw.cmd spring-boot:run
+    .\mvnw.cmd spring-boot:run
     ```
-*   **On Linux / macOS**:
+*   **Linux / macOS**:
     ```bash
     chmod +x mvnw
     ./mvnw spring-boot:run
     ```
 
-The Tomcat server will start on port `8082`.
+The server will spin up on port **`8082`**.
 
-### Step 3: Open in Browser
+### Step 3: Experience the Royalty
+Open your browser and navigate to:
 👉 **[http://localhost:8082](http://localhost:8082)**
 
 ---
 
 ## 📁 Repository Structure
+
 ```text
 Luxury/
-├── pom.xml                     # Maven configurations
-├── mvnw & mvnw.cmd             # Maven Wrapper scripts
-├── data/                       # H2 Local database file storage
+├── pom.xml                     # Maven build dependencies
+├── README.md                   # Royal Documentation
+├── data/                       # Local database file storage
 └── src/
     └── main/
         ├── java/com/apex/hotelreservation/
-        │   ├── HotelReservationSystemApplication.java  # Main Boot class
+        │   ├── HotelReservationSystemApplication.java  # Main execution
         │   ├── model/                  # JPA Database Entities
-        │   │   ├── Room.java           # Room details
-        │   │   └── Booking.java        # Guest bookings
         │   ├── repository/             # Database access layers
-        │   └── controller/             # REST controllers
-        │       └── HotelController.java  # Core business API endpoints
+        │   ├── service/                # Business services & RAG NLP
+        │   └── controller/             # REST API Controllers
         └── resources/
-            ├── application.properties               # Config file (Port 8082)
+            ├── application.properties               # System configurations (Port 8082)
             └── static/
-                └── index.html                       # React Web Client
+                ├── index.html                       # Core React Client
+                ├── luxury_retreat_logo.png          # LX Monogram logo
+                ├── luxury_retreat_banner.png        # Royal curtain banner
+                └── real_gold_curtain.png            # Visual curtain asset
 ```
+
+---
+
+<p align="center">
+  ⚜️ <b>Luxury Retreat</b> — Where hospitality meets imperial design. Powered by Spring Boot and React. ⚜️
+</p>
