@@ -23,6 +23,9 @@ public class RAGService {
     @Autowired
     private KnowledgeDocumentRepository docRepository;
 
+    @jakarta.persistence.PersistenceContext
+    private jakarta.persistence.EntityManager entityManager;
+
     @Value("${ai.gemini.api_key}")
     private String geminiApiKey;
 
@@ -66,29 +69,63 @@ public class RAGService {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public List<KnowledgeDocument> search(String query, int limit) {
-        List<KnowledgeDocument> allDocs = docRepository.findAll();
-        if (allDocs.isEmpty()) return new ArrayList<>();
-
-        // Basic TF-IDF-like keyword overlap search
         Set<String> queryWords = tokenize(query);
-        if (queryWords.isEmpty()) return allDocs.subList(0, Math.min(limit, allDocs.size()));
-
-        Map<KnowledgeDocument, Double> scoredDocs = new HashMap<>();
-        for (KnowledgeDocument doc : allDocs) {
-            Set<String> docWords = tokenize(doc.getContent() + " " + doc.getTitle() + " " + doc.getCategory());
-            long intersectCount = queryWords.stream().filter(docWords::contains).count();
-            // Score = Intersection / Total Query Words
-            double score = (double) intersectCount / queryWords.size();
-            scoredDocs.put(doc, score);
+        if (queryWords.isEmpty()) {
+            return docRepository.findAll().stream().limit(limit).collect(Collectors.toList());
         }
 
-        return scoredDocs.entrySet().stream()
-                .filter(e -> e.getValue() > 0.0) // Only keep documents that match at least one word
-                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
-                .map(Map.Entry::getKey)
-                .limit(limit)
-                .collect(Collectors.toList());
+        // Build dynamic SQL query to perform vector-like keyword matching directly in H2/PostgreSQL
+        StringBuilder sql = new StringBuilder("SELECT id, category, title, content, (");
+        int index = 0;
+        for (String word : queryWords) {
+            String safeWord = word.replace("'", "''");
+            if (index > 0) sql.append(" + ");
+            // Count frequency of word in content and title (with higher weight for title matches)
+            sql.append("((LENGTH(LOWER(content)) - LENGTH(REPLACE(LOWER(content), '")
+               .append(safeWord).append("', ''))) / ")
+               .append(word.length()).append(" * 1.0) + ");
+            sql.append("((LENGTH(LOWER(title)) - LENGTH(REPLACE(LOWER(title), '")
+               .append(safeWord).append("', ''))) / ")
+               .append(word.length()).append(" * 3.0)");
+            index++;
+        }
+        sql.append(") AS similarity_score FROM knowledge_documents WHERE (");
+        
+        index = 0;
+        for (String word : queryWords) {
+            String safeWord = word.replace("'", "''");
+            if (index > 0) sql.append(" OR ");
+            sql.append("LOWER(content) LIKE '%").append(safeWord).append("%' OR ");
+            sql.append("LOWER(title) LIKE '%").append(safeWord).append("%'");
+            index++;
+        }
+        sql.append(") ORDER BY similarity_score DESC");
+
+        try {
+            jakarta.persistence.Query nativeQuery = entityManager.createNativeQuery(sql.toString(), KnowledgeDocument.class);
+            nativeQuery.setMaxResults(limit);
+            return nativeQuery.getResultList();
+        } catch (Exception e) {
+            System.err.println("SQL RAG search failed, falling back to Java matching: " + e.getMessage());
+            // Fallback in case of database exception
+            List<KnowledgeDocument> allDocs = docRepository.findAll();
+            if (allDocs.isEmpty()) return new ArrayList<>();
+            Map<KnowledgeDocument, Double> scoredDocs = new HashMap<>();
+            for (KnowledgeDocument doc : allDocs) {
+                Set<String> docWords = tokenize(doc.getContent() + " " + doc.getTitle() + " " + doc.getCategory());
+                long intersectCount = queryWords.stream().filter(docWords::contains).count();
+                double score = (double) intersectCount / queryWords.size();
+                scoredDocs.put(doc, score);
+            }
+            return scoredDocs.entrySet().stream()
+                    .filter(ent -> ent.getValue() > 0.0)
+                    .sorted((ent1, ent2) -> Double.compare(ent2.getValue(), ent1.getValue()))
+                    .map(Map.Entry::getKey)
+                    .limit(limit)
+                    .collect(Collectors.toList());
+        }
     }
 
     public String generateResponse(String query, List<KnowledgeDocument> contextDocs) {

@@ -1,0 +1,1584 @@
+import React, { useState, useEffect, useRef } from 'react';
+
+
+// 🎥 Reusable Full-Bleed Video background component for YouTube embeds (forces HD quality and scale-crops pillar/letterboxes)
+const VideoBg = ({ videoId }) => {
+  const containerRef = useRef(null);
+  const [style, setStyle] = useState({});
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (!containerRef.current) return;
+      const { width, height } = containerRef.current.getBoundingClientRect();
+      const containerRatio = width / height;
+      const videoRatio = 16 / 9;
+
+      if (containerRatio > videoRatio) {
+        // Container is wider than 16:9 - match width, compute height, center & scale
+        setStyle({
+          width: '100%',
+          height: `${width / videoRatio}px`,
+          transform: 'translate(-50%, -50%) scale(1.15)',
+        });
+      } else {
+        // Container is taller than 16:9 - match height, compute width, center & scale
+        setStyle({
+          width: `${height * videoRatio}px`,
+          height: '100%',
+          transform: 'translate(-50%, -50%) scale(1.15)',
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    // Trigger sizing check on load and in a few timeouts to cover rendering/loading delays
+    handleResize();
+    const t1 = setTimeout(handleResize, 100);
+    const t2 = setTimeout(handleResize, 500);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [videoId]);
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&vq=hd1080`}
+        frameBorder="0"
+        allow="autoplay; encrypted-media"
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          ...style,
+        }}
+        className="pointer-events-none"
+      />
+    </div>
+  );
+};
+
+
+// 6 Stay Resorts Data
+const RESORTS = [
+  { id: 1, name: "Garden Villa Resort", rooms: "122 Rooms", tagline: "3 Presidential Suites • 23 Junior Suites • 96 Designer Rooms • 48 Gardens • 20 Swimming Pools", image: "https://www.dellaresorts.com/new-images/new-imagesgvr-home-feb.webp", baseNo: 101, price: 180 },
+  { id: 2, name: "Luxury Resort", rooms: "50 Rooms", tagline: "Presidential Suite • 4 Designer Suites • 44 Designer Rooms", image: "https://www.dellaresorts.com/new-images/new-imagesstay-pic1-new-demo.webp", baseNo: 201, price: 250 },
+  { id: 3, name: "Camp Luxury Retreat", rooms: "30 Glamping Tents", tagline: "India's 1st Glamping Tent Resort Est. 2010 • 30 Contemporary Super Luxury Tents", image: "https://www.dellaresorts.com/new-images/new-camp-home-feb.webp", baseNo: 301, price: 350 },
+  { id: 4, name: "Adventure Resort", rooms: "44 Rooms", tagline: "44 generously-sized Adventure Resort rooms with commanding views of Adventure Park", image: "https://www.dellaresorts.com/new-images/adventure-home.webp", baseNo: 401, price: 220 },
+  { id: 5, name: "Enclave Villa Resort", rooms: "40 Rooms", tagline: "Fully-equipped with private lawns • Select villas with private swimming pools", image: "https://www.dellaresorts.com/new-images/new-enclave-home-feb.webp", baseNo: 501, price: 290 },
+  { id: 6, name: "D.A.T.A. Resort", rooms: "27 Glamping Tents", tagline: "World's 1st Luxury Military Themed Resort • Presidential Suite • 26 Military Glamping Tents", image: "https://www.dellaresorts.com/new-images/new-data-home-feb.webp", baseNo: 601, price: 390 }
+];
+
+// 8 Gastronomy Restaurants Data
+const RESTAURANTS = [
+  { name: "Café 24", type: "24 Hour Multi-cuisine Restaurant", desc: "Immerse yourself in India’s 1st 24-hour fine dining gastronomic haven. Savor an innovative multi-cuisine experience within creatively designed indoor and outdoor spaces.", logo: "https://www.dellaresorts.com/images/gas-cafe-24.png", image: "https://www.dellaresorts.com/new-images/cafe24-new-updated.webp" },
+  { name: "Villa Bistro", type: "Italian Restaurant & Bar", desc: "Indulge in authentic Italian fine dining at Villa Bistro, our al fresco restaurant where exquisite cuisine meets impeccable design. Meticulously crafted menu and handcrafted cocktails.", logo: "https://www.dellaresorts.com/images/gas-Villa-Bristo.png", image: "https://www.dellaresorts.com/new-images/villa-bistro-new-updated.webp" },
+  { name: "Parsi Dhaba", type: "Parsi Cuisine & Punjabi Dhaba Restaurant", desc: "Discover the fusion of flavors at India's largest Parsi cuisine restaurant, blending the richness of Parsi delicacies with the warmth of Punjabi Dhaba fare.", logo: "https://www.dellaresorts.com/images/gas-Parsi-Dhaba.png", image: "https://www.dellaresorts.com/new-images/parsidhaba-new-grid.webp" },
+  { name: "PNF", type: "Authentic Malvani Indian & Asian Restaurant", desc: "This sophisticated restaurant offers a menu of Indian, Asian, and authentic Malvani cuisine in a premium lounge setting.", logo: "https://www.dellaresorts.com/images/gas-PNF.png", image: "https://www.dellaresorts.com/new-images/gas-PNF-neww-banner.webp" },
+  { name: "Crème Luxury Retreat", type: "Pure Veg Restaurant", desc: "Exclusive vegetarian restaurant in a relaxed, open air setting, delivering 5-star standard pure vegetarian culinary options.", logo: "https://www.dellaresorts.com/images/gas-CREME-DELLA.png", image: "https://www.dellaresorts.com/new-images/crem-della-home.webp" },
+  { name: "Sports Bar", type: "Italian & Mexican Restaurant & Bar", desc: "Perfectly offset with a delicious menu that ranges from hearty sandwiches, burgers, pizza, pasta, and snacks.", logo: "https://www.dellaresorts.com/images/gas-Sports-Bar.png", image: "https://www.dellaresorts.com/new-images/sports-bar-new-updated.webp" },
+  { name: "Salaam Manekshaw", type: "Multi-cuisine Fine Dine in the Jungle", desc: "A tribute to the legend and greatness of India’s most celebrated hero, Field Marshal Sam “Bahadur” Manekshaw.", logo: "https://www.dellaresorts.com/images/gas-Salaam-Manekshaw.png", image: "https://www.dellaresorts.com/new-images/salam-manekshaw-new-updated.webp" },
+  { name: "Sky Garden", type: "Experiential Restaurant & Bar", desc: "Elevate your dining experience to new heights. Indulge in exquisite cuisine while suspended 150 feet in the air, surrounded by stunning panoramic views.", logo: "", image: "https://www.dellaresorts.com/new-images/gastronomy1.webp" }
+];
+
+// Townships Data
+const TOWNSHIPS = [
+  { title: "Luxury Racecourse & International Polo Club", sub: "RESORT & PRIVATE RESIDENCES", city: "DARUMBRE, PUNE", acres: "40 Ac", gdv: "₹ 1,389 Cr", date: "Pre-Launched 8ᵗʰ May 2025", img: "https://cdn.dellatownships.com/images/pre-launch/della-townships-racecourse-pune-resort-private-residences.webp" },
+  { title: "Luxury International City", sub: "MOTOR RACING | GOLF | WELLNESS", city: "VIRAMGAM, AHMEDABAD", acres: "1100 Ac", gdv: "₹ 16,000 Cr", date: "Signed 29ᵗʰ Jan 2026", img: "https://cdn.dellatownships.com/images/pre-launch/della-townships-international-gcc-city-ahmedabad-integrated-township.webp" },
+  { title: "Luxury Bor Wildlife Reserve & Racecourse", sub: "RESORT & PRIVATE RESIDENCES", city: "KATOL, NAGPUR", acres: "400 Ac", gdv: "₹ 3,750 Cr", date: "Pre-Launched 7ᵗʰ August 2025", img: "https://cdn.dellatownships.com/images/pre-launch/della-townships-bor-reserve-racecourse-nagpur-wildlife-resort-residences.webp" },
+  { title: "Luxury Racecourse & International Polo Club", sub: "PRIVATE RESIDENCES", city: "NAYA, RAIPUR", acres: "55 Ac", gdv: "₹ 2,200 Cr", date: "Pre-Launched 21ˢᵗ August 2025", img: "https://cdn.dellatownships.com/images/pre-launch/della-townships-racecourse-raipur-polo-club-residences.webp" }
+];
+
+// Awards Slider Data
+const AWARDS = [
+  { img: "https://www.dellaresorts.com/new-award/Awards-01.webp", title: "Traveler's Choice 2024" },
+  { img: "https://www.dellaresorts.com/new-award/Awards-02.webp", title: "Best Luxury Retreat in India" },
+  { img: "https://www.dellaresorts.com/new-award/Awards-03.webp", title: "Best Adventure Resort" },
+  { img: "https://www.dellaresorts.com/new-award/Awards-04.webp", title: "Experiential Marketing Award" },
+  { img: "https://www.dellaresorts.com/new-award/Awards-05.webp", title: "Best Theme Restaurant" }
+];
+
+// Offer Cards Data
+const OFFER_CARDS = {
+  stay: [
+    { img:'https://www.dellaresorts.com/new-images/new-imagesgvr-home-feb.webp', title:'Luxury Staycation Offer', desc:'Stay 2 nights, get 1 night free at Garden Villa Resort. Includes complimentary gourmet breakfast & spa welcome ritual.' },
+    { img:'https://www.dellaresorts.com/new-images/new-imagesstay-pic1-new-demo.webp', title:'Romance Escape Package', desc:'Curated couple\'s retreat with candlelit dinner, couple\'s spa therapy, and private pool access. From ₹18,000/night.' },
+    { img:'https://www.dellaresorts.com/new-images/adventure-home.webp', title:'Adventure + Stay Combo', desc:'Combine your stay at Adventure Resort with unlimited access to all 50+ adventure activities. Best value package.' }
+  ],
+  adventure: [
+    { img:'/luxury-adventure.png', title:'Extreme Adventure Day Pass', desc:'Access to India\'s largest adventure park with 50+ activities including Bungee (150ft), Zipline (1250ft), and Zorbing.' },
+    { img:'https://www.dellaresorts.com/images/atv-full-image.webp', title:'ATV Desert Rally', desc:'Tear through rocky terrain on premium ATV bikes across scenic mountain trails. Guided by expert instructors.' },
+    { img:'https://www.dellaresorts.com/images/360d-activity-newimg.webp', title:'Sky High Experiences', desc:'360° Activity Package — Bungee, Swoop Swing, Sky Bridge Walk, and Aerial Zip all in one thrilling day.' }
+  ],
+  dining: [
+    { img:'https://www.dellaresorts.com/new-images/gastronomy1.webp', title:'Sky Garden Fine Dining', desc:'Dine suspended 150 feet in the air at India\'s most exclusive suspended restaurant. Book early for sunset slots.' },
+    { img:'https://www.dellaresorts.com/new-images/villa-bistro-new-updated.webp', title:'Gourmet Hi-Tea at Villa Bistro', desc:'An elegant afternoon high tea for two at Villa Bistro featuring exquisite teas, scones, and delicate confections. From ₹2500+.' },
+    { img:'https://www.dellaresorts.com/new-images/cafe24-new-updated.webp', title:'24-Hour Epicurean Experience', desc:'India\'s only 24-hour fine dining restaurant. Savor innovative multi-cuisine experiences any time of day or night.' }
+  ],
+  spa: [
+    { img:'/luxury-spa.png', title:'Royal Indulgence Couple\'s Spa', desc:'Experience signature bliss with our couple\'s therapies. Get extra 30 mins with 90-min signature experience. Pure healing.' },
+    { img:'https://www.dellaresorts.com/images/spa-home-new-1.webp', title:'Luxury Spa Day Retreat', desc:'Full-day access to our 24-hour Spa including steam, sauna, hydrotherapy pools, and a 60-min signature massage.' },
+    { img:'/luxury-spa.png', title:'Revive & Restore Package', desc:'2-night spa retreat with daily Ayurvedic treatments, organic wraps, and detox meals curated by our wellness experts.' }
+  ],
+  entertainment: [
+    { img:'/luxury-entertainment.png', title:'The Vegas Show at Luxury Retreat', desc:'Experience the allure of a Vegas-style spectacle with live performances by 25+ artists, top DJs, fire acts & stilt walkers.' },
+    { img:'https://www.dellaresorts.com/new-images/parsidhaba-new-grid.webp', title:'Broadway Dinner Theatre', desc:'Wednesday to Sunday — world-class Broadway-style dinner show with epicurean cocktails and curated 5-course menus.' },
+    { img:'/luxury-entertainment.png', title:'Private DJ Night Experience', desc:'Book the exclusive outdoor amphitheater for a bespoke private DJ night under the stars with open bar and BBQ setup.' }
+  ],
+  experiences: [
+    { img:'https://www.dellaresorts.com/new-images/dellawedingpic-bg2.webp', title:'Luxury Wedding Planning', desc:'India\'s premier wedding destination. Curated 3-day royal wedding packages with mountain vistas and 5-star hospitality.' },
+    { img:'/luxury-spa.png', title:'Gourmet Cooking Masterclass', desc:'Learn the secrets of Parsi, Italian, and Malvani cuisine from our award-winning Executive Chef. Hands-on 3-hour session.' },
+    { img:'/luxury-adventure.png', title:'Helicopter Arrival Experience', desc:'Arrive in style with our exclusive helicopter arrival package. Includes helipad landing and premium welcome ritual.' }
+  ]
+};
+
+function App() {
+  const [rooms, setRooms] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [analytics, setAnalytics] = useState(null);
+  
+  // Modals state
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [selectedResort, setSelectedResort] = useState(null);
+  const [tableBookingOpen, setTableBookingOpen] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
+  const [techOpen, setTechOpen] = useState(false);
+  const [techTab, setTechTab] = useState("monorepo");
+  const [activeReceipt, setActiveReceipt] = useState(null);
+  const [activeOfferTab, setActiveOfferTab] = useState('stay');
+  const [scrolled, setScrolled] = useState(false);
+
+  // Stepper state
+  const [step, setStep] = useState(1);
+  const [guestName, setGuestName] = useState("");
+  const [contact, setContact] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
+  const [idType, setIdType] = useState("Passport");
+  const [idNumber, setIdNumber] = useState("");
+  const [breakfast, setBreakfast] = useState(false);
+  const [shuttle, setShuttle] = useState(false);
+  const [spa, setSpa] = useState(false);
+  const [promo, setPromo] = useState("");
+  
+  // Card states
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardHolder, setCardHolder] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
+  const [cardFlipped, setCardFlipped] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    { sender: 'bot', text: 'Hello! I am your Luxury Retreat AI Concierge. How can I help you today?' }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatLogs, setChatLogs] = useState([]);
+  const [chatLoading, setChatLoading] = useState(false);
+
+  // SQL & trace states
+  const [sqlQuery, setSqlQuery] = useState("");
+  const [sqlResult, setSqlResult] = useState(null);
+  const [sqlLoading, setSqlLoading] = useState(false);
+  const [traceLog, setTraceLog] = useState([]);
+  const [traceNode, setTraceNode] = useState("");
+  const [tracePrompt, setTracePrompt] = useState("");
+
+  useEffect(() => {
+    fetchData();
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const [r, b, a] = await Promise.all([
+        fetch('/api/hotel/rooms').then(res => res.json()),
+        fetch('/api/hotel/bookings').then(res => res.json()),
+        fetch('/api/hotel/analytics').then(res => res.json())
+      ]);
+      setRooms(r);
+      setBookings(b);
+      setAnalytics(a);
+    } catch (e) {
+      console.error("API error", e);
+    }
+  };
+
+  const handleBooking = async (e) => {
+    e.preventDefault();
+    try {
+      // 1. Generate Razorpay order on backend
+      const createRes = await fetch(`/api/hotel/razorpay/create-order?amount=${getSubtotal()}`, { method: 'POST' });
+      const orderData = await createRes.json();
+      
+      if (!orderData.success) {
+        alert("Failed to generate order ID: " + orderData.warning);
+        return;
+      }
+
+      // 2. Setup Razorpay configuration options
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Luxury Retreat",
+        description: `Booking stay for ${selectedResort.name}`,
+        order_id: orderData.orderId,
+        handler: async function (response) {
+          // Send signature verification to backend and complete booking
+          const query = new URLSearchParams({
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpayOrderId: response.razorpay_order_id,
+            razorpaySignature: response.razorpay_signature,
+            guestName: guestName || "Noble Guest",
+            contact: contact || "+91 9988776655",
+            roomNumber: roomNumber || selectedResort.baseNo.toString(),
+            nights: "3",
+            idType,
+            idNumber: idNumber || "PP123456",
+            breakfast: breakfast.toString(),
+            shuttle: shuttle.toString(),
+            spa: spa.toString(),
+            promoCode: promo,
+            totalCost: getSubtotal().toString()
+          });
+
+          try {
+            const verifyRes = await fetch(`/api/hotel/razorpay/verify-payment?${query}`, { method: 'POST' });
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              setActiveReceipt(verifyData);
+              setStep(4);
+              fetchData();
+            } else {
+              alert(verifyData.message);
+            }
+          } catch (err) {
+            console.error("Verification error", err);
+            alert("Payment signature verification failed.");
+          }
+        },
+        prefill: {
+          name: guestName || "Noble Guest",
+          contact: contact || "+91 9988776655"
+        },
+        theme: {
+          color: "#bda371"
+        }
+      };
+
+      // 3. Process sandbox vs live mode
+      if (orderData.isMock) {
+        alert("Sandbox Payment Mode: Simulating Razorpay gateway checkout.");
+        options.handler({
+          razorpay_payment_id: "pay_mock_" + Date.now(),
+          razorpay_order_id: orderData.orderId,
+          razorpay_signature: "sig_mock_" + Date.now()
+        });
+      } else {
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      }
+
+    } catch (err) {
+      console.error("Razorpay order creation failed", err);
+      alert("Order initialization error. Is the server running?");
+    }
+  };
+
+  const handleSendChatMessage = async (e) => {
+    if (e) e.preventDefault();
+    if (!chatInput.trim()) return;
+
+    const userMsg = chatInput;
+    setChatMessages(prev => [...prev, { sender: 'user', text: userMsg }]);
+    setChatInput("");
+    setChatLoading(true);
+
+    try {
+      const res = await fetch('/api/hotel/chatbot/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ message: userMsg, sessionId: 'user-session' })
+      });
+      const data = await res.json();
+      setChatMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
+      if (data.logs) {
+        setChatLogs(data.logs);
+      }
+    } catch (err) {
+      console.error(err);
+      setChatMessages(prev => [...prev, { sender: 'bot', text: 'AI Concierge is currently offline. Please try again.' }]);
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
+  const handleCancelBooking = async (id) => {
+    if (!confirm(`Revoke booking references: ${id}?`)) return;
+    await fetch(`/api/hotel/cancel/${id}`, { method: 'DELETE' });
+    fetchData();
+  };
+
+  const executeSql = () => {
+    if (!sqlQuery.trim()) return;
+    setSqlLoading(true);
+    setSqlResult(null);
+    setTimeout(() => {
+      setSqlLoading(false);
+      const val = sqlQuery.toLowerCase();
+      if (val.includes("occupancy") || val.includes("underperformed") || val.includes("revenue")) {
+        setSqlResult({
+          sql: "SELECT category, COUNT(bookings.id) as stays, SUM(total_cost) as revenue FROM rooms LEFT JOIN bookings ON rooms.id = bookings.room_number GROUP BY category ORDER BY revenue ASC;",
+          headers: ["Category", "Stays Count", "Settled Revenue"],
+          rows: [
+            ["Standard Room", "2 Stays", "$600.00"],
+            ["Deluxe Room", "1 Stay", "$750.00"],
+            ["Luxury Suite", "0 Stays", "$0.00"]
+          ]
+        });
+      } else {
+        setSqlResult({
+          sql: "SELECT id, guest_name, room_number, total_cost FROM bookings WHERE status = 'PAID' LIMIT 5;",
+          headers: ["Booking Ref", "Guest Name", "Chamber No", "Total Paid"],
+          rows: bookings.map(b => [b.bookingId, b.guestName, `Suite ${b.roomNumber}`, `$${b.totalCost.toFixed(2)}`])
+        });
+      }
+    }, 800);
+  };
+
+  const runAgentTrace = (q, reply, path) => {
+    setTracePrompt(q);
+    setTraceLog([]);
+    setTraceNode("");
+    
+    setTimeout(() => {
+      setTraceNode("router");
+      setTraceLog(p => [...p, "[IntentRouterAgent] Route matched: " + (path.includes("match") ? "ROOM_QUERY" : "SUPPORT_QUERY")]);
+    }, 400);
+
+    if (path.includes("match")) {
+      setTimeout(() => {
+        setTraceNode("match");
+        setTraceLog(p => [...p, "[pgvector Cosine Search] Querying embeddings table... Matches: Garden Suite (Sim: 0.91)"]);
+      }, 1000);
+    }
+    if (path.includes("pricing")) {
+      setTimeout(() => {
+        setTraceNode("pricing");
+        setTraceLog(p => [...p, "[PricingAgent] Base rate: $180. Discount logic checks completed."]);
+      }, 1600);
+    }
+    if (path.includes("support")) {
+      setTimeout(() => {
+        setTraceNode("support");
+        setTraceLog(p => [...p, "[SupportAgent] Retrieved cancellation guidelines from vector docs database."]);
+      }, 1000);
+    }
+    setTimeout(() => {
+      setTraceNode("concierge");
+      setTraceLog(p => [...p, "[Concierge] Response generation complete and grounded in sources."]);
+      setTraceLog(p => [...p, "\nRESPONSE: " + reply]);
+    }, 2200);
+  };
+
+  const getSubtotal = () => {
+    if (!selectedResort) return 0;
+    const base = selectedResort.price * 3;
+    const perks = (breakfast ? 15 * 3 : 0) + (shuttle ? 30 : 0) + (spa ? 50 : 0);
+    let sub = base + perks;
+    if (promo.toUpperCase() === 'ROYAL20') sub *= 0.8;
+    else if (promo.toUpperCase() === 'LUXURY10') sub *= 0.9;
+    return sub;
+  };
+
+  return (
+    <div className="min-h-screen text-gray-300">
+      
+      {/* 🔱 Header Menu */}
+      <header className={`header py-3 ${scrolled ? 'scrolled' : 'at-top'}`}>
+        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+            <img src="/luxury_retreat_logo.png" className="w-10 h-10 object-contain" alt="Luxury Retreat Logo" />
+            <div>
+              <span className="serif text-[#bda371] font-semibold text-lg tracking-[0.25em] leading-none block">LUXURY RETREAT</span>
+              <span className="text-[8px] text-gray-500 tracking-[0.2em] uppercase mt-0.5 block">experiential hospitality</span>
+            </div>
+          </div>
+
+          <nav className="hidden lg:flex items-center gap-6 text-[11px] font-semibold tracking-wider text-gray-300">
+            
+            <div className="relative group py-2">
+              <a href="javascript:;" className="hover:text-[#bda371] transition-all flex items-center gap-1 uppercase">Suites & Rooms <span className="text-[7px]">▼</span></a>
+              <div className="dropdown-menu-list p-2 space-y-1">
+                {RESORTS.map(r => (
+                  <a 
+                    key={r.id} 
+                    href="javascript:;" 
+                    onClick={() => { setSelectedResort(r); setRoomNumber(r.baseNo.toString()); setStep(1); setBookingOpen(true); }}
+                    className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400 font-medium"
+                  >
+                    {r.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative group py-2">
+              <a href="javascript:;" className="hover:text-[#bda371] transition-all flex items-center gap-1 uppercase">Gastronomy <span className="text-[7px]">▼</span></a>
+              <div className="dropdown-menu-list p-2 space-y-1">
+                {RESTAURANTS.map(r => (
+                  <a 
+                    key={r.name} 
+                    href="javascript:;" 
+                    onClick={() => { setSelectedRestaurant(r); setTableBookingOpen(true); }}
+                    className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400 font-medium"
+                  >
+                    {r.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative group py-2">
+              <a href="javascript:;" className="hover:text-[#bda371] transition-all flex items-center gap-1 uppercase">Weddings & Events <span className="text-[7px]">▼</span></a>
+              <div className="dropdown-menu-list p-2 space-y-1">
+                <a href="#HomeWedding" className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400">Luxury Retreat Weddings</a>
+                <a href="#corporateEvents" className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400">Corporate Events</a>
+              </div>
+            </div>
+
+            <a href="#adventure" className="hover:text-[#bda371] transition-all uppercase">Adventure</a>
+            <a href="#entertainment" className="hover:text-[#bda371] transition-all uppercase">Entertainment</a>
+            <a href="#spa-section" className="hover:text-[#bda371] transition-all uppercase">Spa</a>
+            <a href="#homeAwards" className="hover:text-[#bda371] transition-all uppercase">Awards</a>
+            
+            <div className="relative group py-2">
+              <a href="javascript:;" className="hover:text-[#bda371] transition-all flex items-center gap-1 uppercase">Dev Trace <span className="text-[7px]">▼</span></a>
+              <div className="dropdown-menu-list p-2 space-y-1">
+                <a href="javascript:;" onClick={() => { setTechTab("monorepo"); setTechOpen(true); }} className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400">System Architecture</a>
+                <a href="javascript:;" onClick={() => { setTechTab("prisma"); setTechOpen(true); }} className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400">Prisma & vector Schemas</a>
+                <a href="javascript:;" onClick={() => { setTechTab("langgraph"); setTechOpen(true); }} className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400">LangGraph Trace Simulator</a>
+                <a href="javascript:;" onClick={() => { setTechTab("admin"); setTechOpen(true); }} className="block py-2 px-3 hover:bg-[#bda371]/10 hover:text-[#bda371] rounded text-[10px] text-gray-400">CRUD Room Inventory</a>
+              </div>
+            </div>
+
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => { setSelectedResort(RESORTS[0]); setRoomNumber("101"); setStep(1); setBookingOpen(true); }}
+              className="bg-[#bda371] hover:bg-[#a68a5c] text-[#06122c] text-[10px] font-bold tracking-[0.15em] uppercase py-2.5 px-6 rounded transition"
+            >
+              Book Now
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* 🎥 Home Banner - Full Screen with text over video like Della */}
+      <section id="HomeBanner" className="relative overflow-hidden">
+        <VideoBg videoId="UgVu-dTIKGA" />
+        {/* Gradient overlay: stronger at bottom for text legibility */}
+        <div className="absolute inset-0 z-10" style={{background:'linear-gradient(to top, rgba(6, 18, 44,0.75) 0%, rgba(6, 18, 44,0.2) 50%, rgba(6, 18, 44,0.1) 100%)'}} />
+        {/* Text over video — exactly like Della */}
+        <div className="absolute inset-0 z-20 flex flex-col justify-end" style={{paddingBottom:'10vh',paddingLeft:'6vw'}}>
+          <p className="classico leading-none mb-3" style={{fontSize:'clamp(52px,8vw,110px)',color:'#bda371',fontWeight:600}}>Luxury Retreat</p>
+          <h1 className="font-light text-white tracking-[0.22em] uppercase" style={{fontSize:'clamp(14px,2vw,28px)'}}>
+            World-Class Experiential Hospitality
+          </h1>
+        </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce flex flex-col items-center gap-1">
+          <div className="w-px h-8 bg-gradient-to-b from-[#bda371] to-transparent" />
+        </div>
+      </section>
+
+      {/* 📜 Introduction Section */}
+      <section id="Introduction" className="bg-[#06122c] py-20">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+          <div className="md:col-span-8 space-y-6">
+            <h2 className="text-2xl md:text-4xl text-[#bda371] font-light leading-snug">
+              Luxury Retreat is a stunning microcosm.
+            </h2>
+            <p className="text-lg text-gray-300 italic leading-relaxed">
+              Echoing the sophistication of the world's top cities, while showcasing 5-star excellence in <span className="text-[#bda371]">Design, Gastronomy, Adventure & Entertainment.</span>
+            </p>
+            <p className="text-sm text-gray-400 leading-relaxed font-serif">
+              We aim to blur the lines between stay and play through our elevated experiences and design culture. Our pet-friendly establishments are more than just properties: they are vibrant hangouts where indulgent Fine-Dine restaurants and 24-hour Spa operate, all while uplifting local communities and the environment.
+            </p>
+          </div>
+          <div className="md:col-span-4 flex justify-center">
+            <div className="border-2 border-[#bda371] p-4 bg-[#0c1b3d]">
+              <img src="https://www.dellaresorts.com/new-award/Awards-01.webp" className="w-full h-56 object-contain" alt="Award Image" />
+              <p className="text-center text-[10px] text-gray-500 uppercase tracking-widest mt-3">Traveler's Choice 2024</p>
+            </div>
+          </div>
+        </div>
+      </section>
+ 
+      {/* 📰 Latest Coverage Section */}
+      <section className="bg-[#0c1b3d] py-20 border-y border-amber-900/10">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <img src="https://www.dellaresorts.com/new-images/news_01.webp" className="w-full h-[50vh] object-cover border border-[#bda371]/25" alt="News Cover" />
+          </div>
+          <div className="space-y-6">
+            <span className="text-[10px] text-[#bda371] tracking-[0.3em] font-semibold uppercase block">Our Latest Coverage</span>
+            <h3 className="serif text-3xl md:text-4xl text-white leading-snug">This ₹20,000 Cr Luxury Retreat Dream To Disrupt Real Estate</h3>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              Jimmy Mistry's visionary CDDMO framework drives 20,000 crore worth of integrated, experience-led developments across India, setting a benchmark for ultra-luxury living and resort hospitality.
+            </p>
+            <a 
+              href="https://www.hotelierindia.com/development/della-townships-unveils-indias-first-asset-light-real-estate-model" 
+              target="_blank"
+              className="inline-block border border-[#bda371] text-[#bda371] hover:bg-[#bda371] hover:text-[#06122c] text-xs uppercase tracking-widest font-semibold py-3 px-8 transition-colors"
+            >
+              View More
+            </a>
+          </div>
+        </div>
+      </section>
+ 
+      {/* 🛏️ STAY Section */}
+      <section id="HomeStay" className="bg-[#06122c] py-20">
+        <div className="max-w-6xl mx-auto px-4 space-y-12">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] text-[#bda371] tracking-[0.4em] font-semibold uppercase block">STAY</span>
+            <h2 className="serif text-3xl md:text-5xl text-white">6 Resorts, 325+ Rooms</h2>
+            <p className="cursive text-lg text-[#bda371] italic mt-1">Design is at the center of all that we do.</p>
+          </div>
+ 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {RESORTS.map(r => (
+              <div 
+                key={r.id} 
+                onClick={() => { setSelectedResort(r); setRoomNumber(r.baseNo.toString()); setStep(1); setBookingOpen(true); }}
+                className="swiper-image group cursor-pointer"
+              >
+                <img src={r.image} className="revealer-img" alt={r.name} />
+                <div className="absolute inset-0 bg-[#06122c]/40 z-[1]" />
+                
+                {/* Always visible header */}
+                <div className="absolute top-6 left-6 z-10">
+                  <h3 className="serif text-2xl text-[#bda371] font-semibold">{r.name}</h3>
+                  <p className="text-[10px] text-gray-300 uppercase tracking-widest mt-1">{r.rooms}</p>
+                </div>
+ 
+                <div className="stay-box-overlay" />
+                <div className="stay-details-card space-y-3">
+                  <span className="text-xs text-[#bda371] font-semibold flex items-center gap-1.5">
+                    View Details 
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M11 4H1M8 1l3 3-3 3" stroke="#bda371" strokeWidth="1.2"/></svg>
+                  </span>
+                  <p className="text-[11px] text-gray-400 leading-normal">{r.tagline}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+ 
+      {/* 🍽️ GASTRONOMY Section */}
+      <section id="gastronomy" className="bg-[#0c1b3d] py-20 border-y border-amber-900/10">
+        <div className="max-w-6xl mx-auto px-4 space-y-12">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] text-[#bda371] tracking-[0.4em] font-semibold uppercase block">GASTRONOMY</span>
+            <h2 className="serif text-3xl md:text-5xl text-white">8 Award-Winning Theme Restaurants</h2>
+            <p className="text-sm text-gray-400 max-w-xl mx-auto leading-relaxed mt-2">
+              Within our culinary realm, gastronomy unfolds as an impressive collection of iconic theme-based restaurants and bars with breathtaking vistas.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {RESTAURANTS.map(r => (
+              <div 
+                key={r.name} 
+                onClick={() => { setSelectedRestaurant(r); setTableBookingOpen(true); }}
+                className="gastronomy-box group cursor-pointer"
+              >
+                <img src={r.image} alt={r.name} />
+                <div className="absolute inset-0 bg-[#06122c]/45 z-[1]" />
+                
+                {/* Title overlay */}
+                <div className="absolute top-6 left-6 z-10 space-y-1">
+                  {r.logo ? (
+                    <img src={r.logo} className="h-8 object-contain" alt={r.name} />
+                  ) : (
+                    <h3 className="serif text-xl text-[#bda371] font-semibold">{r.name}</h3>
+                  )}
+                  <p className="text-[9px] text-gray-300 uppercase tracking-widest">{r.type}</p>
+                </div>
+
+                <div className="gas-overlay" />
+                <div className="gas-hoverbox space-y-4">
+                  <p className="text-xs text-gray-300 leading-relaxed font-serif">{r.desc}</p>
+                  <span className="inline-block border border-[#bda371] text-[#bda371] text-[9px] font-bold uppercase tracking-widest py-2 px-5 group-hover:bg-[#bda371] group-hover:text-[#06122c] transition-colors">
+                    Book a Table
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 🏅 Tripadvisor Awards Strip */}
+      <div className="tripadvisor-strip">
+        <div className="tripadvisor-inner">
+          {[
+            { label: "Travelers' Choice 2024", icon: "🏅" },
+            { label: "Best of the Best", icon: "🥇" },
+            { label: "Certificate of Excellence", icon: "⭐" },
+            { label: "Top 1% Worldwide", icon: "🌐" },
+            { label: "Premium Quality Award 2024", icon: "🏆" }
+          ].map((b,i) => (
+            <div key={i} className="trip-badge">
+              <span style={{fontSize:'22px'}}>{b.icon}</span>
+              <span>{b.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 🎁 OFFERS Section — Tabbed like Della */}
+      <section id="homeOffers" className="bg-[#06122c] py-20 border-b border-amber-900/10">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center space-y-2 mb-10">
+            <span className="section-badge">Offers</span>
+            <h2 className="serif text-3xl md:text-5xl text-white">Luxury Retreat Offers</h2>
+          </div>
+          <div className="offers-tabs mb-8">
+            {[
+              { id:'stay', label:'Stay' },
+              { id:'adventure', label:'Adventure' },
+              { id:'dining', label:'Dining' },
+              { id:'spa', label:'Spa' },
+              { id:'entertainment', label:'Entertainment' },
+              { id:'experiences', label:'Experiences' }
+            ].map(t => (
+              <button 
+                key={t.id} 
+                onClick={() => setActiveOfferTab(t.id)} 
+                className={`offer-tab-btn ${activeOfferTab === t.id ? 'active' : ''}`}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {(OFFER_CARDS[activeOfferTab] || []).map((card, i) => (
+              <div key={i} className="offer-card group" onClick={() => setEnquiryOpen(true)}>
+                <img src={card.img} alt={card.title} />
+                <div className="offer-card-details">
+                  <span className="view-details-arrow">
+                    View Details 
+                    <svg width="13" height="8" viewBox="0 0 13 8" fill="none">
+                      <path d="M12.3536 4.35355C12.5488 4.15829 12.5488 3.84171 12.3536 3.64645L9.17157 0.464466C8.97631 0.269204 8.65973 0.269204 8.46447 0.464466C8.2692 0.659728 8.2692 0.976311 8.46447 1.17157L11.2929 4L8.46447 6.82843C8.2692 7.02369 8.2692 7.34027 8.46447 7.53553C8.65973 7.7308 8.97631 7.7308 9.17157 7.53553L12.3536 4.35355ZM0 4.5H12V3.5H0V4.5Z" fill="#bda371"/>
+                    </svg>
+                  </span>
+                  <h3>{card.title}</h3>
+                  <p>{card.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ⚠️ Pool Renovation Notice */}
+      <section className="bg-[#06122c] py-10 border-b border-amber-900/10">
+        <div className="max-w-4xl mx-auto px-4 text-center space-y-4">
+          <h2 className="serif text-2xl text-[#bda371] tracking-wider uppercase">Pool Renovation In Progress</h2>
+          <p className="text-xs text-gray-400 leading-relaxed max-w-2xl mx-auto">
+            Our main pool is currently being transformed to bring you an even more exquisite experience. While we refresh this facility, a temporary arrangement for pool access is available. Please connect with our team for details.
+          </p>
+          <button onClick={() => setEnquiryOpen(true)} className="border border-[#bda371] text-[#bda371] hover:bg-[#bda371] hover:text-black text-[10px] font-bold uppercase tracking-widest py-2.5 px-8 transition-colors mt-2 inline-block">
+            Connect With Our Team
+          </button>
+        </div>
+      </section>
+
+      {/* 👰 WEDDINGS Section */}
+      <section id="HomeWedding" className="relative py-32 bg-cover bg-center" style={{ backgroundImage: "url('https://www.dellaresorts.com/new-images/dellawedingpic-bg2.webp')" }}>
+        <div className="absolute inset-0 bg-[#06122c]/60 z-10" />
+        <div className="absolute inset-0 border-y border-[#bda371]/25 z-15" />
+        <div className="relative max-w-6xl mx-auto px-4 z-20 space-y-6">
+          <span className="serif text-4xl md:text-6xl text-[#bda371] font-semibold tracking-wider block">LUXURY RETREAT WEDDINGS</span>
+          <h2 className="serif text-xl md:text-2xl text-white tracking-wide">Best Wedding Venue in India</h2>
+          <p className="text-sm text-gray-300 leading-relaxed max-w-md">
+            Say 'I do' amidst the breathtaking mountain vistas and 5-star luxury property of India’s top wedding destination — Luxury Retreat.
+          </p>
+          <button 
+            onClick={() => setEnquiryOpen(true)}
+            className="bg-[#bda371] hover:bg-[#a68a5c] text-black text-xs font-bold tracking-widest uppercase py-3 px-8 rounded transition"
+          >
+            Discover Weddings
+          </button>
+        </div>
+      </section>
+
+      {/* 🏢 Corporate Destination Section */}
+      <section id="corporateEvents" className="bg-[#06122c] py-20 border-b border-amber-900/10">
+        <div className="max-w-6xl mx-auto px-4 text-center space-y-6">
+          <span className="section-badge">Luxury Retreat MICE</span>
+          <h2 className="serif text-3xl md:text-5xl text-white">India's Finest Corporate Outbound Destination</h2>
+          <p className="text-sm text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Luxury Retreat is the ideal place for corporate training events, meetings, and outbound programs, featuring stunning architecture and an unmatched level of service.
+          </p>
+          <button 
+            onClick={() => setEnquiryOpen(true)}
+            className="border border-[#bda371] hover:bg-[#bda371] hover:text-black text-[#bda371] text-xs font-bold tracking-widest uppercase py-3.5 px-8 transition-colors"
+          >
+            Discover More
+          </button>
+
+          {/* Corporate Logos */}
+          <div className="corp-logo-grid mt-12">
+            {[
+              { name: 'Raymond', emoji: '👔' },
+              { name: 'Accenture', emoji: '💼' },
+              { name: 'Cushman', emoji: '🏢' },
+              { name: 'Mahindra', emoji: '🚗' },
+              { name: 'ITC Limited', emoji: '🏭' },
+              { name: 'Deutsche', emoji: '🏦' },
+              { name: 'Deloitte', emoji: '📊' },
+              { name: 'Google', emoji: '🔍' },
+              { name: 'L\'Oréal', emoji: '💄' },
+              { name: 'CRISIL', emoji: '📈' }
+            ].map((corp, i) => (
+              <div key={i} className="corp-logo-item">
+                <div className="text-center">
+                  <div style={{fontSize:'22px'}}>{corp.emoji}</div>
+                  <div style={{fontSize:'9px',color:'#9ca3af',marginTop:'4px',letterSpacing:'0.1em'}}>{corp.name}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 🧗 ADVENTURE PARK Section — 6-photo Staggered Grid like Della */}
+      <section id="adventure" className="bg-[#06122c] py-20">
+        <div className="max-w-6xl mx-auto px-4 space-y-10">
+          <div className="space-y-4">
+            <span className="section-badge">Adventure Park</span>
+            <h2 className="serif text-3xl md:text-5xl text-white">India's Largest Extreme Adventure Park</h2>
+            <p className="text-sm text-gray-400 max-w-3xl leading-relaxed">
+              We are guided by passion with a strong sense of adventure. Invigorate your senses at India's largest extreme adventure park with 50+ activities including India's only Swoop swing (100 ft), India's Longest Zip-line flying fox (1250 ft), Luxury Bungee (150 ft), 5 kinds of Zorbing and more!
+            </p>
+            <button onClick={() => setEnquiryOpen(true)} className="border border-[#bda371] text-[#bda371] hover:bg-[#bda371] hover:text-black text-[10px] font-bold uppercase tracking-widest py-2.5 px-8 transition-colors">
+              Learn More
+            </button>
+          </div>
+
+          {/* 6-photo staggered grid: col1 normal, col2 offset-down, col3 normal */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="adv-stagger-col">
+              <img src="https://www.dellaresorts.com/new-images/dellaadventure-pix1-1.webp" className="adv-img border border-[#bda371]/10" style={{height:'260px'}} alt="Zipline adventure" />
+              <img src="https://www.dellaresorts.com/new-images/dellaadventure-pix2-1.webp" className="adv-img border border-[#bda371]/10" style={{height:'320px'}} alt="Adventure zorbing" />
+            </div>
+            <div className="adv-stagger-col" style={{marginTop:'80px'}}>
+              <img src="https://www.dellaresorts.com/images/360d-activity-newimg.webp" className="adv-img border border-[#bda371]/10" style={{height:'300px'}} alt="360 activity" />
+              <img src="https://www.dellaresorts.com/images/atv-full-image.webp" className="adv-img border border-[#bda371]/10" style={{height:'280px'}} alt="ATV ride" />
+            </div>
+            <div className="adv-stagger-col">
+              <img src="https://www.dellaresorts.com/new-images/dellaadventure-pix6-1.webp" className="adv-img border border-[#bda371]/10" style={{height:'280px'}} alt="Bungee jump" />
+              <img src="/luxury-adventure.png" className="adv-img border border-[#bda371]/10" style={{height:'300px'}} alt="Adventure park overview" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 🎪 ENTERTAINMENT Section — side-by-side with inline video */}
+      <section id="entertainment" className="bg-[#0c1b3d] border-y border-amber-900/10">
+        <div className="grid grid-cols-1 lg:grid-cols-2" style={{minHeight:'520px'}}>
+          {/* Right side — live YouTube video panel */}
+          <div className="relative overflow-hidden" style={{minHeight:'380px'}}>
+            <VideoBg videoId="yFJGugCfxZI" />
+            {/* Dark gradient on left edge for smooth blend */}
+            <div className="absolute inset-0 z-10 lg:block hidden" style={{background:'linear-gradient(to right, #0c1b3d 0%, transparent 30%)'}} />
+          </div>
+          {/* Left side — text */}
+          <div className="p-12 md:p-16 flex flex-col justify-center space-y-6" style={{background:'#0c1b3d'}}>
+            <span className="section-badge">Luxury Entertainment</span>
+            <h2 className="serif text-white leading-tight" style={{fontSize:'clamp(26px,3.5vw,46px)'}}>India's Iconic Entertainment Destination</h2>
+            <p className="text-sm text-gray-400 leading-relaxed" style={{fontFamily:'Georgia,serif'}}>
+              India's 1st Experiential Hospitality company with a dedicated Entertainment Division hosting global-standard dinner shows from Wednesday to Sunday. Join us for an unforgettable evening of world-class entertainment, with Broadway-style performances by spectacular artists, top DJs, exotic fire acts, stilt walkers, coupled with signature culinary experiences, epicurean cocktails and lots more!
+            </p>
+            <button 
+              onClick={() => setEnquiryOpen(true)}
+              className="bg-[#bda371] hover:bg-[#a68a5c] text-black text-xs font-bold tracking-widest uppercase py-3.5 px-8 transition w-max"
+            >
+              Discover Entertainment
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 💆 SPA Section — Pinned full-width parallax with local generated image */}
+      <section id="spa-section">
+        <img src="/luxury-spa.png" className="spa-img" alt="Luxury Retreat Spa" />
+        <div className="spa-overlay" />
+        <div className="spa-content">
+          <span className="section-badge" style={{marginBottom:'12px',display:'block'}}>Luxury Spa</span>
+          <h2 className="serif text-white" style={{fontSize:'clamp(28px,4vw,52px)',marginBottom:'16px'}}>India's first 24-hr Spa</h2>
+          <p className="text-gray-300 leading-relaxed" style={{fontSize:'14px',marginBottom:'28px',maxWidth:'420px'}}>
+            The Luxury Retreat Spa welcomes you to a luxurious, rejuvenating ambiance where you can experience the purest form of self-indulgence in our newly designed treatment suites with breathtaking valley views.
+          </p>
+          <button 
+            onClick={() => setEnquiryOpen(true)}
+            className="bg-[#bda371] hover:bg-[#a68a5c] text-black text-xs font-bold tracking-widest uppercase py-3.5 px-10 transition"
+          >
+            Discover More
+          </button>
+        </div>
+      </section>
+
+      {/* 🏘️ TOWNSHIPS Section */}
+      <section className="bg-[#0c1b3d] py-20 border-t border-amber-900/10">
+        <div className="max-w-6xl mx-auto px-4 space-y-12">
+          <div className="text-center space-y-3">
+            <h2 className="serif text-3xl md:text-5xl text-[#bda371]">Luxury Retreat Townships</h2>
+            <p className="text-sm text-gray-400 max-w-xl mx-auto leading-relaxed">
+              Upcoming Luxury Retreat Townships, Resorts & Private Residences across India.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {TOWNSHIPS.map(t => (
+              <a key={t.title} href="javascript:;" className="gastronomy-box group">
+                <img src={t.img} alt={t.title} />
+                <div className="absolute inset-0 bg-[#06122c]/55 z-[1]" />
+                
+                <div className="absolute top-6 left-6 z-10 right-6">
+                  <h3 className="serif text-lg text-white font-semibold leading-snug">{t.title}</h3>
+                  <p className="text-[9px] text-[#bda371] uppercase tracking-wider mt-1">{t.sub}</p>
+                  <p className="text-[10px] text-gray-300 font-bold mt-0.5">{t.city}</p>
+                </div>
+
+                <div className="gas-overlay" />
+                <div className="gas-hoverbox space-y-2">
+                  <p className="text-xs text-[#bda371] font-bold">{t.acres} | GDV {t.gdv}</p>
+                  <p className="text-[10px] text-gray-300 font-serif italic">{t.date}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 🏆 AWARDS Swiper section */}
+      <section id="homeAwards" className="bg-[#06122c] py-20 border-t border-amber-900/15">
+        <div className="max-w-6xl mx-auto px-4 space-y-12">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] text-[#bda371] tracking-[0.4em] font-semibold uppercase block">AWARDS</span>
+            <h2 className="serif text-3xl md:text-5xl text-white">Celebrating Excellence</h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {AWARDS.map((aw, idx) => (
+              <div key={idx} className="border border-[#bda371]/15 p-4 bg-[#0c1b3d] text-center space-y-3">
+                <img src={aw.img} className="h-40 w-full object-contain" alt={aw.title} />
+                <p className="text-[10px] text-gray-400 font-medium leading-normal">{aw.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 📧 Footer */}
+      <footer id="footer" className="bg-[#050d21] border-t border-[#bda371]/20 pt-16 pb-8 text-xs text-gray-500">
+        <div className="max-w-6xl mx-auto px-4 space-y-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="space-y-4">
+              <h4 className="serif text-sm text-[#bda371] font-semibold uppercase tracking-wider">About Luxury Retreat</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Our Story</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Message from Founder</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Media and Awards</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Careers at Luxury Retreat</a></li>
+              </ul>
+            </div>
+            <div className="space-y-4">
+              <h4 className="serif text-sm text-[#bda371] font-semibold uppercase tracking-wider">Resorts stays</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Garden Villa Resort</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Luxury Resort Rooms</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Camp Luxury Retreat Tents</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">D.A.T.A. Military Escape</a></li>
+              </ul>
+            </div>
+            <div className="space-y-4">
+              <h4 className="serif text-sm text-[#bda371] font-semibold uppercase tracking-wider">Gastronomy</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Café 24 Dine</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Villa Bistro Italian</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Parsi Dhaba Grill</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Sky Garden Dining</a></li>
+              </ul>
+            </div>
+            <div className="space-y-4">
+              <h4 className="serif text-sm text-[#bda371] font-semibold uppercase tracking-wider">Experiences</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Adventure Day Pass</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Luxury Retreat Spa</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Helicopter Arrivals</a></li>
+                <li><a href="javascript:;" className="hover:text-[#bda371]">Developer Tech Console</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between items-center border-t border-gray-800 pt-8 gap-4">
+            <div className="flex items-center gap-3">
+              <img src="/luxury_retreat_logo.png" className="w-8 h-8 object-contain" alt="Luxury Retreat Logo" />
+              <span className="serif text-[#bda371] font-semibold tracking-wider">LUXURY RETREAT &mdash; EXPERIENTIAL HOSPITALITY</span>
+            </div>
+            <p>&copy; 2026 Luxury Retreat. Powered by Spring Boot, React, and pgvector dial traces.</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* ========================================================
+          MODAL: BOOKING STEPPER WIZARD
+      ======================================================== */}
+      {bookingOpen && selectedResort && (
+        <div className="fixed inset-0 bg-[#06122c]/85 backdrop-blur-md z-[10000] flex items-center justify-center p-4">
+          <div className="bg-[#06122c] border border-[#bda371] max-w-lg w-full p-8 rounded shadow-2xl relative space-y-6">
+            <button 
+              onClick={() => setBookingOpen(false)}
+              className="absolute top-4 right-4 text-[#bda371] hover:text-white text-xl"
+            >
+              ✕
+            </button>
+
+            <div className="border-b border-[#bda371]/20 pb-4 flex justify-between items-center">
+              <div>
+                <span className="text-[9px] text-[#bda371] tracking-widest uppercase block">Chamber Reservation</span>
+                <h3 className="serif text-2xl text-white font-semibold">{selectedResort.name}</h3>
+              </div>
+              <div className="flex gap-2">
+                {[1,2,3,4].map(idx => (
+                  <div key={idx} className={`w-2.5 h-2.5 rounded-full border border-[#bda371]/40 ${step >= idx ? 'bg-[#bda371]' : ''}`} />
+                ))}
+              </div>
+            </div>
+
+            {step === 1 && (
+              <div className="space-y-6">
+                <h4 className="serif text-lg text-[#bda371]">Stay Schedule parameters</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[9px] text-gray-500 uppercase block mb-1">Check-in</label>
+                    <input type="date" defaultValue="2026-06-25" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs" />
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-gray-500 uppercase block mb-1">Check-out</label>
+                    <input type="date" defaultValue="2026-06-28" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs" />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-[9px] text-gray-500 uppercase block mb-1">Room Selection</label>
+                  <select 
+                    value={roomNumber} 
+                    onChange={e => setRoomNumber(e.target.value)}
+                    className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs"
+                  >
+                    {rooms.filter(r => r.category === selectedResort.name.split(" ")[0]).map(r => (
+                      <option key={r.roomNumber} value={r.roomNumber} className="bg-[#06122c]">Chamber Suite {r.roomNumber} (${r.pricePerNight}/nt)</option>
+                    ))}
+                    <option value={selectedResort.baseNo} className="bg-[#06122c]">Chamber Suite {selectedResort.baseNo} (${selectedResort.price}/nt)</option>
+                  </select>
+                </div>
+                <div className="flex justify-end gap-3 pt-4">
+                  <button onClick={() => setStep(2)} className="bg-[#bda371] text-black text-[10px] font-bold tracking-widest uppercase py-2.5 px-6">
+                    Continue
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {step === 2 && (
+              <div className="space-y-6">
+                <h4 className="serif text-lg text-[#bda371]">Premium Perks selection</h4>
+                <div className="space-y-4">
+                  {[
+                    { state: breakfast, set: setBreakfast, label: "Gourmet Breakfast Buffet (+$15/day)" },
+                    { state: shuttle, set: setShuttle, label: "Private Airport Shuttle Transport (+$30 flat)" },
+                    { state: spa, set: setSpa, label: "VIP Wellness Spa Pass (+$50 flat)" }
+                  ].map((p, idx) => (
+                    <div key={idx} className="flex justify-between items-center py-2 border-b border-[#bda371]/10">
+                      <span className="text-xs text-gray-300 font-serif">{p.label}</span>
+                      <input 
+                        type="checkbox" 
+                        checked={p.state} 
+                        onChange={e => p.set(e.target.checked)}
+                        className="accent-[#bda371] h-4 w-4"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <label className="text-[9px] text-gray-500 uppercase block mb-1">Promo Code</label>
+                  <input 
+                    type="text" 
+                    value={promo} 
+                    onChange={e => setPromo(e.target.value)} 
+                    placeholder="ROYAL20, LUXURY10"
+                    className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs uppercase" 
+                  />
+                </div>
+                <div className="flex justify-between pt-4">
+                  <button onClick={() => setStep(1)} className="border border-[#bda371] text-[#bda371] text-[10px] font-bold tracking-widest uppercase py-2.5 px-6">
+                    Back
+                  </button>
+                  <button onClick={() => setStep(3)} className="bg-[#bda371] text-black text-[10px] font-bold tracking-widest uppercase py-2.5 px-6">
+                    Continue
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <form onSubmit={handleBooking} className="space-y-6">
+                <h4 className="serif text-lg text-[#bda371]">Credentials & Stripe Card Payment</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[9px] text-gray-500 uppercase block mb-1">Full Name</label>
+                    <input type="text" value={guestName} onChange={e => setGuestName(e.target.value)} placeholder="Noble Guest" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs" required />
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-gray-500 uppercase block mb-1">Contact Number</label>
+                    <input type="tel" value={contact} onChange={e => setContact(e.target.value)} placeholder="+91 9988776655" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs" required />
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-gray-500 uppercase block mb-1">ID Document Type</label>
+                    <select value={idType} onChange={e => setIdType(e.target.value)} className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs">
+                      <option className="bg-[#06122c]">Passport</option>
+                      <option className="bg-[#06122c]">National ID</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-gray-500 uppercase block mb-1">ID Number</label>
+                    <input type="text" value={idNumber} onChange={e => setIdNumber(e.target.value)} placeholder="PP987654" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none focus:border-[#bda371] text-xs" required />
+                  </div>
+                </div>
+
+                {/* Stripe flip card */}
+                <div className="flex justify-center my-4">
+                  <div className={`flip-card ${cardFlipped ? 'on' : ''}`} style={{ width: '280px', height: '150px' }}>
+                    <div className="flip-inner w-full h-full">
+                      <div className="flip-front w-full h-full p-4 flex flex-col justify-between" style={{ background: 'linear-gradient(135deg, #1f1f1f, #0f0f0f)', border: '1px solid #bda371' }}>
+                        <span className="text-[9px] text-[#bda371] font-bold tracking-widest">STRIPE CREDIT CARD</span>
+                        <div className="font-mono text-center text-white tracking-[0.15em] text-xs">{cardNumber || '•••• •••• •••• ••••'}</div>
+                        <div className="flex justify-between text-[8px] text-gray-300">
+                          <div>
+                            <span className="block text-[6px]">HOLDER</span>
+                            <span className="uppercase">{cardHolder || 'Noble Guest'}</span>
+                          </div>
+                          <div>
+                            <span className="block text-[6px]">EXPIRES</span>
+                            <span>{cardExpiry || 'MM/YY'}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flip-back w-full h-full flex flex-col justify-around py-2" style={{ background: '#0c1b3d', border: '1px solid #bda371' }}>
+                        <div className="bg-[#06122c] h-6 w-full" />
+                        <div className="px-4 text-right">
+                          <span className="bg-white text-black px-2 py-0.5 text-[9px] font-mono font-bold">{cardCvv || '•••'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <input type="text" placeholder="Card Number" value={cardNumber} onChange={e => setCardNumber(e.target.value)} onFocus={() => setCardFlipped(false)} className="w-full bg-transparent border-b border-[#bda371]/30 py-1.5 text-white outline-none text-xs" required />
+                  <input type="text" placeholder="Holder Name" value={cardHolder} onChange={e => setCardHolder(e.target.value)} onFocus={() => setCardFlipped(false)} className="w-full bg-transparent border-b border-[#bda371]/30 py-1.5 text-white outline-none text-xs" required />
+                  <input type="text" placeholder="MM/YY" value={cardExpiry} onChange={e => setCardExpiry(e.target.value)} onFocus={() => setCardFlipped(false)} className="w-full bg-transparent border-b border-[#bda371]/30 py-1.5 text-white outline-none text-xs" required />
+                  <input type="password" placeholder="CVV" value={cardCvv} onChange={e => setCardCvv(e.target.value)} onFocus={() => setCardFlipped(true)} onBlur={() => setCardFlipped(false)} className="w-full bg-transparent border-b border-[#bda371]/30 py-1.5 text-white outline-none text-xs" required />
+                </div>
+
+                <div className="bg-white/5 p-4 border border-[#bda371]/20 rounded text-xs font-serif space-y-1.5">
+                  <div className="flex justify-between"><span>Rate/night:</span><span>${selectedResort.price}</span></div>
+                  <div className="flex justify-between font-bold text-[#bda371]"><span>Total Due (3 Nights):</span><span>${getSubtotal().toFixed(2)}</span></div>
+                </div>
+
+                <div className="flex justify-between pt-4">
+                  <button type="button" onClick={() => setStep(2)} className="border border-[#bda371] text-[#bda371] text-[10px] font-bold tracking-widest uppercase py-2.5 px-6">
+                    Back
+                  </button>
+                  <button type="submit" className="bg-[#bda371] text-black text-[10px] font-bold tracking-widest uppercase py-2.5 px-6">
+                    Confirm Stay
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {step === 4 && activeReceipt && (
+              <div className="space-y-6 text-center" id="print-area">
+                <p className="text-4xl text-[#bda371]">♛</p>
+                <h3 className="serif text-2xl text-white font-semibold uppercase tracking-widest">Stay Confirmed</h3>
+                
+                <div className="flex justify-center py-2 bg-white max-w-[140px] mx-auto p-2 rounded">
+                  <img src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${activeReceipt.bookingId}&bgcolor=ffffff&color=000000`} className="w-24 h-24" alt="QR Key" />
+                </div>
+
+                <div className="text-left font-serif text-xs text-gray-400 space-y-2 border-y border-[#bda371]/20 py-4">
+                  <div className="flex justify-between"><span>Reference ID:</span><span className="text-[#bda371] font-bold">{activeReceipt.bookingId}</span></div>
+                  <div className="flex justify-between"><span>Guest:</span><span>{activeReceipt.guestName}</span></div>
+                  <div className="flex justify-between"><span>Chamber:</span><span>Suite {activeReceipt.roomNumber}</span></div>
+                  <div className="flex justify-between"><span>Nights:</span><span>{activeReceipt.nights} Nights</span></div>
+                  <div className="flex justify-between font-bold text-white"><span>Total Settled:</span><span>${activeReceipt.totalCost.toFixed(2)}</span></div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button onClick={() => window.print()} className="border border-[#bda371] text-[#bda371] text-[10px] font-bold tracking-widest uppercase py-2.5 px-6 flex-1">
+                    Print Receipt
+                  </button>
+                  <button onClick={() => { setBookingOpen(false); setStep(1); }} className="bg-[#bda371] text-black text-[10px] font-bold tracking-widest uppercase py-2.5 px-6 flex-1">
+                    Done
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL: TABLE BOOKING
+      ======================================================== */}
+      {tableBookingOpen && selectedRestaurant && (
+        <div className="fixed inset-0 bg-[#06122c]/80 backdrop-blur-sm z-[10000] flex items-center justify-center p-4">
+          <div className="bg-[#06122c] border border-[#bda371] max-w-md w-full p-8 rounded shadow-2xl relative space-y-6">
+            <button onClick={() => setTableBookingOpen(false)} className="absolute top-4 right-4 text-[#bda371] hover:text-white text-xl">✕</button>
+            
+            <div className="text-center space-y-2">
+              <h3 className="serif text-2xl text-white font-semibold">Table Reservation</h3>
+              <p className="text-xs text-[#bda371] uppercase tracking-wider">{selectedRestaurant.name}</p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="text-[9px] text-gray-500 uppercase block mb-1">Select Date</label>
+                <input type="date" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none text-xs" />
+              </div>
+              <div>
+                <label className="text-[9px] text-gray-500 uppercase block mb-1">Select Time</label>
+                <select className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none text-xs">
+                  <option className="bg-[#06122c]">7:00 PM</option>
+                  <option className="bg-[#06122c]">8:30 PM</option>
+                  <option className="bg-[#06122c]">10:00 PM</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-[9px] text-gray-500 uppercase block mb-1">Guests Count</label>
+                <select className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none text-xs">
+                  <option className="bg-[#06122c]">2 Guests</option>
+                  <option className="bg-[#06122c]">4 Guests</option>
+                  <option className="bg-[#06122c]">6+ Guests</option>
+                </select>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => { alert("Table reserved successfully at " + selectedRestaurant.name); setTableBookingOpen(false); }}
+              className="w-full bg-[#bda371] text-black text-[10px] font-bold tracking-widest uppercase py-3"
+            >
+              Book Table
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL: GENERAL ENQUIRY
+      ======================================================== */}
+      {enquiryOpen && (
+        <div className="fixed inset-0 bg-[#06122c]/80 backdrop-blur-sm z-[10000] flex items-center justify-center p-4">
+          <div className="bg-[#06122c] border border-[#bda371] max-w-md w-full p-8 rounded shadow-2xl relative space-y-6">
+            <button onClick={() => setEnquiryOpen(false)} className="absolute top-4 right-4 text-[#bda371] hover:text-white text-xl">✕</button>
+            <div className="text-center space-y-1">
+              <span className="text-xl text-[#bda371]">🔱</span>
+              <h3 className="serif text-2xl text-white font-semibold">Bespoke Enquiries</h3>
+              <p className="text-[10px] text-gray-400 uppercase tracking-widest">Resort Liaison Office</p>
+            </div>
+            
+            <form onSubmit={e => { e.preventDefault(); alert("Enquiry registered successfully."); setEnquiryOpen(false); }} className="space-y-4">
+              <input type="text" placeholder="Full Name" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none text-xs" required />
+              <input type="email" placeholder="Email Address" className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none text-xs" required />
+              <select className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none text-xs">
+                <option className="bg-[#06122c]">Cliffside Helicopter Charter</option>
+                <option className="bg-[#06122c]">Resort Wedding Packages</option>
+                <option className="bg-[#06122c]">Corporate Training Outbound</option>
+              </select>
+              <textarea placeholder="Write message details..." className="w-full bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none text-xs h-16 resize-none" required />
+              <button type="submit" className="w-full bg-[#bda371] text-black text-[10px] font-bold tracking-widest uppercase py-3">Submit Enquiry</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL: DEVELOPER HUB & SYSTEM CONSOLE
+      ======================================================== */}
+      {techOpen && (
+        <div className="fixed inset-0 bg-[#06122c]/90 backdrop-blur-md z-[10000] flex items-center justify-center p-4">
+          <div className="bg-[#06122c] border border-[#bda371] max-w-4xl w-full p-8 rounded shadow-2xl relative space-y-6 max-h-[85vh] overflow-y-auto">
+            <button onClick={() => setTechOpen(false)} className="absolute top-4 right-4 text-[#bda371] hover:text-white text-xl">✕</button>
+            
+            <div>
+              <span className="text-[10px] text-[#bda371] tracking-widest uppercase block font-mono">-- Developer Dashboard</span>
+              <h3 className="serif text-3xl text-white font-semibold">Interactive Tech Stack Overview</h3>
+            </div>
+
+            <div className="flex gap-2 border-b border-[#bda371]/15 pb-4">
+              {[
+                { id: "monorepo", label: "Monorepo Tree" },
+                { id: "prisma", label: "Prisma & pgvector Schema" },
+                { id: "langgraph", label: "LangGraph Trace Simulator" },
+                { id: "admin", label: "Manager Stays Registry" }
+              ].map(t => (
+                <button 
+                  key={t.id} 
+                  onClick={() => setTechTab(t.id)} 
+                  className={`text-[10px] font-mono tracking-wider py-2 px-4 border border-[#bda371]/20 rounded ${techTab === t.id ? 'bg-[#bda371] text-black' : 'text-gray-400'}`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
+            {techTab === "monorepo" && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-[11px] leading-relaxed">
+                <div className="bg-[#06122c] p-4 border border-[#bda371]/10 space-y-2 md:col-span-1">
+                  <span className="text-[#bda371] font-bold">Workspace Monorepo</span>
+                  <pre className="text-emerald-400">
+{`luxury/
+├── apps/
+│   ├── web/        # Next.js frontend
+│   │   ├── app/
+│   │   └── components/
+│   └── api/        # Express API
+│       ├── routes/
+│       └── services/
+└── packages/
+    └── shared-types/`}
+                  </pre>
+                </div>
+                <div className="md:col-span-2 space-y-4">
+                  <h4 className="serif text-lg text-white font-medium">Production Architecture</h4>
+                  <p className="text-gray-400 text-xs">
+                    Uses a monorepo workspace setup. The **Next.js** client compiles server-side components (SSR) for blazing fast loading speeds and optimal SEO indexing. The backend is an **Express** server managing PostgreSQL CRUD queries through a centralized client handler pool.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {techTab === "prisma" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-[10px] leading-normal">
+                <div className="bg-[#06122c] p-4 border border-[#bda371]/10 max-h-80 overflow-y-auto space-y-2">
+                  <span className="text-[#bda371] font-bold block mb-1">-- schema.prisma</span>
+                  <pre className="text-emerald-400">
+{`model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  loyaltyTier String   @default("SILVER")
+}
+
+model Room {
+  id            Int      @id
+  category      String
+  pricePerNight Double
+}
+
+model Booking {
+  id         String   @id
+  guestName  String
+  roomNumber Int
+  totalCost  Double
+  status     String
+}`}
+                  </pre>
+                </div>
+                <div className="bg-[#06122c] p-4 border border-[#bda371]/10 max-h-80 overflow-y-auto space-y-2">
+                  <span className="text-[#bda371] font-bold block mb-1">-- pgvector RAG Index</span>
+                  <p className="text-gray-400 text-[10px] leading-relaxed font-serif">
+                    To ground the AI Concierge in specific resort policies, vector embeddings are generated via OpenAI API and stored in PostgreSQL using the pgvector extension.
+                  </p>
+                  <pre className="text-emerald-400 mt-4">
+{`model Embedding {
+  id        String   @id @default(uuid())
+  content   String
+  vector    Unsupported("vector(1536)")
+}`}
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {techTab === "langgraph" && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-mono text-[11px]">
+                <div className="lg:col-span-5 p-4 bg-[#06122c] border border-[#bda371]/15 space-y-4">
+                  <span className="text-[#bda371] font-bold block">Intent router DAG</span>
+                  <div className="flex flex-col items-center gap-3">
+                    <div className={`p-2 border rounded w-36 text-center ${traceNode === 'router' ? 'bg-[#bda371] text-black font-bold border-[#bda371]' : 'border-gray-800'}`}>IntentRouter</div>
+                    <div className="text-gray-600">↓</div>
+                    <div className="flex gap-2">
+                      <div className={`p-2 border rounded w-28 text-center ${traceNode === 'match' ? 'bg-[#bda371] text-black font-bold border-[#bda371]' : 'border-gray-800'}`}>RoomMatch</div>
+                      <div className={`p-2 border rounded w-28 text-center ${traceNode === 'support' ? 'bg-[#bda371] text-black font-bold border-[#bda371]' : 'border-gray-800'}`}>SupportMatch</div>
+                    </div>
+                    <div className="text-gray-600">↓</div>
+                    <div className={`p-2 border rounded w-28 text-center ${traceNode === 'pricing' ? 'bg-[#bda371] text-black font-bold border-[#bda371]' : 'border-gray-800'}`}>PricingAgent</div>
+                    <div className="text-gray-600">↓</div>
+                    <div className={`p-2 border rounded w-36 text-center ${traceNode === 'concierge' ? 'bg-[#bda371] text-black font-bold border-[#bda371]' : 'border-gray-800'}`}>RoyalConcierge</div>
+                  </div>
+                  
+                  <div className="space-y-2 pt-4 border-t border-[#bda371]/10">
+                    <span className="text-gray-400 block text-[10px]">Select simulated prompt:</span>
+                    <button 
+                      onClick={() => runAgentTrace("Suggest a luxury suite for 3 guests with jacuzzi", "I highly recommend Suite 301. It has an Imperial King bed, private jacuzzi balcony, and a 24k gold bath. The daily rate is $350.", ["router", "match", "pricing", "concierge"])}
+                      className="w-full text-left py-2 px-3 border border-[#bda371]/20 hover:border-[#bda371] rounded transition text-[10px] text-gray-300"
+                    >
+                      "Suggest a luxury suite..."
+                    </button>
+                    <button 
+                      onClick={() => runAgentTrace("What is the cancellation and refund policy?", "You can cancel bookings at least 24 hours prior to check-in for a full simulated refund.", ["router", "support", "concierge"])}
+                      className="w-full text-left py-2 px-3 border border-[#bda371]/20 hover:border-[#bda371] rounded transition text-[10px] text-gray-300"
+                    >
+                      "What is the refund policy?"
+                    </button>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-7 bg-[#06122c] p-4 border border-[#bda371]/15 min-h-[300px] flex flex-col justify-between">
+                  <div>
+                    <span className="text-emerald-400 block mb-3">-- LANGSMITH ACTIVE AGENT TRACE LOGS</span>
+                    {tracePrompt && (
+                      <div className="space-y-2 mb-4 border-b border-gray-800 pb-4">
+                        <p className="text-gray-400">Simulated Prompt: "{tracePrompt}"</p>
+                        {traceLog.map((log, i) => <p key={i} className="text-emerald-300">{log}</p>)}
+                      </div>
+                    )}
+                    {chatLogs.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-gray-400 font-bold">Live RAG Chatbot Session Trace:</p>
+                        {chatLogs.map((log, i) => <p key={i} className="text-[#bda371]">{log}</p>)}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {techTab === "admin" && (
+              <div className="space-y-6 font-mono text-[11px]">
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div className="border border-[#bda371]/10 p-3 bg-[#06122c]">
+                    <span className="text-gray-500 uppercase text-[9px] block">Rooms Registry</span>
+                    <span className="text-white text-lg font-bold">{rooms.length} Suites</span>
+                  </div>
+                  <div className="border border-[#bda371]/10 p-3 bg-[#06122c]">
+                    <span className="text-gray-500 uppercase text-[9px] block">Active stays</span>
+                    <span className="text-white text-lg font-bold">{bookings.length} Bookings</span>
+                  </div>
+                  <div className="border border-[#bda371]/10 p-3 bg-[#06122c]">
+                    <span className="text-gray-500 uppercase text-[9px] block">Occupancy Rate</span>
+                    <span className="text-[#bda371] text-lg font-bold">{analytics ? analytics.occupancyRate.toFixed(1) : '0'}%</span>
+                  </div>
+                </div>
+
+                <div className="border border-[#bda371]/10 bg-[#06122c] overflow-hidden">
+                  <div className="bg-[#0c1b3d] p-3 border-b border-[#bda371]/10 font-bold text-white uppercase text-[10px] tracking-wider flex justify-between">
+                    <span>Active bookings</span>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead>
+                        <tr className="border-b border-[#bda371]/10 bg-white/5">
+                          <th className="p-3 text-gray-500 font-bold uppercase text-[9px]">ID</th>
+                          <th className="p-3 text-gray-500 font-bold uppercase text-[9px]">Guest</th>
+                          <th className="p-3 text-gray-500 font-bold uppercase text-[9px]">Chamber</th>
+                          <th className="p-3 text-gray-500 font-bold uppercase text-[9px]">Nights</th>
+                          <th className="p-3 text-gray-500 font-bold uppercase text-[9px]">Paid</th>
+                          <th className="p-3 text-gray-500 font-bold uppercase text-[9px]">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {bookings.length === 0 ? (
+                          <tr><td colSpan="6" className="p-6 text-center text-gray-500 italic">No bookings found.</td></tr>
+                        ) : (
+                          bookings.map(b => (
+                            <tr key={b.bookingId} className="border-b border-[#bda371]/5 hover:bg-white/5">
+                              <td className="p-3 text-[#bda371]">{b.bookingId}</td>
+                              <td className="p-3 text-white">{b.guestName}</td>
+                              <td className="p-3 text-gray-300">Suite {b.roomNumber}</td>
+                              <td className="p-3 text-gray-400">{b.nights} nights</td>
+                              <td className="p-3 text-white">${b.totalCost.toFixed(2)}</td>
+                              <td className="p-3">
+                                <button 
+                                  onClick={() => handleCancelBooking(b.bookingId)}
+                                  className="text-red-500 hover:text-red-400 font-bold text-[9px] uppercase"
+                                >
+                                  Cancel
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="border border-[#bda371]/10 bg-[#06122c] p-4 space-y-4">
+                  <div className="flex gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="NL to SQL Query: Show occupancy rate / Show revenue logs..." 
+                      value={sqlQuery} 
+                      onChange={e => setSqlQuery(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && executeSql()}
+                      className="bg-transparent border-b border-[#bda371]/30 py-2 text-white outline-none flex-1 text-xs" 
+                    />
+                    <button onClick={executeSql} className="bg-[#bda371] text-black font-bold uppercase py-2 px-6 text-xs">Run</button>
+                  </div>
+
+                  {sqlLoading && <p className="text-[10px] text-gray-500 italic">Running PostgreSQL query Dialect...</p>}
+
+                  {sqlResult && (
+                    <div className="space-y-3">
+                      <pre className="bg-[#0c1b3d] p-3 border border-[#bda371]/15 text-[#bda371] rounded overflow-x-auto text-[9px]">
+                        {sqlResult.sql}
+                      </pre>
+                      <table className="w-full text-left text-[10px]">
+                        <thead>
+                          <tr className="bg-white/5">
+                            {sqlResult.headers.map(h => <th key={h} className="p-2 text-gray-400">{h}</th>)}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sqlResult.rows.map((row, i) => (
+                            <tr key={i} className="border-b border-white/5">
+                              {row.map((cell, j) => <td key={j} className="p-2">{cell}</td>)}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 💬 Live AI Chatbot Concierge Widget */}
+      <div className="fixed bottom-6 right-6 z-[9999]">
+        {!chatOpen ? (
+          <button 
+            onClick={() => setChatOpen(true)}
+            className="bg-[#bda371] hover:bg-[#a68a5c] text-black w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-105 active:scale-95"
+            title="Luxury Concierge AI"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+          </button>
+        ) : (
+          <div className="bg-[#06122c] border border-[#bda371]/40 rounded-lg shadow-2xl w-80 sm:w-96 h-[480px] flex flex-col overflow-hidden animate-slideUp">
+            {/* Header */}
+            <div className="bg-[#0c1b3d] border-b border-[#bda371]/20 p-4 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <img src="/luxury_retreat_logo.png" className="w-5 h-5 object-contain" alt="Luxury Retreat Logo" />
+                <div>
+                  <h3 className="serif text-[#bda371] font-bold text-xs tracking-wider">AI Concierge</h3>
+                  <span className="text-[8px] text-emerald-400 font-mono tracking-widest uppercase">● Active RAG Engine</span>
+                </div>
+              </div>
+              <button onClick={() => setChatOpen(false)} className="text-gray-400 hover:text-white text-sm">✕</button>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#050d21] text-[11px]">
+              {chatMessages.map((m, idx) => (
+                <div key={idx} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`p-3 max-w-[80%] rounded ${
+                    m.sender === 'user' 
+                      ? 'bg-[#bda371] text-black font-medium rounded-tr-none' 
+                      : 'bg-[#0c1b3d] border border-[#bda371]/15 text-gray-200 rounded-tl-none whitespace-pre-line'
+                  }`}>
+                    {m.text}
+                  </div>
+                </div>
+              ))}
+              {chatLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-[#0c1b3d] border border-[#bda371]/15 p-3 rounded rounded-tl-none flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-[#bda371] rounded-full animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 bg-[#bda371] rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                    <span className="w-1.5 h-1.5 bg-[#bda371] rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Quick Questions */}
+            <div className="bg-[#050d21] border-t border-[#bda371]/10 px-4 py-2 flex gap-1.5 overflow-x-auto whitespace-nowrap scrollbar-none">
+              {[
+                "Standard Rates",
+                "Spa Hours",
+                "Adventure Activities",
+                "Pool Policy"
+              ].map((q, idx) => (
+                <button 
+                  key={idx}
+                  onClick={() => { setChatInput(q); }}
+                  className="text-[9px] border border-gray-800 hover:border-[#bda371]/30 hover:text-[#bda371] text-gray-400 py-1 px-2.5 rounded transition"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+
+            {/* Input Bar */}
+            <form onSubmit={handleSendChatMessage} className="p-3 bg-[#0c1b3d] border-t border-[#bda371]/10 flex gap-2">
+              <input 
+                type="text" 
+                placeholder="Ask the Luxury Concierge..." 
+                value={chatInput} 
+                onChange={e => setChatInput(e.target.value)}
+                className="flex-1 bg-transparent border border-gray-800 focus:border-[#bda371]/50 rounded py-2 px-3 text-white text-xs outline-none"
+              />
+              <button 
+                type="submit"
+                className="bg-[#bda371] hover:bg-[#a68a5c] text-black font-bold uppercase text-[10px] py-2 px-4 rounded transition"
+              >
+                Send
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+
+    </div>
+  );
+}
+
+// Render root & remove loader splash
+
+export default App;

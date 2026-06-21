@@ -111,7 +111,7 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
   cursor:pointer;
 }
 .offer-card:hover{border-color:#bda371;}
-.offer-card img{width:100%;height:340px;-o-object-fit:cover;object-fit:cover;transition:transform 0.6s;}
+.offer-card img{width:100%;height:340px;object-fit:cover;transition:transform 0.6s;}
 .offer-card:hover img{transform:scale(1.05);}
 .offer-card-details{
   padding:16px;
@@ -159,7 +159,7 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
   transition:all 0.3s;
 }
 .corp-logo-item:hover{filter:grayscale(0) brightness(1);border-color:rgba(189,163,113,0.4);}
-.corp-logo-item img{max-width:100%;max-height:100%;-o-object-fit:contain;object-fit:contain;}
+.corp-logo-item img{max-width:100%;max-height:100%;object-fit:contain;}
 
 /* Spa pinned full-width */
 #spa-section{
@@ -170,8 +170,7 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
 }
 #spa-section .spa-img{
   position:absolute;inset:0;width:100%;height:100%;
-  -o-object-fit:cover;
-     object-fit:cover;
+  object-fit:cover;
   transform:scale(1.05);
   transition:transform 0.8s ease;
 }
@@ -190,7 +189,7 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
 .adv-stagger-col{display:flex;flex-direction:column;gap:20px;}
 .adv-stagger-col:nth-child(2){margin-top:80px;}
 .adv-img{
-  width:100%;-o-object-fit:cover;object-fit:cover;
+  width:100%;object-fit:cover;
   transition:transform 0.6s;
 }
 .adv-img:hover{transform:scale(1.03);}
@@ -216,8 +215,7 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
   transition:transform 0.8s ease;
   height:420px;
   width:100%;
-  -o-object-fit:cover;
-     object-fit:cover;
+  object-fit:cover;
 }
 .swiper-image:hover .revealer-img{
   transform:scale(1.06);
@@ -256,8 +254,7 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
 .gastronomy-box img{
   height:480px;
   width:100%;
-  -o-object-fit:cover;
-     object-fit:cover;
+  object-fit:cover;
   transition:transform 0.8s ease;
 }
 .gastronomy-box:hover img{
@@ -302,8 +299,6 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
 
 @media print{body *{visibility:hidden}#print-area,#print-area *{visibility:visible}#print-area{position:absolute;left:0;top:0;width:100%}}
 </style>
-  <script type="module" crossorigin src="/assets/index.js"></script>
-  <link rel="stylesheet" href="/assets/index.css">
 </head>
 <body class="bg-[#06122c] text-white">
   
@@ -321,6 +316,6 @@ img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; 
 
   <div id="app-root"></div>
 
-  
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

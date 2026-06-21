@@ -35,3 +35,8 @@ build/
 ### H2 Data ###
 data/
 *.db
+
+### Frontend Build Folders ###
+**/node_modules/
+**/node/
+**/dist/
